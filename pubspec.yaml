@@ -1,0 +1,97 @@
+name: t4t
+description: "trans community"
+publish_to: 'none' 
+
+
+version: 1.1.13+107
+
+environment:
+  sdk: '>=3.2.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  flutter_phosphor_icons: ^0.0.1+6
+  flutter_launcher_icons: ^0.13.0
+  supabase_flutter: ^2.0.1
+  confetti: ^0.7.0
+  go_router: ^14.0.0
+  sign_in_with_apple: ^6.0.0
+  google_sign_in: ^6.2.1
+  url_launcher: ^6.1.7
+  flutter_native_splash: ^2.2.19
+  device_info_plus: ^10.0.1
+  geolocator: ^12.0.0
+  firebase_core: ^3.0.0
+  firebase_messaging: ^15.0.0
+  firebase_analytics: ^11.0.0
+  firebase_crashlytics: ^4.0.0
+  age_calculator: ^1.0.0
+  flex_color_picker: ^3.3.0 
+  flutter_emoji: ^2.5.1
+  timeago: ^3.6.0
+  shared_preferences: ^2.2.2
+  app_install_date: ^0.1.3
+  purchases_flutter: ^6.15.0
+  flutter_linkify: ^6.0.0
+  linkify: ^5.0.0
+  geocoding: ^3.0.0
+  flutter_map: ^7.0.0
+  flutter_map_tile_caching: ^9.0.1
+  add_2_calendar: ^3.0.1
+  map_launcher: ^3.1.0
+  google_places_autocomplete_text_field: ^0.1.3
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+  freezed: ^2.5.2
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  flutter_dotenv: ^5.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.9
+  custom_lint: ^0.6.4
+  riverpod_lint: ^2.3.10
+  json_serializable: ^6.8.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  fonts:
+    - family: Waxwing
+      fonts:
+        - asset: fonts/waxwing.ttf
+    - family: DMSans
+      fonts:
+        - asset: fonts/dmsans.ttf
+  assets:
+    - .env
+    - images/bunnies1.png
+    - images/bunnies2.png
+    - images/bunnies3.png
+    - images/bunnies4.png
+
+flutter_launcher_icons:
+  image_path: "images/icon.png"
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "images/foreground.png"
+
+flutter_native_splash:
+  color: "#ffffff"
+  color_dark: "#000000"
+  image: images/t4t_light.png
+  image_dark: images/t4t_dark.png

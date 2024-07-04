@@ -1,0 +1,13 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+
+  rules:
+    prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+
+
+analyzer:
+  plugins:
+    - custom_lint
+  errors:
+    invalid_annotation_target: ignore
