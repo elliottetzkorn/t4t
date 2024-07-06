@@ -142,7 +142,6 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				BBA270D3C136AC43CC31BD7E /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 				2B4F697838A8E0A01117C464 /* [CP] Embed Pods Frameworks */,
 				D8A8DBADB0BE7610421A60AB /* [CP] Copy Pods Resources */,
 			);
