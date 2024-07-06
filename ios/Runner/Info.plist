@@ -30,6 +30,7 @@
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>io.supabase.t4t</string>
+					<string>com.googleusercontent.apps.1234567890-abcdefg</string>
 				</array>
 			</dict>
 		</array>
