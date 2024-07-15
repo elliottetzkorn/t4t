@@ -146,6 +146,7 @@ const String prefsSettingsSimpleFont = 'shared_prefs_simple_font';
 const String prefsSettingsLightTheme = 'shared_prefs_light_theme2';
 const String prefsSettingsDarkTheme = 'shared_prefs_dark_theme2';
 const String prefsSettingsMode = 'shared_prefs_mode';
+const String prefsSettingsFontScale = 'shared_prefs_font_scale';
 const String prefsSetupSkipRace = 'setup_skip_race';
 const String prefsSetupSkipBio = 'setup_skip_bio';
 const String prefsSetupSkipLocation = 'setup_skip_location1';

@@ -261,6 +261,8 @@
     "settings_accessibility_light_theme_subtitle": "This is the theme that will show when the app is in light mode",
     "settings_accessibility_dark_theme_title": "Dark Theme",
     "settings_accessibility_dark_theme_subtitle": "This is the theme that will show when the app is in dark mode",
+    "settings_accessibility_font_scale_title": "Font Scale",
+    "settings_accessibility_font_scale_subtitle": "This affects the size of the font throughout the app",
     "settings_color_explanation": "This app automatically adjusts colors for improved legibility in Light Mode and Dark Mode.",
     "save_button_save": "Save",
     "save_button_saving": "Saving..",

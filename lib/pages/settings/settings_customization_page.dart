@@ -6,6 +6,7 @@ import 'package:t4t/components/switch_cell.dart';
 import 'package:t4t/components/title_subtitle.dart';
 import 'package:t4t/design_system/system_radio_button.dart';
 import 'package:t4t/enums/dark_theme_enum.dart';
+import 'package:t4t/enums/font_scale_enum.dart';
 import 'package:t4t/enums/light_theme_enum.dart';
 import 'package:t4t/enums/profile_page_pages_enum.dart';
 import 'package:t4t/enums/theme_mode_extensions.dart';
@@ -13,6 +14,7 @@ import 'package:t4t/extensions/color_theme_enum_extensions.dart';
 import 'package:t4t/extensions/profile_page_pages_enum_extensions.dart';
 import 'package:t4t/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:t4t/providers/font_scale_provider.dart';
 import 'package:t4t/providers/simple_font_provider.dart';
 import 'package:t4t/providers/theme_provider.dart';
 
@@ -159,6 +161,41 @@ class SettingsCustomizationPage extends ConsumerWidget {
                                                 )
                                             ]))
                                   ]),
+                                Column(children: [
+                                  TitleSubtitle(
+                                      title: AppLocalizations.of(context)!
+                                          .settings_accessibility_font_scale_title,
+                                      subTitle: AppLocalizations.of(context)!
+                                          .settings_accessibility_font_scale_subtitle),
+                                  const SizedBox(height: spacingFive),
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: spacingFour),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            for (FontScaleEnum fontScale
+                                                in FontScaleEnum.values)
+                                              SystemRadioButton(
+                                                title:
+                                                    fontScale.name.capitalize,
+                                                value: fontScale,
+                                                // i don't think this is right lol
+                                                groupValue: ref.watch(
+                                                    fontScaleProvider
+                                                        .select((it) => it)),
+                                                onChanged: (p0) {
+                                                  ref
+                                                      .read(fontScaleProvider
+                                                          .notifier)
+                                                      .setFontScale(p0);
+                                                },
+                                              )
+                                          ]))
+                                ]),
                                 SwitchCell(
                                   title: AppLocalizations.of(context)!
                                       .settings_accessibility_font_title,
