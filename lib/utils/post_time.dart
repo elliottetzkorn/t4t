@@ -4,15 +4,6 @@ import 'package:t4t/constants.dart';
 class PostTime {
   PostTime._();
 
-  static void resetLastPostTime() {
-    prefs.setString(
-        prefsLastPostTime +
-            Supabase.instance.client.auth.currentSession!.user.id,
-        DateTime.now()
-            .subtract(const Duration(minutes: postingTimeLimitMinutes))
-            .toString());
-  }
-
   static void setLastPostTime() {
     prefs.setString(
         prefsLastPostTime +
