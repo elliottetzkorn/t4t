@@ -373,6 +373,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ProfileSheet().show(context, profileValue.min(),
                               false, true, () {}, profileValue)
                         }),
+                if (profileValue.mod)
+                  NavigationCell(
+                      title: ProfilePagePagesEnum.mod.title(context),
+                      subTitle: ProfilePagePagesEnum.mod.subTitle(context),
+                      icon: PhosphorIcons.scales_thin,
+                      onPressed: () => {
+                            ref.read(routerProvider).pushNamed(routeSettingsMod)
+                          }),
                 NavigationCell(
                     embedded: false,
                     title: ProfilePagePagesEnum.customization.title(context),

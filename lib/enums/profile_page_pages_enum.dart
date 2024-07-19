@@ -1,4 +1,5 @@
 enum ProfilePagePagesEnum {
+  mod,
   preview,
   account,
   customization,

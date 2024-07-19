@@ -148,7 +148,7 @@ class ProfileHeaderDetails extends ConsumerWidget {
       ref.read(routerProvider).pop();
     } else {
       Navigator.of(context).popUntil((route) => route.isFirst);
-      ref.read(routerProvider).pushNamed(routemMssages,
+      ref.read(routerProvider).pushNamed(routemMessages,
           extra: MessagePageData(profile: profile.min()));
     }
   }

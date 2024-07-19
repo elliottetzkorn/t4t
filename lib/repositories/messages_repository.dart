@@ -65,4 +65,10 @@ class MessagesRepository {
         .delete()
         .eq('id', messageId);
   }
+
+  static Future<List<dynamic>> adminFetch(
+      String senderId, String receiverId) async {
+    return Supabase.instance.client.rpc('recent_reported_messages',
+        params: {'sender_id_input': senderId, 'receiver_id_input': receiverId});
+  }
 }

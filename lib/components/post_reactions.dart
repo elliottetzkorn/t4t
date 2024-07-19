@@ -121,7 +121,7 @@ class _PostReactionsState extends ConsumerState<PostReactions> {
     if (widget.authenticated) {
       if (widget.inChat) {
         widget.replyPressed!();
-        ref.read(routerProvider).replaceNamed(routemMssages,
+        ref.read(routerProvider).replaceNamed(routemMessages,
             extra: MessagePageData(
                 profile: widget.profile,
                 post: PostMinData(
@@ -131,7 +131,7 @@ class _PostReactionsState extends ConsumerState<PostReactions> {
         context.pop();
       } else {
         Navigator.of(context).popUntil((route) => route.isFirst);
-        ref.read(routerProvider).pushNamed(routemMssages,
+        ref.read(routerProvider).pushNamed(routemMessages,
             extra: MessagePageData(
                 profile: widget.profile,
                 post: PostMinData(
