@@ -153,7 +153,7 @@ class ProfileSheetPage extends ConsumerWidget {
     } else {
       ref
           .read(routerProvider)
-          .pushNamed(routemMssages, extra: MessagePageData(profile: profile));
+          .pushNamed(routemMessages, extra: MessagePageData(profile: profile));
     }
   }
 

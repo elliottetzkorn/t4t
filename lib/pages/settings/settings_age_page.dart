@@ -9,7 +9,6 @@ import 'package:t4t/components/title_subtitle.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/data/profile_data.dart';
 import 'package:t4t/design_system/system_action_page.dart';
-import 'package:t4t/extensions/date_time_extensions.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/simple_font_provider.dart';
 
@@ -32,8 +31,8 @@ class _SettingsAgePageState extends ConsumerState<SettingsAgePage> {
 
     await ref
         .read(profileProvider.notifier)
-        .updateBirthdate(
-            _birthDate!, _showAstro!, _birthDate!.toAstrologicalSign())
+        .updateBirthdate(_birthDate ?? widget.profile.birthday!,
+            _showAstro ?? widget.profile.showAstro)
         .then((_) {
       context.pop();
     });
@@ -99,8 +98,9 @@ class _SettingsAgePageState extends ConsumerState<SettingsAgePage> {
         action: SaveButton(
           saving: _saving,
           onPressed: _updateProfile,
-          enabled: _birthDate != widget.profile.birthday ||
-              _showAstro != widget.profile.showAstro,
+          enabled: (_birthDate != null &&
+                  _birthDate != widget.profile.birthday) ||
+              (_showAstro != null && _showAstro != widget.profile.showAstro),
         ));
   }
 }

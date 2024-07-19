@@ -42,6 +42,7 @@ mixin _$ProfileData {
   bool get messageNotif => throw _privateConstructorUsedError;
   bool get followNotif => throw _privateConstructorUsedError;
   bool get showAstro => throw _privateConstructorUsedError;
+  bool get mod => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -75,7 +76,8 @@ abstract class $ProfileDataCopyWith<$Res> {
       bool likeNotif,
       bool messageNotif,
       bool followNotif,
-      bool showAstro});
+      bool showAstro,
+      bool mod});
 }
 
 /// @nodoc
@@ -111,6 +113,7 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
     Object? messageNotif = null,
     Object? followNotif = null,
     Object? showAstro = null,
+    Object? mod = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -193,6 +196,10 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
           ? _value.showAstro
           : showAstro // ignore: cast_nullable_to_non_nullable
               as bool,
+      mod: null == mod
+          ? _value.mod
+          : mod // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -225,7 +232,8 @@ abstract class _$$ProfileDataImplCopyWith<$Res>
       bool likeNotif,
       bool messageNotif,
       bool followNotif,
-      bool showAstro});
+      bool showAstro,
+      bool mod});
 }
 
 /// @nodoc
@@ -259,6 +267,7 @@ class __$$ProfileDataImplCopyWithImpl<$Res>
     Object? messageNotif = null,
     Object? followNotif = null,
     Object? showAstro = null,
+    Object? mod = null,
   }) {
     return _then(_$ProfileDataImpl(
       id: null == id
@@ -341,6 +350,10 @@ class __$$ProfileDataImplCopyWithImpl<$Res>
           ? _value.showAstro
           : showAstro // ignore: cast_nullable_to_non_nullable
               as bool,
+      mod: null == mod
+          ? _value.mod
+          : mod // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -369,7 +382,8 @@ class _$ProfileDataImpl implements _ProfileData {
       required this.likeNotif,
       required this.messageNotif,
       required this.followNotif,
-      required this.showAstro})
+      required this.showAstro,
+      required this.mod})
       : _badges = badges;
 
   factory _$ProfileDataImpl.fromJson(Map<String, dynamic> json) =>
@@ -425,10 +439,12 @@ class _$ProfileDataImpl implements _ProfileData {
   final bool followNotif;
   @override
   final bool showAstro;
+  @override
+  final bool mod;
 
   @override
   String toString() {
-    return 'ProfileData(id: $id, username: $username, supporter: $supporter, color: $color, pronouns: $pronouns, race: $race, bio: $bio, birthday: $birthday, badges: $badges, neighborhood: $neighborhood, city: $city, state: $state, country: $country, fcmToken: $fcmToken, showSupporter: $showSupporter, banned: $banned, likeNotif: $likeNotif, messageNotif: $messageNotif, followNotif: $followNotif, showAstro: $showAstro)';
+    return 'ProfileData(id: $id, username: $username, supporter: $supporter, color: $color, pronouns: $pronouns, race: $race, bio: $bio, birthday: $birthday, badges: $badges, neighborhood: $neighborhood, city: $city, state: $state, country: $country, fcmToken: $fcmToken, showSupporter: $showSupporter, banned: $banned, likeNotif: $likeNotif, messageNotif: $messageNotif, followNotif: $followNotif, showAstro: $showAstro, mod: $mod)';
   }
 
   @override
@@ -466,7 +482,8 @@ class _$ProfileDataImpl implements _ProfileData {
             (identical(other.followNotif, followNotif) ||
                 other.followNotif == followNotif) &&
             (identical(other.showAstro, showAstro) ||
-                other.showAstro == showAstro));
+                other.showAstro == showAstro) &&
+            (identical(other.mod, mod) || other.mod == mod));
   }
 
   @JsonKey(ignore: true)
@@ -492,7 +509,8 @@ class _$ProfileDataImpl implements _ProfileData {
         likeNotif,
         messageNotif,
         followNotif,
-        showAstro
+        showAstro,
+        mod
       ]);
 
   @JsonKey(ignore: true)
@@ -530,7 +548,8 @@ abstract class _ProfileData implements ProfileData {
       required final bool likeNotif,
       required final bool messageNotif,
       required final bool followNotif,
-      required final bool showAstro}) = _$ProfileDataImpl;
+      required final bool showAstro,
+      required final bool mod}) = _$ProfileDataImpl;
 
   factory _ProfileData.fromJson(Map<String, dynamic> json) =
       _$ProfileDataImpl.fromJson;
@@ -577,6 +596,8 @@ abstract class _ProfileData implements ProfileData {
   bool get followNotif;
   @override
   bool get showAstro;
+  @override
+  bool get mod;
   @override
   @JsonKey(ignore: true)
   _$$ProfileDataImplCopyWith<_$ProfileDataImpl> get copyWith =>

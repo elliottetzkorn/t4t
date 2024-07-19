@@ -4,7 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/data/badge_data.dart';
 import 'package:t4t/data/location_data.dart';
 import 'package:t4t/data/profile_data.dart';
-import 'package:t4t/enums/astrological_sign_enum.dart';
 import 'package:t4t/extensions/color_extensions.dart';
 
 part 'profile_provider.g.dart';
@@ -172,8 +171,7 @@ class Profile extends _$Profile {
     });
   }
 
-  Future<void> updateBirthdate(DateTime birthDate, bool showAstro,
-      AstrologicalSignEnum astrologicalSign) async {
+  Future<void> updateBirthdate(DateTime birthDate, bool showAstro) async {
     await Supabase.instance.client.from('profiles').update({
       'birthday': birthDate.toIso8601String(),
       'show_astro': showAstro

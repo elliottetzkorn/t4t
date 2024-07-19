@@ -5,19 +5,16 @@ import 'package:t4t/constants.dart';
 
 class EmptyPage extends StatelessWidget {
   const EmptyPage(
-      {super.key,
-      required this.header,
-      required this.title,
-      required this.image});
+      {super.key, this.header, required this.title, required this.image});
 
-  final Widget header;
+  final Widget? header;
   final String title;
   final AssetImage image;
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      header,
+      if (header != null) header!,
       Expanded(
           child: Center(
               child: SystemTabletWidthContainer(

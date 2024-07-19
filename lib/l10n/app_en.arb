@@ -302,10 +302,22 @@
     "post_type_post_singular": "Post", 
     "post_type_posts_plural": "Posts",
     "post_type_all_posts_plural": "All Posts",
+    "profile_page_mod_title": "Moderation",
+    "profile_page_mod_subtitle": "Review and resolve user reports",
     "profile_page_preview_title": "Preview",
     "profile_page_preview_subtitle": "View your profile as others will see it",
     "profile_page_settings_title": "Settings",
     "profile_page_settings_subtitle": "Change the app theme, set when we notify you, log out",
     "filter": "Filter",
-    "feedback": "Contribute"
+    "feedback": "Contribute",
+    "ban_dialog_body": "Are you sure you want to ban this user?",
+    "reports_page_empty": "There are no more reports. Good work. Take a break. Go for a walk. Enjoy a coffee.",
+    "pardon": "Pardon",
+    "ban": "Ban",
+    "reports_count": "{count} reports remaining",
+    "final_report": "Final report",
+    "recent_posts": "Recent posts",
+    "recent_messages": "Recent messages",
+    "no_posts": "No posts",
+    "no_messages": "No messages"
 }

@@ -5,6 +5,8 @@ import 'package:t4t/enums/profile_page_pages_enum.dart';
 extension StringParsing on ProfilePagePagesEnum {
   String title(BuildContext context) {
     switch (this) {
+      case ProfilePagePagesEnum.mod:
+        return AppLocalizations.of(context)!.profile_page_mod_title;
       case ProfilePagePagesEnum.preview:
         return AppLocalizations.of(context)!.profile_page_preview_title;
       case ProfilePagePagesEnum.account:
@@ -22,6 +24,8 @@ extension StringParsing on ProfilePagePagesEnum {
 
   String subTitle(BuildContext context) {
     switch (this) {
+      case ProfilePagePagesEnum.mod:
+        return AppLocalizations.of(context)!.profile_page_mod_subtitle;
       case ProfilePagePagesEnum.preview:
         return AppLocalizations.of(context)!.profile_page_preview_subtitle;
       case ProfilePagePagesEnum.account:

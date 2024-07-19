@@ -6,6 +6,7 @@ import 'package:t4t/data/profile_data.dart';
 import 'package:t4t/pages/banned_page.dart';
 import 'package:t4t/pages/home_page.dart';
 import 'package:t4t/pages/messages/messages_page.dart';
+import 'package:t4t/pages/settings/mod_page.dart';
 import 'package:t4t/pages/settings/settings_customization_page.dart';
 import 'package:t4t/pages/settings/settings_account_page.dart';
 import 'package:t4t/pages/settings/settings_documents_page.dart';
@@ -88,8 +89,8 @@ GoRouter router(RouterRef ref) {
             },
           ),
           GoRoute(
-              name: routemMssages,
-              path: routemMssages,
+              name: routemMessages,
+              path: routemMessages,
               builder: (BuildContext context, GoRouterState state) {
                 return MessagesPage(data: state.extra as MessagePageData);
               }),
@@ -112,6 +113,13 @@ GoRouter router(RouterRef ref) {
             path: routeSettingsSupporter,
             builder: (BuildContext context, GoRouterState state) {
               return const SettingsSupporterPage();
+            },
+          ),
+          GoRoute(
+            name: routeSettingsMod,
+            path: routeSettingsMod,
+            builder: (BuildContext context, GoRouterState state) {
+              return const ModPage();
             },
           ),
           GoRoute(

@@ -61,9 +61,6 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   }
 
   void setPollTimers() {
-    // ref.invalidate(profileProvider);
-    getPolls(true);
-
     if (pollTimer != null) {
       pollTimer!.cancel();
     }
@@ -92,6 +89,8 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        ref.invalidate(profileProvider);
+        getPolls(true);
         setPollTimers();
         break;
       case AppLifecycleState.inactive:

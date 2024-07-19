@@ -14,4 +14,9 @@ class ProfilePostsRepository {
     return Supabase.instance.client.rpc('user_posts3',
         params: {'num': fetchQty, 'last_post_time': time.toIso8601String()});
   }
+
+  static Future<List<Map<String, dynamic>>> adminFetch(String pid) async {
+    return Supabase.instance.client
+        .rpc('recent_reported_posts', params: {'pid': pid});
+  }
 }

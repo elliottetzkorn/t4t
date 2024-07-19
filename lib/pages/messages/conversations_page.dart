@@ -28,7 +28,7 @@ class ConversationsPage extends ConsumerWidget {
   final ScrollController scrollController;
 
   void goToMessage(WidgetRef ref, ConversationData conversationData) {
-    ref.read(routerProvider).pushNamed(routemMssages,
+    ref.read(routerProvider).pushNamed(routemMessages,
         extra: MessagePageData(
             profile: conversationData.profile,
             unread: conversationData.unread));
