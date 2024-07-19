@@ -196,6 +196,7 @@ class _SetupPronounsPageState extends ConsumerState<NewPostPage> {
       HapticFeedback.vibrate();
 
       ref.read(postsAuthenticatedProvider.notifier).poll(true);
+      PostTime.setLastPostTime();
 
       resetPrefs();
 
