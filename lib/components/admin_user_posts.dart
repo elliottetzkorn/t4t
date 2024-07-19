@@ -22,6 +22,7 @@ class AdminUserPosts extends ConsumerWidget {
       AsyncData(value: final postsValue) => postsValue.isEmpty
           ? SystemText(text: AppLocalizations.of(context)!.no_posts)
           : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 for (final post in postsValue)
                   Column(
