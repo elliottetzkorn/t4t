@@ -42,9 +42,13 @@ class NavBarButton extends ConsumerWidget {
         else
           {
             ref.read(tabProvider.notifier).setTab(page),
-            prefs.remove(prefsLastReactionId),
-            ref.invalidate(badgeColorsProvider(page)),
-            pageController.jumpToPage(page.index)
+            pageController.jumpToPage(page.index),
+            if (page == SubPagesEnum.notifications)
+              {
+                ref
+                    .read(badgeColorsProvider(page).notifier)
+                    .resetNotificationBadgeColors()
+              }
           }
       },
     );
