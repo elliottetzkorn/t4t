@@ -4,6 +4,8 @@ import 'package:t4t/constants.dart';
 import 'package:t4t/enums/sub_pages_enum.dart';
 import 'package:t4t/providers/conversations_provider.dart';
 import 'package:t4t/providers/notifications_provider.dart';
+import 'package:t4t/providers/posts_authenticated_provider.dart';
+import 'package:t4t/providers/profile_provider.dart';
 
 part 'badge_colors_provider.g.dart';
 
@@ -17,7 +19,7 @@ class BadgeColors extends _$BadgeColors {
 
     switch (page) {
       case SubPagesEnum.posts:
-        // await ref.watch(postsAuthenticatedProvider.future);
+        await ref.watch(postsAuthenticatedProvider.future);
         // final postId = prefs.getInt(prefsLastPostTime);
 
         // if (postId == null) {
@@ -70,6 +72,8 @@ class BadgeColors extends _$BadgeColors {
 
         break;
       case SubPagesEnum.profile:
+        await ref.watch(profileProvider.future);
+
         break;
     }
 
