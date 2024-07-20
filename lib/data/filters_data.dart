@@ -9,5 +9,6 @@ class FiltersData with _$FiltersData {
       required List<int> badges,
       required int type,
       required int minAge,
-      required int maxAge}) = _FiltersData;
+      required int maxAge,
+      required List<String> words}) = _FiltersData;
 }

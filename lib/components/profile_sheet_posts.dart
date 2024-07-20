@@ -50,6 +50,7 @@ class ProfileSheetPostsWidget extends ConsumerWidget {
                 post: post.post,
                 like: post.like,
                 profile: profile,
+                showMatches: false,
                 onSheet: true),
             if (i == posts.length - 1 && posts.length % fetchQty == 0)
               SystemLoader(

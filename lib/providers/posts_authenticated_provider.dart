@@ -27,7 +27,8 @@ class PostsAuthenticated extends _$PostsAuthenticated {
         filters.badges,
         filters.minAge,
         filters.maxAge,
-        filters.type);
+        filters.type,
+        filters.words);
 
     return response.map<FeedData>((data) => FeedData.fromMap(data)).toList();
   }
@@ -46,7 +47,8 @@ class PostsAuthenticated extends _$PostsAuthenticated {
           filters.minAge,
           filters.maxAge,
           filters.type,
-          posts.last.post.createdAt);
+          posts.last.post.createdAt,
+          filters.words);
 
       if (response.isNotEmpty) {
         posts.addAll(response.map<FeedData>((data) => FeedData.fromMap(data)));
@@ -78,7 +80,8 @@ class PostsAuthenticated extends _$PostsAuthenticated {
             filters.minAge,
             filters.maxAge,
             filters.type,
-            posts.first.post.createdAt);
+            posts.first.post.createdAt,
+            filters.words);
 
         if (response.isNotEmpty) {
           posts.insertAll(

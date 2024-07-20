@@ -137,6 +137,7 @@ const String prefsFilterMinAge = 'shared_prefs_filter_min_age';
 const String prefsFilterMaxAge = 'shared_prefs_filter_max_age';
 const String prefsFilterBadges = 'shared_prefs_filter_badges';
 const String prefsFilterType = 'shared_prefs_filter_type';
+const String prefsFilterWords = 'shared_prefs_filter_words';
 const String prefsPostTitle = 'shared_prefs_post_title';
 const String prefsPostBody = 'shared_prefs_post_body';
 const String prefsPostType = 'shared_prefs_post_type2';

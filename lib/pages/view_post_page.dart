@@ -17,6 +17,8 @@ class ViewPostPage extends StatelessWidget {
           right: spacingFive,
           bottom: MediaQuery.of(context).padding.bottom + spacingFive,
         ),
-        child: PostMinCell(post: post));
+        child: PostMinCell(
+          post: post,
+        ));
   }
 }

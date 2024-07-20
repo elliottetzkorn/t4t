@@ -43,6 +43,7 @@ class UserPosts extends ConsumerWidget {
                 showUsername: false,
                 post: post.post,
                 like: null,
+                showMatches: false,
                 likeCount: post.likeCount,
                 profile: profile.min(),
                 onSheet: true),

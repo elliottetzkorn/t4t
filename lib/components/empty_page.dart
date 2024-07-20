@@ -26,6 +26,7 @@ class EmptyPage extends StatelessWidget {
                             Image(fit: BoxFit.fill, image: image),
                             const SizedBox(height: spacingSix),
                             SystemText(
+                              align: TextAlign.center,
                               text: title,
                             ),
                           ])))))
