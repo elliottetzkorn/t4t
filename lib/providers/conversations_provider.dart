@@ -13,6 +13,8 @@ part 'conversations_provider.g.dart';
 
 @riverpod
 class Conversations extends _$Conversations {
+  bool _isPolling = false;
+
   @override
   Future<List<ConversationData>> build() async {
     final id = await ref.read(profileProvider.selectAsync((data) => data.id));
@@ -47,6 +49,12 @@ class Conversations extends _$Conversations {
   }
 
   Future<void> poll(bool initial) async {
+    if (_isPolling) {
+      return;
+    }
+
+    _isPolling = true;
+
     final tab = ref.read(tabProvider);
 
     if (initial || tab != SubPagesEnum.conversations) {
@@ -89,6 +97,8 @@ class Conversations extends _$Conversations {
       } else {
         ref.invalidateSelf();
       }
+
+      _isPolling = false;
     }
   }
 
