@@ -11,6 +11,8 @@ part 'notifications_provider.g.dart';
 
 @riverpod
 class Notifications extends _$Notifications {
+  bool _isPolling = false;
+
   @override
   Future<List<NotifData>> build() async {
     final id = await ref.read(profileProvider.selectAsync((data) => data.id));
@@ -38,6 +40,12 @@ class Notifications extends _$Notifications {
   }
 
   Future<void> poll(bool initial) async {
+    if (_isPolling) {
+      return;
+    }
+
+    _isPolling = true;
+
     final tab = ref.read(tabProvider);
     final id = await ref.read(profileProvider.selectAsync((data) => data.id));
 
@@ -57,6 +65,8 @@ class Notifications extends _$Notifications {
       } else {
         ref.invalidateSelf();
       }
+
+      _isPolling = false;
     }
   }
 
