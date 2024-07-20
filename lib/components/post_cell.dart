@@ -37,7 +37,8 @@ class PostCell extends ConsumerWidget {
       this.likeCount,
       this.onSheet = false,
       this.showUsername = true,
-      required this.authenticated});
+      required this.authenticated,
+      required this.showMatches});
 
   final PostData post;
   final LikeMinData? like;
@@ -46,6 +47,7 @@ class PostCell extends ConsumerWidget {
   final bool onSheet;
   final bool showUsername;
   final bool authenticated;
+  final bool showMatches;
 
   void addToCalendar(Event event) {
     Add2Calendar.addEvent2Cal(event);

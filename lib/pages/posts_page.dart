@@ -41,6 +41,15 @@ class PostsPage extends ConsumerWidget {
                 height: lineHeight,
                 fontSize: 15),
             children: <TextSpan>[
+          if (filters.words.isNotEmpty)
+            TextSpan(
+              text: AppLocalizations.of(context)!.containing,
+            ),
+          if (filters.words.isNotEmpty)
+            TextSpan(
+              text: "${filters.words.map((word) => "'$word'").join(', ')} ",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
           TextSpan(
             text: AppLocalizations.of(context)!.from,
           ),
@@ -178,7 +187,7 @@ class PostsPage extends ConsumerWidget {
         AsyncData(value: final postsValue) => postsValue.isEmpty
             ? EmptyPage(
                 header: postsHeader(context, ref),
-                title: AppLocalizations.of(context)!.no_posts,
+                title: AppLocalizations.of(context)!.no_post_filters,
                 image: const AssetImage('images/bunnies1.png'))
             : RefreshIndicator(
                 strokeWidth: thinLine,
@@ -214,6 +223,7 @@ class PostsPage extends ConsumerWidget {
                                 left: spacingFive,
                                 right: spacingFive),
                             child: PostCell(
+                              showMatches: true,
                               authenticated: authenticated,
                               post: post.post,
                               like: post.like,

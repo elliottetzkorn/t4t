@@ -6,6 +6,7 @@ import 'package:t4t/providers/filters/filters_distance_selection_provider.dart';
 import 'package:t4t/providers/filters/filters_max_age_selection_provider.dart';
 import 'package:t4t/providers/filters/filters_min_age_selection_provider.dart';
 import 'package:t4t/providers/filters/filters_post_type_selection_provider.dart';
+import 'package:t4t/providers/filters/filter_words_selection_provider.dart';
 
 part 'filters_provider.g.dart';
 
@@ -15,6 +16,14 @@ class Filters extends _$Filters {
   FiltersData build() {
     List<String>? badgesStringList = prefs.getStringList(prefsFilterBadges);
 
+    List<String> words;
+
+    try {
+      words = prefs.getStringList(prefsFilterWords) ?? [];
+    } catch (e) {
+      words = [];
+    }
+
     return FiltersData(
         distance: prefs.getInt(prefsFilterDistance) ?? maxDistanceKey,
         badges: badgesStringList == null
@@ -22,7 +31,8 @@ class Filters extends _$Filters {
             : badgesStringList.map((e) => int.parse(e)).toList(),
         type: prefs.getInt(prefsFilterType) ?? postTypes.first,
         minAge: prefs.getInt(prefsFilterMinAge) ?? appMinAge,
-        maxAge: prefs.getInt(prefsFilterMaxAge) ?? appMaxAge);
+        maxAge: prefs.getInt(prefsFilterMaxAge) ?? appMaxAge,
+        words: words);
   }
 
   void reset() {
@@ -31,13 +41,15 @@ class Filters extends _$Filters {
     prefs.setStringList(prefsFilterBadges, []);
     prefs.setInt(prefsFilterMinAge, appMinAge);
     prefs.setInt(prefsFilterMaxAge, appMaxAge);
+    prefs.setString(prefsFilterWords, '');
 
     state = state.copyWith(
         badges: [],
         distance: maxDistanceKey,
         type: postTypes.first,
         minAge: appMinAge,
-        maxAge: appMaxAge);
+        maxAge: appMaxAge,
+        words: []);
   }
 
   void updateFilters() {
@@ -46,6 +58,7 @@ class Filters extends _$Filters {
     final maxAge = ref.read(filtersMaxAgeSelectionProvider);
     final type = ref.read(filtersPostTypeSelectionProvider);
     final distance = ref.read(filtersDistanceSelectionProvider);
+    final words = ref.read(filterWordsSelectionProvider);
 
     prefs.setInt(prefsFilterType, type);
     prefs.setInt(prefsFilterDistance, distance);
@@ -53,12 +66,14 @@ class Filters extends _$Filters {
         prefsFilterBadges, newBadges.map((e) => e.toString()).toList());
     prefs.setInt(prefsFilterMinAge, minAge);
     prefs.setInt(prefsFilterMaxAge, maxAge);
+    prefs.setStringList(prefsFilterWords, words);
 
     state = state.copyWith(
         badges: newBadges,
         minAge: minAge,
         maxAge: maxAge,
         type: type,
-        distance: distance);
+        distance: distance,
+        words: words);
   }
 }

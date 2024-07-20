@@ -7,6 +7,7 @@ import 'package:t4t/components/filter_post_type_selector.dart';
 import 'package:t4t/components/filters_age_range_slider.dart';
 import 'package:t4t/components/filters_badge_type_selector.dart';
 import 'package:t4t/components/filters_search_button.dart';
+import 'package:t4t/components/filters_word_input.dart';
 import 'package:t4t/components/title_subtitle.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/design_system/system_action_page.dart';
@@ -26,6 +27,10 @@ class SettingsFiltersPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              const FiltersWordInput(),
+              const SizedBox(
+                height: spacingSix,
+              ),
               SystemText(
                   text: AppLocalizations.of(context)!.posts_types_title,
                   size: TextSizeEnum.eighteen),
@@ -61,8 +66,8 @@ class SettingsFiltersPage extends ConsumerWidget {
             ]),
         action: FiltersSearchButton(
             onPressed: () => {
-                  ref.read(filtersProvider.notifier).updateFilters(),
-                  context.pop()
+                  context.pop(),
+                  ref.read(filtersProvider.notifier).updateFilters()
                 }));
   }
 }

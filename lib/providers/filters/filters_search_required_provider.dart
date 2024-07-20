@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:t4t/providers/filters/filter_words_changed_provider.dart';
 import 'package:t4t/providers/filters/filters_badges_changed_provider.dart';
 import 'package:t4t/providers/filters/filters_distance_changed_provider.dart';
 import 'package:t4t/providers/filters/filters_max_age_changed_provider.dart';
@@ -13,5 +14,6 @@ bool filtersSearchRequired(FiltersSearchRequiredRef ref) {
       ref.watch(filtersMinAgeChangedProvider) ||
       ref.watch(filterMaxAgeChangedProvider) ||
       ref.watch(filtersPostTypeChangedProvider) ||
-      ref.watch(filterDistanceChangedProvider);
+      ref.watch(filterDistanceChangedProvider) ||
+      ref.watch(filterWordsChangedProvider);
 }

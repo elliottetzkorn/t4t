@@ -21,6 +21,7 @@ mixin _$FiltersData {
   int get type => throw _privateConstructorUsedError;
   int get minAge => throw _privateConstructorUsedError;
   int get maxAge => throw _privateConstructorUsedError;
+  List<String> get words => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FiltersDataCopyWith<FiltersData> get copyWith =>
@@ -33,7 +34,13 @@ abstract class $FiltersDataCopyWith<$Res> {
           FiltersData value, $Res Function(FiltersData) then) =
       _$FiltersDataCopyWithImpl<$Res, FiltersData>;
   @useResult
-  $Res call({int distance, List<int> badges, int type, int minAge, int maxAge});
+  $Res call(
+      {int distance,
+      List<int> badges,
+      int type,
+      int minAge,
+      int maxAge,
+      List<String> words});
 }
 
 /// @nodoc
@@ -54,6 +61,7 @@ class _$FiltersDataCopyWithImpl<$Res, $Val extends FiltersData>
     Object? type = null,
     Object? minAge = null,
     Object? maxAge = null,
+    Object? words = null,
   }) {
     return _then(_value.copyWith(
       distance: null == distance
@@ -76,6 +84,10 @@ class _$FiltersDataCopyWithImpl<$Res, $Val extends FiltersData>
           ? _value.maxAge
           : maxAge // ignore: cast_nullable_to_non_nullable
               as int,
+      words: null == words
+          ? _value.words
+          : words // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -88,7 +100,13 @@ abstract class _$$FiltersDataImplCopyWith<$Res>
       __$$FiltersDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int distance, List<int> badges, int type, int minAge, int maxAge});
+  $Res call(
+      {int distance,
+      List<int> badges,
+      int type,
+      int minAge,
+      int maxAge,
+      List<String> words});
 }
 
 /// @nodoc
@@ -107,6 +125,7 @@ class __$$FiltersDataImplCopyWithImpl<$Res>
     Object? type = null,
     Object? minAge = null,
     Object? maxAge = null,
+    Object? words = null,
   }) {
     return _then(_$FiltersDataImpl(
       distance: null == distance
@@ -129,6 +148,10 @@ class __$$FiltersDataImplCopyWithImpl<$Res>
           ? _value.maxAge
           : maxAge // ignore: cast_nullable_to_non_nullable
               as int,
+      words: null == words
+          ? _value._words
+          : words // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -141,8 +164,10 @@ class _$FiltersDataImpl implements _FiltersData {
       required final List<int> badges,
       required this.type,
       required this.minAge,
-      required this.maxAge})
-      : _badges = badges;
+      required this.maxAge,
+      required final List<String> words})
+      : _badges = badges,
+        _words = words;
 
   @override
   final int distance;
@@ -160,10 +185,17 @@ class _$FiltersDataImpl implements _FiltersData {
   final int minAge;
   @override
   final int maxAge;
+  final List<String> _words;
+  @override
+  List<String> get words {
+    if (_words is EqualUnmodifiableListView) return _words;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_words);
+  }
 
   @override
   String toString() {
-    return 'FiltersData(distance: $distance, badges: $badges, type: $type, minAge: $minAge, maxAge: $maxAge)';
+    return 'FiltersData(distance: $distance, badges: $badges, type: $type, minAge: $minAge, maxAge: $maxAge, words: $words)';
   }
 
   @override
@@ -176,12 +208,19 @@ class _$FiltersDataImpl implements _FiltersData {
             const DeepCollectionEquality().equals(other._badges, _badges) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.minAge, minAge) || other.minAge == minAge) &&
-            (identical(other.maxAge, maxAge) || other.maxAge == maxAge));
+            (identical(other.maxAge, maxAge) || other.maxAge == maxAge) &&
+            const DeepCollectionEquality().equals(other._words, _words));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, distance,
-      const DeepCollectionEquality().hash(_badges), type, minAge, maxAge);
+  int get hashCode => Object.hash(
+      runtimeType,
+      distance,
+      const DeepCollectionEquality().hash(_badges),
+      type,
+      minAge,
+      maxAge,
+      const DeepCollectionEquality().hash(_words));
 
   @JsonKey(ignore: true)
   @override
@@ -196,7 +235,8 @@ abstract class _FiltersData implements FiltersData {
       required final List<int> badges,
       required final int type,
       required final int minAge,
-      required final int maxAge}) = _$FiltersDataImpl;
+      required final int maxAge,
+      required final List<String> words}) = _$FiltersDataImpl;
 
   @override
   int get distance;
@@ -208,6 +248,8 @@ abstract class _FiltersData implements FiltersData {
   int get minAge;
   @override
   int get maxAge;
+  @override
+  List<String> get words;
   @override
   @JsonKey(ignore: true)
   _$$FiltersDataImplCopyWith<_$FiltersDataImpl> get copyWith =>

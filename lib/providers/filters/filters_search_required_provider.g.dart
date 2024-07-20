@@ -7,7 +7,7 @@ part of 'filters_search_required_provider.dart';
 // **************************************************************************
 
 String _$filtersSearchRequiredHash() =>
-    r'7afb69a48c0adbd7bfbaf252266b31144189f9cc';
+    r'9cbdd72711ce671db3c3c82a8e2e6ee16ebef0e8';
 
 /// See also [filtersSearchRequired].
 @ProviderFor(filtersSearchRequired)

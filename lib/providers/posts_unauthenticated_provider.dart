@@ -14,8 +14,8 @@ class PostsUnauthenticated extends _$PostsUnauthenticated {
   Future<List<FeedData>> build() async {
     final filters = ref.watch(filtersProvider);
 
-    final response = await PostsUnauthenticatedRepository.fetch(
-        filters.badges, filters.minAge, filters.maxAge, filters.type);
+    final response = await PostsUnauthenticatedRepository.fetch(filters.badges,
+        filters.minAge, filters.maxAge, filters.type, filters.words);
 
     return response.map<FeedData>((data) => FeedData.fromMap(data)).toList();
   }
@@ -31,7 +31,8 @@ class PostsUnauthenticated extends _$PostsUnauthenticated {
           filters.minAge,
           filters.maxAge,
           filters.type,
-          posts.last.post.createdAt);
+          posts.last.post.createdAt,
+          filters.words);
 
       if (response.isNotEmpty) {
         posts.addAll(response.map<FeedData>((data) => FeedData.fromMap(data)));
@@ -58,7 +59,8 @@ class PostsUnauthenticated extends _$PostsUnauthenticated {
           filters.minAge,
           filters.maxAge,
           filters.type,
-          posts.first.post.createdAt);
+          posts.first.post.createdAt,
+          filters.words);
 
       posts.insertAll(
           0, response.map<FeedData>((data) => FeedData.fromMap(data)));

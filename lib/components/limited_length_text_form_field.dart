@@ -8,6 +8,7 @@ class LimitedLengthTextFormField extends StatefulWidget {
   const LimitedLengthTextFormField(
       {super.key,
       required this.title,
+      this.subtitle,
       this.text,
       this.highContrast = false,
       this.lines = 1,
@@ -21,7 +22,7 @@ class LimitedLengthTextFormField extends StatefulWidget {
       this.capitalization = TextCapitalization.sentences});
 
   final String title;
-
+  final String? subtitle;
   final String? text;
   final int maxChars;
   final bool highContrast;

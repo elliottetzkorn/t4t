@@ -23,6 +23,10 @@ extension BooleanParsing on FiltersData {
       return false;
     }
 
+    if (words.isNotEmpty) {
+      return false;
+    }
+
     return true;
   }
 }

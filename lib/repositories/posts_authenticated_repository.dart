@@ -4,16 +4,23 @@ import 'package:t4t/constants.dart';
 class PostsAuthenticatedRepository {
   PostsAuthenticatedRepository._();
 
-  static Future<List<Map<String, dynamic>>> fetch(String pid, int distance,
-      List<int> badges, int minAge, int maxAge, int type) async {
-    return Supabase.instance.client.rpc('posts_authenticated_scroll6', params: {
+  static Future<List<Map<String, dynamic>>> fetch(
+      String pid,
+      int distance,
+      List<int> badges,
+      int minAge,
+      int maxAge,
+      int type,
+      List<String> words) async {
+    return Supabase.instance.client.rpc('posts_authenticated_scroll7', params: {
       'distance': valueToDistance[distance],
       'badge_ids': badges,
       'min_age': minAge,
       'max_age': maxAge,
       'num': fetchQty,
       'last_post_time': null,
-      'post_type': type
+      'post_type': type,
+      'words': words
     });
   }
 
@@ -24,15 +31,17 @@ class PostsAuthenticatedRepository {
       int minAge,
       int maxAge,
       int type,
-      DateTime time) async {
-    return Supabase.instance.client.rpc('posts_authenticated_scroll6', params: {
+      DateTime time,
+      List<String> words) async {
+    return Supabase.instance.client.rpc('posts_authenticated_scroll7', params: {
       'distance': valueToDistance[distance],
       'badge_ids': badges,
       'min_age': minAge,
       'max_age': maxAge,
       'num': fetchQty,
       'last_post_time': time.toIso8601String(),
-      'post_type': type
+      'post_type': type,
+      'words': words
     });
   }
 
@@ -43,14 +52,16 @@ class PostsAuthenticatedRepository {
       int minAge,
       int maxAge,
       int type,
-      DateTime time) async {
-    return Supabase.instance.client.rpc('posts_authenticated_poll6', params: {
+      DateTime time,
+      List<String> words) async {
+    return Supabase.instance.client.rpc('posts_authenticated_poll7', params: {
       'distance': valueToDistance[distance],
       'badge_ids': badges,
       'min_age': minAge,
       'max_age': maxAge,
       'first_post_time': time.toIso8601String(),
-      'post_type': type
+      'post_type': type,
+      'words': words
     });
   }
 }

@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'posts_authenticated_provider.dart';
+part of 'filter_words_changed_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$postsAuthenticatedHash() =>
-    r'a4066ae48cac4c312422099dfff239d092bbe6f2';
+String _$filterWordsChangedHash() =>
+    r'0ed955757a08064c6dcfb5139f8220cd284cc8f5';
 
-/// See also [PostsAuthenticated].
-@ProviderFor(PostsAuthenticated)
-final postsAuthenticatedProvider = AutoDisposeAsyncNotifierProvider<
-    PostsAuthenticated, List<FeedData>>.internal(
-  PostsAuthenticated.new,
-  name: r'postsAuthenticatedProvider',
+/// See also [filterWordsChanged].
+@ProviderFor(filterWordsChanged)
+final filterWordsChangedProvider = AutoDisposeProvider<bool>.internal(
+  filterWordsChanged,
+  name: r'filterWordsChangedProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$postsAuthenticatedHash,
+      : _$filterWordsChangedHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$PostsAuthenticated = AutoDisposeAsyncNotifier<List<FeedData>>;
+typedef FilterWordsChangedRef = AutoDisposeProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

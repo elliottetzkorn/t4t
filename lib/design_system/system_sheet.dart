@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
-import 'package:go_router/go_router.dart';
+import 'package:t4t/components/closing_row.dart';
 import 'package:t4t/constants.dart';
 
 class SystemSheet {
@@ -36,28 +34,7 @@ class SystemSheet {
                 Container(
                     constraints: BoxConstraints(maxHeight: maxHeight),
                     child: child),
-                if (showClose)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          HapticFeedback.selectionClick();
-                          context.pop();
-                        },
-                        child: SizedBox(
-                            height: tapTarget,
-                            width: tapTarget,
-                            child: Center(
-                                child: Icon(
-                              PhosphorIcons.x_thin,
-                              color: Theme.of(context).colorScheme.secondary,
-                              size: smallX,
-                            ))),
-                      )
-                    ],
-                  )
+                if (showClose) const ClosingRow()
               ]));
         }).whenComplete(() {
       if (whenComplete != null) {
