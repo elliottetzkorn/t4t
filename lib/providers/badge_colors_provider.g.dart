@@ -6,7 +6,7 @@ part of 'badge_colors_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$badgeColorsHash() => r'6b568a8e546668a922d5e9f6c9ef95df666422a9';
+String _$badgeColorsHash() => r'c2e83d1e87bc0499574c68e6f59a3c406f65778f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,16 +29,25 @@ class _SystemHash {
   }
 }
 
-/// See also [badgeColors].
-@ProviderFor(badgeColors)
+abstract class _$BadgeColors
+    extends BuildlessAutoDisposeAsyncNotifier<List<Color>> {
+  late final SubPagesEnum page;
+
+  FutureOr<List<Color>> build(
+    SubPagesEnum page,
+  );
+}
+
+/// See also [BadgeColors].
+@ProviderFor(BadgeColors)
 const badgeColorsProvider = BadgeColorsFamily();
 
-/// See also [badgeColors].
+/// See also [BadgeColors].
 class BadgeColorsFamily extends Family<AsyncValue<List<Color>>> {
-  /// See also [badgeColors].
+  /// See also [BadgeColors].
   const BadgeColorsFamily();
 
-  /// See also [badgeColors].
+  /// See also [BadgeColors].
   BadgeColorsProvider call(
     SubPagesEnum page,
   ) {
@@ -71,16 +80,14 @@ class BadgeColorsFamily extends Family<AsyncValue<List<Color>>> {
   String? get name => r'badgeColorsProvider';
 }
 
-/// See also [badgeColors].
-class BadgeColorsProvider extends AutoDisposeFutureProvider<List<Color>> {
-  /// See also [badgeColors].
+/// See also [BadgeColors].
+class BadgeColorsProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<BadgeColors, List<Color>> {
+  /// See also [BadgeColors].
   BadgeColorsProvider(
     SubPagesEnum page,
   ) : this._internal(
-          (ref) => badgeColors(
-            ref as BadgeColorsRef,
-            page,
-          ),
+          () => BadgeColors()..page = page,
           from: badgeColorsProvider,
           name: r'badgeColorsProvider',
           debugGetCreateSourceHash:
@@ -106,13 +113,20 @@ class BadgeColorsProvider extends AutoDisposeFutureProvider<List<Color>> {
   final SubPagesEnum page;
 
   @override
-  Override overrideWith(
-    FutureOr<List<Color>> Function(BadgeColorsRef provider) create,
+  FutureOr<List<Color>> runNotifierBuild(
+    covariant BadgeColors notifier,
   ) {
+    return notifier.build(
+      page,
+    );
+  }
+
+  @override
+  Override overrideWith(BadgeColors Function() create) {
     return ProviderOverride(
       origin: this,
       override: BadgeColorsProvider._internal(
-        (ref) => create(ref as BadgeColorsRef),
+        () => create()..page = page,
         from: from,
         name: null,
         dependencies: null,
@@ -124,7 +138,8 @@ class BadgeColorsProvider extends AutoDisposeFutureProvider<List<Color>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Color>> createElement() {
+  AutoDisposeAsyncNotifierProviderElement<BadgeColors, List<Color>>
+      createElement() {
     return _BadgeColorsProviderElement(this);
   }
 
@@ -142,13 +157,14 @@ class BadgeColorsProvider extends AutoDisposeFutureProvider<List<Color>> {
   }
 }
 
-mixin BadgeColorsRef on AutoDisposeFutureProviderRef<List<Color>> {
+mixin BadgeColorsRef on AutoDisposeAsyncNotifierProviderRef<List<Color>> {
   /// The parameter `page` of this provider.
   SubPagesEnum get page;
 }
 
 class _BadgeColorsProviderElement
-    extends AutoDisposeFutureProviderElement<List<Color>> with BadgeColorsRef {
+    extends AutoDisposeAsyncNotifierProviderElement<BadgeColors, List<Color>>
+    with BadgeColorsRef {
   _BadgeColorsProviderElement(super.provider);
 
   @override
