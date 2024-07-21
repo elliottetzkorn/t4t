@@ -92,9 +92,9 @@ class PostsAuthenticated extends _$PostsAuthenticated {
       } else {
         ref.invalidateSelf();
       }
-
-      _isPolling = false;
     }
+
+    _isPolling = false;
   }
 
   Future<void> setSupporter(bool supporter) async {

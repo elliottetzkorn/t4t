@@ -6,7 +6,7 @@ part of 'badge_colors_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$badgeColorsHash() => r'316e0d0893c0bb1b31a6665fc031ec6e600d2b0f';
+String _$badgeColorsHash() => r'66314b45bf2590ad35cf163cdd0d38b516e89ac5';
 
 /// Copied from Dart SDK
 class _SystemHash {
