@@ -97,9 +97,9 @@ class Conversations extends _$Conversations {
       } else {
         ref.invalidateSelf();
       }
-
-      _isPolling = false;
     }
+
+    _isPolling = false;
   }
 
   Future<void> setRead(String profileId) async {

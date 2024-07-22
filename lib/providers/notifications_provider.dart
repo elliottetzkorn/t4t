@@ -65,9 +65,9 @@ class Notifications extends _$Notifications {
       } else {
         ref.invalidateSelf();
       }
-
-      _isPolling = false;
     }
+
+    _isPolling = false;
   }
 
   Future<void> changeTitle(int postId, String newTitle) async {

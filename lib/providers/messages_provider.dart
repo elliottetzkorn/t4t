@@ -90,10 +90,10 @@ class Messages extends _$Messages {
         messages.insertAll(0, messagesTemp);
 
         state = AsyncData(messages);
-
-        _isPolling = false;
       }
     }
+
+    _isPolling = false;
   }
 
   Future<void> pollRead(String profileId) async {
