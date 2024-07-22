@@ -77,6 +77,7 @@ Future<void> safelyInitializeFirebase() async {
         androidClientId: dotenv.env['FIREBASE_ANDROID_CLIENT_ID']!,
         iosClientId: dotenv.env['FIREBASE_IOS_CLIENT_ID']!,
         iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID']!,
+        trackingId: dotenv.env['FIREBASE_IOS_TRACKING_ID']!,
       ),
     );
 
