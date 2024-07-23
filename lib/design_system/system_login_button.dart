@@ -16,11 +16,11 @@ class SystemLoginButton extends StatelessWidget {
   final IconData icon;
 
   Color foregroundColor(BuildContext context) {
-    return Colors.black;
+    return Theme.of(context).colorScheme.primary;
   }
 
   Color backgroundColor(BuildContext context) {
-    return Colors.white;
+    return Theme.of(context).scaffoldBackgroundColor;
   }
 
   Padding getIcon(BuildContext context) {
