@@ -12,8 +12,8 @@ class NotifData {
 
   final ProfileMinData profile;
   final PostMinData post;
-  final int? likeId;
-  final String? likeText;
+  final int likeId;
+  final String likeText;
   final DateTime createdAt;
 
   NotifData.fromMap(Map<dynamic, dynamic> map)

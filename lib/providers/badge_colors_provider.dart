@@ -59,12 +59,11 @@ class BadgeColors extends _$BadgeColors {
           final notifId = prefs.getInt(prefsLastReactionId);
 
           if (notifId == null) {
-            prefs.setInt(prefsLastReactionId, notifications.first.likeId!);
+            prefs.setInt(prefsLastReactionId, notifications.first.likeId);
           }
 
           for (final notif in threeNotifications) {
-            if (notifId == null ||
-                notif.likeId != null && notif.likeId! > notifId) {
+            if (notifId == null || notif.likeId > notifId) {
               colors.add(notif.profile.color);
             }
           }
@@ -84,7 +83,7 @@ class BadgeColors extends _$BadgeColors {
     final notifications = await ref.read(notificationsProvider.future);
 
     if (notifications.isNotEmpty) {
-      prefs.setInt(prefsLastReactionId, notifications.first.likeId!);
+      prefs.setInt(prefsLastReactionId, notifications.first.likeId);
       state = const AsyncData([]);
     }
   }

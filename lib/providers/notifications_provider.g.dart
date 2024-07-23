@@ -6,7 +6,7 @@ part of 'notifications_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$notificationsHash() => r'94633a7c3a126a3100950904db73f7cce203474d';
+String _$notificationsHash() => r'fd09441c5b1dc505152d38e697e65cc1afa1b06e';
 
 /// See also [Notifications].
 @ProviderFor(Notifications)

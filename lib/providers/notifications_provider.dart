@@ -62,8 +62,6 @@ class Notifications extends _$Notifications {
 
           state = AsyncData(notifications);
         }
-      } else {
-        ref.invalidateSelf();
       }
     }
 
