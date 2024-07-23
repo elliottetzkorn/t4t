@@ -117,10 +117,6 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   }
 
   void setPollTimers() {
-    ref
-        .read(messagesProvider(widget.data.profile.id).notifier)
-        .poll(widget.data.profile.id);
-
     if (pollTimer != null) {
       pollTimer!.cancel();
     }
@@ -139,6 +135,9 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        ref
+            .read(messagesProvider(widget.data.profile.id).notifier)
+            .poll(widget.data.profile.id);
         setPollTimers();
         break;
       case AppLifecycleState.inactive:
