@@ -122,7 +122,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
     }
 
     pollTimer ??=
-        Timer.periodic(const Duration(seconds: pollingTime), (Timer t) {
+        Timer.periodic(const Duration(seconds: messagesPollingTime), (Timer t) {
       if (mounted) {
         ref
             .read(messagesProvider(widget.data.profile.id).notifier)
