@@ -51,3 +51,4 @@ app.*.map.json
 /android/app/release
 translator_key
 .env
+firebase.json
