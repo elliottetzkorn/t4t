@@ -89,6 +89,8 @@ class PostsAuthenticated extends _$PostsAuthenticated {
 
           state = AsyncData(posts);
         }
+      } else {
+        ref.invalidateSelf();
       }
     }
 

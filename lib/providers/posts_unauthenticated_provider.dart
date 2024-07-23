@@ -66,6 +66,8 @@ class PostsUnauthenticated extends _$PostsUnauthenticated {
           0, response.map<FeedData>((data) => FeedData.fromMap(data)));
 
       state = AsyncData(posts);
+    } else {
+      ref.invalidateSelf();
     }
 
     _isPolling = false;

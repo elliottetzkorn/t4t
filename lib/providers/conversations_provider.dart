@@ -94,6 +94,8 @@ class Conversations extends _$Conversations {
 
           state = AsyncData(conversations);
         }
+      } else {
+        ref.invalidateSelf();
       }
     }
 
