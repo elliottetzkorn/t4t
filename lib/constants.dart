@@ -186,6 +186,7 @@ const List<BadgeData> availableBadges = [
   BadgeData(id: 24, text: 'poly', color: Color(0xff0000FF)),
   BadgeData(id: 19, text: 'queer', color: Color(0xffFFED00)),
   BadgeData(id: 25, text: 'sapphic', color: Color(0xffFBF2FF)),
+  BadgeData(id: 48, text: 'stud', color: Color(0xff4085c6)),
   BadgeData(id: 46, text: 'system', color: Color(0xffDC143C)),
   BadgeData(id: 47, text: 'therian', color: Color(0xffff4f00)),
   BadgeData(id: 40, text: 'trans', color: Color(0xffafeeee)),

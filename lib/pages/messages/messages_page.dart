@@ -97,6 +97,8 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
             .setRead(widget.data.profile.id);
       });
     }
+
+    setPollTimers();
   }
 
   @override
