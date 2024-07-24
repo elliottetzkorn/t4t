@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:t4t/data/notif_data.dart';
-import 'package:t4t/enums/sub_pages_enum.dart';
-import 'package:t4t/providers/tab_provider.dart';
 import 'package:t4t/repositories/notifications_repository.dart';
 
 part 'notifications_provider.g.dart';
@@ -35,31 +33,27 @@ class Notifications extends _$Notifications {
     }
   }
 
-  Future<void> poll(bool initial) async {
+  Future<void> poll() async {
     if (_isPolling) {
       return;
     }
 
     _isPolling = true;
 
-    final tab = ref.read(tabProvider);
+    final notifications = await future;
 
-    if (initial || tab != SubPagesEnum.notifications) {
-      final notifications = await future;
+    if (notifications.isNotEmpty) {
+      final response = await NotificationsRepository.fetchAfterDateTime(
+          notifications.first.createdAt);
 
-      if (notifications.isNotEmpty) {
-        final response = await NotificationsRepository.fetchAfterDateTime(
-            notifications.first.createdAt);
+      if (response.isNotEmpty) {
+        notifications.insertAll(
+            0, response.map<NotifData>((data) => NotifData.fromMap(data)));
 
-        if (response.isNotEmpty) {
-          notifications.insertAll(
-              0, response.map<NotifData>((data) => NotifData.fromMap(data)));
-
-          state = AsyncData(notifications);
-        }
-      } else {
-        ref.invalidateSelf();
+        state = AsyncData(notifications);
       }
+    } else {
+      ref.invalidateSelf();
     }
 
     _isPolling = false;

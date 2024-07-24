@@ -73,8 +73,8 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   void getPolls(bool initial) {
     if (mounted) {
       ref.read(postsAuthenticatedProvider.notifier).poll(initial);
-      ref.read(conversationsProvider.notifier).poll(initial);
-      ref.read(notificationsProvider.notifier).poll(initial);
+      ref.read(conversationsProvider.notifier).poll();
+      ref.read(notificationsProvider.notifier).poll();
     }
   }
 

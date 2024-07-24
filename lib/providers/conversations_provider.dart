@@ -4,8 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/data/conversation_data.dart';
 import 'package:t4t/data/profile_min_data.dart';
-import 'package:t4t/enums/sub_pages_enum.dart';
-import 'package:t4t/providers/tab_provider.dart';
 import 'package:t4t/repositories/conversations_repository.dart';
 
 part 'conversations_provider.g.dart';
@@ -44,53 +42,48 @@ class Conversations extends _$Conversations {
     }
   }
 
-  Future<void> poll(bool initial) async {
+  Future<void> poll() async {
     if (_isPolling) {
       return;
     }
 
     _isPolling = true;
 
-    final tab = ref.read(tabProvider);
+    final List<ConversationData> conversations = await future;
 
-    if (initial || tab != SubPagesEnum.conversations) {
-      final List<ConversationData> conversations = await future;
+    if (conversations.isNotEmpty) {
+      final response = await ConversationsRepository.fetchAfterDateTime(
+          conversations.first.lastMessageCreatedAt);
 
-      if (conversations.isNotEmpty) {
-        final response = await ConversationsRepository.fetchAfterDateTime(
-            conversations.first.lastMessageCreatedAt);
+      if (response.isNotEmpty) {
+        final messagesTemp = response.map<ConversationData>((data) =>
+            ConversationData.fromMap(
+                map: data,
+                userId: Supabase.instance.client.auth.currentSession!.user.id));
 
-        if (response.isNotEmpty) {
-          final messagesTemp = response.map<ConversationData>((data) =>
-              ConversationData.fromMap(
-                  map: data,
-                  userId:
-                      Supabase.instance.client.auth.currentSession!.user.id));
+        for (ConversationData tempConversation in messagesTemp) {
+          if (conversations.any(
+              (element) => element.profile.id == tempConversation.profile.id)) {
+            int i = conversations.indexWhere(
+                (element) => element.profile.id == tempConversation.profile.id);
 
-          for (ConversationData tempConversation in messagesTemp) {
-            if (conversations.any((element) =>
-                element.profile.id == tempConversation.profile.id)) {
-              int i = conversations.indexWhere((element) =>
-                  element.profile.id == tempConversation.profile.id);
-
-              conversations[i] = tempConversation;
-            } else {
-              if (conversations.indexWhere((conversation) =>
-                      conversation.profile.id == tempConversation.profile.id) ==
-                  -1) {
-                conversations.insert(0, tempConversation);
-              }
+            conversations[i] = tempConversation;
+          } else {
+            if (conversations.indexWhere((conversation) =>
+                    conversation.profile.id == tempConversation.profile.id) ==
+                -1) {
+              conversations.insert(0, tempConversation);
             }
           }
-
-          conversations.sort((a, b) =>
-              b.lastMessageCreatedAt.compareTo(a.lastMessageCreatedAt));
-
-          state = AsyncData(conversations);
         }
-      } else {
-        ref.invalidateSelf();
+
+        conversations.sort(
+            (a, b) => b.lastMessageCreatedAt.compareTo(a.lastMessageCreatedAt));
+
+        state = AsyncData(conversations);
       }
+    } else {
+      ref.invalidateSelf();
     }
 
     _isPolling = false;
