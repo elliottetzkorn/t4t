@@ -6,7 +6,6 @@ import 'package:t4t/data/like_min_data.dart';
 import 'package:t4t/data/post_data.dart';
 import 'package:t4t/enums/sub_pages_enum.dart';
 import 'package:t4t/providers/filters/filters_provider.dart';
-import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/tab_provider.dart';
 import 'package:t4t/repositories/posts_authenticated_repository.dart';
 
@@ -19,10 +18,8 @@ class PostsAuthenticated extends _$PostsAuthenticated {
   @override
   Future<List<FeedData>> build() async {
     final filters = ref.watch(filtersProvider);
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
 
     final response = await PostsAuthenticatedRepository.fetch(
-        id,
         filters.distance,
         filters.badges,
         filters.minAge,
@@ -35,13 +32,11 @@ class PostsAuthenticated extends _$PostsAuthenticated {
 
   Future<void> scroll() async {
     final filters = ref.read(filtersProvider);
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
 
     final posts = await future;
 
     if (posts.isNotEmpty) {
       final response = await PostsAuthenticatedRepository.fetchBeforeDateTime(
-          id,
           filters.distance,
           filters.badges,
           filters.minAge,
@@ -67,14 +62,12 @@ class PostsAuthenticated extends _$PostsAuthenticated {
 
     final filters = ref.read(filtersProvider);
     final tab = ref.read(tabProvider);
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
 
     if (initial || tab != SubPagesEnum.posts) {
       final posts = await future;
 
       if (posts.isNotEmpty) {
         final response = await PostsAuthenticatedRepository.fetchAfterDateTime(
-            id,
             filters.distance,
             filters.badges,
             filters.minAge,

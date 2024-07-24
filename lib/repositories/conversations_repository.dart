@@ -4,15 +4,13 @@ import 'package:t4t/constants.dart';
 class ConversationsRepository {
   ConversationsRepository._();
 
-  static Future<List<Map<String, dynamic>>> fetch(
-    String pid,
-  ) async {
+  static Future<List<Map<String, dynamic>>> fetch() async {
     return Supabase.instance.client.rpc('conversations_scroll4',
         params: {'num': fetchQty, 'last_conversation_time': null});
   }
 
   static Future<List<Map<String, dynamic>>> fetchBeforeDateTime(
-      String pid, DateTime time) async {
+      DateTime time) async {
     return Supabase.instance.client.rpc('conversations_scroll4', params: {
       'num': fetchQty,
       'last_conversation_time': time.toIso8601String()
@@ -20,7 +18,7 @@ class ConversationsRepository {
   }
 
   static Future<List<Map<String, dynamic>>> fetchAfterDateTime(
-      String pid, DateTime time) async {
+      DateTime time) async {
     return Supabase.instance.client.rpc('conversations_poll4', params: {
       'first_conversation_time': time.toIso8601String(),
     });

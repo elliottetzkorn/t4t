@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:t4t/data/notif_data.dart';
 import 'package:t4t/enums/sub_pages_enum.dart';
-import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/tab_provider.dart';
 import 'package:t4t/repositories/notifications_repository.dart';
 
@@ -15,8 +14,7 @@ class Notifications extends _$Notifications {
 
   @override
   Future<List<NotifData>> build() async {
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-    final response = await NotificationsRepository.fetch(id);
+    final response = await NotificationsRepository.fetch();
 
     return response.map<NotifData>((data) => NotifData.fromMap(data)).toList();
   }
@@ -25,10 +23,8 @@ class Notifications extends _$Notifications {
     final List<NotifData> notifications = await future;
 
     if (notifications.isNotEmpty) {
-      final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-
       final response = await NotificationsRepository.fetchBeforeDateTime(
-          id, notifications.last.createdAt);
+          notifications.last.createdAt);
 
       if (response.isNotEmpty) {
         notifications
@@ -47,14 +43,13 @@ class Notifications extends _$Notifications {
     _isPolling = true;
 
     final tab = ref.read(tabProvider);
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
 
     if (initial || tab != SubPagesEnum.notifications) {
-      final List<NotifData> notifications = await future;
+      final notifications = await future;
 
       if (notifications.isNotEmpty) {
         final response = await NotificationsRepository.fetchAfterDateTime(
-            id, notifications.first.createdAt);
+            notifications.first.createdAt);
 
         if (response.isNotEmpty) {
           notifications.insertAll(

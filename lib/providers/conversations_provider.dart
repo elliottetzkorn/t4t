@@ -5,7 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/data/conversation_data.dart';
 import 'package:t4t/data/profile_min_data.dart';
 import 'package:t4t/enums/sub_pages_enum.dart';
-import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/tab_provider.dart';
 import 'package:t4t/repositories/conversations_repository.dart';
 
@@ -17,8 +16,7 @@ class Conversations extends _$Conversations {
 
   @override
   Future<List<ConversationData>> build() async {
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-    final response = await ConversationsRepository.fetch(id);
+    final response = await ConversationsRepository.fetch();
 
     return response
         .map<ConversationData>((data) => ConversationData.fromMap(
@@ -31,10 +29,8 @@ class Conversations extends _$Conversations {
     final List<ConversationData> conversations = await future;
 
     if (conversations.isNotEmpty) {
-      final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-
       final response = await ConversationsRepository.fetchBeforeDateTime(
-          id, conversations.last.lastMessageCreatedAt);
+          conversations.last.lastMessageCreatedAt);
 
       if (response.isNotEmpty) {
         conversations.addAll(response.map<ConversationData>((data) =>
@@ -60,11 +56,9 @@ class Conversations extends _$Conversations {
     if (initial || tab != SubPagesEnum.conversations) {
       final List<ConversationData> conversations = await future;
 
-      final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-
       if (conversations.isNotEmpty) {
         final response = await ConversationsRepository.fetchAfterDateTime(
-            id, conversations.first.lastMessageCreatedAt);
+            conversations.first.lastMessageCreatedAt);
 
         if (response.isNotEmpty) {
           final messagesTemp = response.map<ConversationData>((data) =>

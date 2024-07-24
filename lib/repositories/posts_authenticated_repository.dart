@@ -5,7 +5,6 @@ class PostsAuthenticatedRepository {
   PostsAuthenticatedRepository._();
 
   static Future<List<Map<String, dynamic>>> fetch(
-      String pid,
       int distance,
       List<int> badges,
       int minAge,
@@ -25,7 +24,6 @@ class PostsAuthenticatedRepository {
   }
 
   static Future<List<Map<String, dynamic>>> fetchBeforeDateTime(
-      String pid,
       int distance,
       List<int> badges,
       int minAge,
@@ -46,7 +44,6 @@ class PostsAuthenticatedRepository {
   }
 
   static Future<List<Map<String, dynamic>>> fetchAfterDateTime(
-      String pid,
       int distance,
       List<int> badges,
       int minAge,
