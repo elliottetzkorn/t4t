@@ -36,7 +36,7 @@ class _SystemIconButtonState extends State<SystemIconButton> {
   double iconSize = 28;
 
   void tappedDown(TapDownDetails? t) {
-    if (mounted && widget.enabled) {
+    if (widget.enabled) {
       setState(() {
         tapped = true;
       });
@@ -45,11 +45,9 @@ class _SystemIconButtonState extends State<SystemIconButton> {
 
   void tappedUp(TapUpDetails? t) {
     if (widget.enabled) {
-      if (mounted) {
-        setState(() {
-          tapped = false;
-        });
-      }
+      setState(() {
+        tapped = false;
+      });
     }
 
     if (widget.icon != PhosphorIcons.arrow_left_thin && widget.enabled) {

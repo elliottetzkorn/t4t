@@ -63,11 +63,9 @@ class _SystemButtonState extends State<SystemButton> {
   }
 
   void tappedUp(TapUpDetails? t) {
-    if (mounted) {
-      setState(() {
-        tapped = false;
-      });
-    }
+    setState(() {
+      tapped = false;
+    });
 
     widget.onPressed();
   }

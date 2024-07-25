@@ -24,15 +24,13 @@ class _SystemLoaderState extends State<SystemLoader> {
 
     timer = Timer.periodic(const Duration(milliseconds: animationDuration),
         (Timer t) {
-      if (mounted) {
-        setState(() {
-          if (dots.length > 2) {
-            dots = '.';
-          } else {
-            dots += '.';
-          }
-        });
-      }
+      setState(() {
+        if (dots.length > 2) {
+          dots = '.';
+        } else {
+          dots += '.';
+        }
+      });
     });
   }
 
