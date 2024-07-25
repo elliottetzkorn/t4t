@@ -3,7 +3,6 @@ import 'package:app_install_date/app_install_date_imp.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:t4t/components/bottom_nav_authenticated.dart';
 import 'package:t4t/components/supporter_sheet.dart';
 import 'package:t4t/constants.dart';
@@ -20,7 +19,6 @@ import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/router_provider.dart';
 import 'package:t4t/providers/tab_provider.dart';
-import 'package:t4t/utils/store_config.dart';
 
 class HomeAuthenticated extends ConsumerStatefulWidget {
   const HomeAuthenticated({super.key});
@@ -89,7 +87,6 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        ref.invalidate(profileProvider);
         getPolls(true);
         setPollTimers();
         break;
@@ -111,37 +108,37 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
       final profile = next.value;
 
       if (profile != null) {
-        Purchases.configure(PurchasesConfiguration(StoreConfig.instance.apiKey)
-          ..appUserID = profile.id);
-
-        FirebaseMessaging.instance.getToken().then((value) {
-          if (value != null && profile.fcmToken != value) {
-            ref.read(profileProvider.notifier).updateFCMToken(value);
-          }
-        });
-
         if (profile.banned) {
           ref.read(routerProvider).replaceNamed(routeBanned);
         } else if (profile.incomplete()) {
           ref.read(routerProvider).toProfileSetup(profile, ref);
-        } else if (!profile.supporter) {
-          String? lastTimeString = prefs.getString(prefsPremiumUpsellShowTime);
+        } else {
+          FirebaseMessaging.instance.getToken().then((value) {
+            if (value != null && profile.fcmToken != value) {
+              ref.read(profileProvider.notifier).updateFCMToken(value);
+            }
+          });
 
-          if (lastTimeString == null) {
-            AppInstallDate().installDate.then((date) {
-              if (DateTime.now().difference(date).inDays > 7) {
+          if (!profile.supporter) {
+            String? lastTimeString =
+                prefs.getString(prefsPremiumUpsellShowTime);
+
+            if (lastTimeString == null) {
+              AppInstallDate().installDate.then((date) {
+                if (DateTime.now().difference(date).inDays > 7) {
+                  SupporterSheet().show(context, ref);
+                  prefs.setString(prefsPremiumUpsellShowTime,
+                      DateTime.now().toIso8601String());
+                }
+              });
+            } else {
+              DateTime lastTimeShown = DateTime.parse(lastTimeString);
+
+              if (DateTime.now().difference(lastTimeShown).inDays > 30) {
                 SupporterSheet().show(context, ref);
                 prefs.setString(prefsPremiumUpsellShowTime,
                     DateTime.now().toIso8601String());
               }
-            });
-          } else {
-            DateTime lastTimeShown = DateTime.parse(lastTimeString);
-
-            if (DateTime.now().difference(lastTimeShown).inDays > 30) {
-              SupporterSheet().show(context, ref);
-              prefs.setString(
-                  prefsPremiumUpsellShowTime, DateTime.now().toIso8601String());
             }
           }
         }
