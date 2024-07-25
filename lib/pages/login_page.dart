@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -90,8 +89,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final GoogleSignIn googleSignIn;
 
       googleSignIn = GoogleSignIn(
-        clientId: dotenv.env['FIREBASE_IOS_CLIENT_ID']!,
-        serverClientId: dotenv.env['FIREBASE_WEB_CLIENT_ID']!,
+        clientId:
+            '756198199550-vvmu8f1tkc5bjd7cnetd02st5r9qd1ie.apps.googleusercontent.com',
+        serverClientId:
+            '756198199550-udtcd6mecf4jqsa5nk2as9tsavs4bnnu.apps.googleusercontent.com',
       );
 
       final googleUser = await googleSignIn.signIn();
