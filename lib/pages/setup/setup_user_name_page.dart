@@ -74,21 +74,23 @@ class _SetupUserNamePageState extends ConsumerState<SetupUserNamePage> {
   }
 
   Future<void> checkIfUsernameAvailable(String usernameToCheck) async {
-    await Supabase.instance.client
-        .from('profiles')
-        .select('id')
-        .ilike('username', usernameToCheck)
-        .then((value) {
-      if (value.isNotEmpty) {
-        setState(() {
-          usernameAvailable = false;
-        });
-      }
-    });
+    if (mounted) {
+      await Supabase.instance.client
+          .from('profiles')
+          .select('id')
+          .ilike('username', usernameToCheck)
+          .then((value) {
+        if (value.isNotEmpty) {
+          setState(() {
+            usernameAvailable = false;
+          });
+        }
+      });
 
-    setState(() {
-      checkingUsername = false;
-    });
+      setState(() {
+        checkingUsername = false;
+      });
+    }
   }
 
   Future<dynamic> _updateProfile() async {
