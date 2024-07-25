@@ -81,11 +81,11 @@ class BadgeColors extends _$BadgeColors {
   }
 
   void resetNotificationBadgeColors() async {
-    // final notifications = await ref.read(notificationsProvider.future);
+    final notifications = await ref.read(notificationsProvider.future);
 
-    // if (notifications.isNotEmpty) {
-    //   prefs.setInt(prefsLastReactionId, notifications.first.likeId);
-    //   state = const AsyncData([]);
-    // }
+    if (notifications.isNotEmpty) {
+      prefs.setInt(prefsLastReactionId, notifications.first.likeId);
+      state = const AsyncData([]);
+    }
   }
 }
