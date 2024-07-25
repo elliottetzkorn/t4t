@@ -1,0 +1,78 @@
+{
+  "project_info": {
+    "project_number": "756198199550",
+    "project_id": "tfourt-c7b9d",
+    "storage_bucket": "tfourt-c7b9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756198199550:android:acd9b05c2251b2e2bb15af",
+        "android_client_info": {
+          "package_name": "com.t4t.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756198199550-5aolkn7t542vbfhp2mqie952cflohkrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.t4t.app",
+            "certificate_hash": "8bf5f467b6f440a43a8689a4bda32763ecce643e"
+          }
+        },
+        {
+          "client_id": "756198199550-94uhtl8ds5dku2i1jjfmpfvvkp91n1cs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.t4t.app",
+            "certificate_hash": "ba4e9419125ae7b1f54c78c20566e2ad301936aa"
+          }
+        },
+        {
+          "client_id": "756198199550-klb3348a9l6i4b8vmqvc9soa309719os.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.t4t.app",
+            "certificate_hash": "2dc9f118913dbfcf62e4748ca707f69e65ada458"
+          }
+        },
+        {
+          "client_id": "756198199550-r84ackul2uofufr34137ah9c6jbkmk5d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.t4t.app",
+            "certificate_hash": "b969ec4cde0a7a04c9d0b9c042a73c7e06d32ad6"
+          }
+        },
+        {
+          "client_id": "756198199550-udtcd6mecf4jqsa5nk2as9tsavs4bnnu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYsm5fmyniqEJZcIADh8uB2VWB4xg2rgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756198199550-udtcd6mecf4jqsa5nk2as9tsavs4bnnu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "756198199550-vvmu8f1tkc5bjd7cnetd02st5r9qd1ie.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.t4t.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

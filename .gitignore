@@ -10,11 +10,6 @@
 .svn/
 migrate_working_dir/
 
-# Hide google files for safety
-**/google-services.json
-**/firebase_app_id_file.json
-**/firebase_options.dart
-
 # IntelliJ related
 *.iml
 *.ipr
