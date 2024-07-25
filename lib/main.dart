@@ -12,6 +12,7 @@ import 'package:t4t/components/system_brightness.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/extensions/color_theme_enum_extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:t4t/firebase_options.dart';
 import 'package:t4t/providers/router_provider.dart';
 import 'package:t4t/providers/theme_provider.dart';
 import 'package:t4t/utils/device_utils.dart';
@@ -82,7 +83,9 @@ Future<void> safelyInitializeFirebaseMessaging() async {
 
 Future<void> safelyInitializeFirebase() async {
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   } catch (e) {
     return;
   }
