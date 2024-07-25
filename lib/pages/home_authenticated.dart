@@ -114,12 +114,6 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
         } else if (profile.incomplete()) {
           ref.read(routerProvider).toProfileSetup(profile, ref);
         } else {
-          FirebaseMessaging.instance.getToken().then((value) {
-            if (value != null && profile.fcmToken != value) {
-              ref.read(profileProvider.notifier).updateFCMToken(value);
-            }
-          });
-
           if (!profile.supporter) {
             String? lastTimeString =
                 prefs.getString(prefsPremiumUpsellShowTime);
@@ -142,6 +136,12 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
               }
             }
           }
+
+          FirebaseMessaging.instance.getToken().then((value) {
+            if (value != null && profile.fcmToken != value) {
+              ref.read(profileProvider.notifier).updateFCMToken(value);
+            }
+          });
         }
       }
     });
