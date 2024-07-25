@@ -87,6 +87,7 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        ref.invalidate(profileProvider);
         getPolls(true);
         setPollTimers();
         break;
