@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:t4t/data/message_data.dart';
+import 'package:t4t/extensions/strings_extensions.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/repositories/messages_repository.dart';
 
@@ -9,6 +10,7 @@ part 'messages_provider.g.dart';
 @riverpod
 class Messages extends _$Messages {
   bool _isPolling = false;
+  bool _isPollingRead = false;
 
   @override
   Future<List<MessageData>> build(String profileId) async {
@@ -97,9 +99,17 @@ class Messages extends _$Messages {
   }
 
   Future<void> pollRead(String profileId) async {
+    if (_isPollingRead) {
+      return;
+    }
+
+    _isPollingRead = true;
+
     final List<MessageData> messages = await future;
 
-    if (messages.first.id != null && messages.first.read == false) {
+    if (messages.first.id != null &&
+        messages.first.senderId.isOwnId() &&
+        messages.first.read == false) {
       final response = await MessagesRepository.isRead(messages.first.id!);
 
       if (response['read'] == true) {
@@ -107,5 +117,7 @@ class Messages extends _$Messages {
         state = AsyncData(messages);
       }
     }
+
+    _isPollingRead = false;
   }
 }

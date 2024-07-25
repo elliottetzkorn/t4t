@@ -123,19 +123,24 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
 
     pollTimer ??=
         Timer.periodic(const Duration(seconds: messagesPollingTime), (Timer t) {
-      ref
-          .read(messagesProvider(widget.data.profile.id).notifier)
-          .poll(widget.data.profile.id);
+      messageFetch();
     });
+  }
+
+  void messageFetch() {
+    ref
+        .read(messagesProvider(widget.data.profile.id).notifier)
+        .poll(widget.data.profile.id);
+    ref
+        .read(messagesProvider(widget.data.profile.id).notifier)
+        .pollRead(widget.data.profile.id);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        ref
-            .read(messagesProvider(widget.data.profile.id).notifier)
-            .poll(widget.data.profile.id);
+        messageFetch();
         setPollTimers();
         break;
       case AppLifecycleState.inactive:
