@@ -7,7 +7,6 @@ import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart' as apple_auth;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,7 +17,6 @@ import 'package:t4t/design_system/system_text.dart';
 import 'package:t4t/enums/text_size_enum.dart';
 import 'package:t4t/providers/simple_font_provider.dart';
 import 'package:t4t/utils/setup_utils.dart';
-import 'package:t4t/utils/store_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 // ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
@@ -65,9 +63,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         )
             .then((value) {
           if (value.user != null) {
-            Purchases.configure(
-                PurchasesConfiguration(StoreConfig.instance.apiKey)
-                  ..appUserID = value.user!.id);
             SetupUtils.setOauthUsername(value.user!.email!);
           }
         });
@@ -115,9 +110,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       )
           .then((value) {
         if (value.user != null) {
-          Purchases.configure(
-              PurchasesConfiguration(StoreConfig.instance.apiKey)
-                ..appUserID = value.user!.id);
           SetupUtils.setOauthUsername(value.user!.email!);
         }
       });
