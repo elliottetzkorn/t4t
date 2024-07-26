@@ -7,7 +7,7 @@ part of 'posts_authenticated_provider.dart';
 // **************************************************************************
 
 String _$postsAuthenticatedHash() =>
-    r'6269ba8f618da3d4ae212fdcfc655bf46d7d46d3';
+    r'422c052fd44262f68bac44a07a970aa8657c4c92';
 
 /// See also [PostsAuthenticated].
 @ProviderFor(PostsAuthenticated)

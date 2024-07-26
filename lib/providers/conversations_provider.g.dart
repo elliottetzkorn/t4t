@@ -6,7 +6,7 @@ part of 'conversations_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$conversationsHash() => r'7f34e65a3e2555175551263a3d464863cdd65f2e';
+String _$conversationsHash() => r'079768d91823f2fb37bc60f154cef1ba575a3bf2';
 
 /// See also [Conversations].
 @ProviderFor(Conversations)

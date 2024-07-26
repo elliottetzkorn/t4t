@@ -8,8 +8,6 @@ part 'notifications_provider.g.dart';
 
 @riverpod
 class Notifications extends _$Notifications {
-  bool _isPolling = false;
-
   @override
   Future<List<NotifData>> build() async {
     final response = await NotificationsRepository.fetch();
@@ -34,12 +32,6 @@ class Notifications extends _$Notifications {
   }
 
   Future<void> poll() async {
-    if (_isPolling) {
-      return;
-    }
-
-    _isPolling = true;
-
     final notifications = await future;
 
     if (notifications.isNotEmpty) {
@@ -55,8 +47,6 @@ class Notifications extends _$Notifications {
     } else {
       ref.invalidateSelf();
     }
-
-    _isPolling = false;
   }
 
   Future<void> changeTitle(int postId, String newTitle) async {

@@ -14,6 +14,7 @@ import 'package:t4t/components/limited_length_text_form_field.dart';
 import 'package:t4t/components/post_type_selector.dart';
 import 'package:t4t/components/system_tap.dart';
 import 'package:t4t/constants.dart';
+import 'package:t4t/data/feed_data.dart';
 import 'package:t4t/data/post_data.dart';
 import 'package:t4t/design_system/system_action_page.dart';
 import 'package:t4t/design_system/system_button.dart';
@@ -22,10 +23,12 @@ import 'package:t4t/design_system/system_sheet.dart';
 import 'package:t4t/design_system/system_text.dart';
 import 'package:t4t/design_system/system_text_button.dart';
 import 'package:t4t/enums/text_size_enum.dart';
+import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/text_size_extensions.dart';
 import 'package:t4t/providers/notifications_provider.dart';
 import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/profile_posts_provider.dart';
+import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/simple_font_provider.dart';
 import 'package:t4t/utils/network_utils.dart';
 import 'package:t4t/utils/post_time.dart';
@@ -195,7 +198,12 @@ class _SetupPronounsPageState extends ConsumerState<NewPostPage> {
     }, (value) {
       HapticFeedback.vibrate();
 
-      ref.read(postsAuthenticatedProvider.notifier).poll(true);
+      ref.read(postsAuthenticatedProvider.notifier).add(FeedData(
+          post: PostData.fromMap(value),
+          like: null,
+          profile: ref.read(profileProvider).value!.min(),
+          likeCount: null));
+
       PostTime.setLastPostTime();
 
       resetPrefs();

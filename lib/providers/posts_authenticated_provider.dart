@@ -13,8 +13,6 @@ part 'posts_authenticated_provider.g.dart';
 
 @riverpod
 class PostsAuthenticated extends _$PostsAuthenticated {
-  bool _isPolling = false;
-
   @override
   Future<List<FeedData>> build() async {
     final filters = ref.watch(filtersProvider);
@@ -54,12 +52,6 @@ class PostsAuthenticated extends _$PostsAuthenticated {
   }
 
   Future<void> poll(bool initial) async {
-    if (_isPolling) {
-      return;
-    }
-
-    _isPolling = true;
-
     final filters = ref.read(filtersProvider);
     final tab = ref.read(tabProvider);
 
@@ -86,8 +78,14 @@ class PostsAuthenticated extends _$PostsAuthenticated {
         ref.invalidateSelf();
       }
     }
+  }
 
-    _isPolling = false;
+  Future<void> add(FeedData feedItem) async {
+    final posts = await future;
+
+    posts.insert(0, feedItem);
+
+    state = AsyncData(posts);
   }
 
   Future<void> setSupporter(bool supporter) async {

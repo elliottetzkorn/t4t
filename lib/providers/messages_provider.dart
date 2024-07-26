@@ -9,9 +9,6 @@ part 'messages_provider.g.dart';
 
 @riverpod
 class Messages extends _$Messages {
-  bool _isPolling = false;
-  bool _isPollingRead = false;
-
   @override
   Future<List<MessageData>> build(String profileId) async {
     final id = await ref.read(profileProvider.selectAsync((data) => data.id));
@@ -71,12 +68,6 @@ class Messages extends _$Messages {
   }
 
   Future<void> poll(String profileId) async {
-    if (_isPolling) {
-      return;
-    }
-
-    _isPolling = true;
-
     final List<MessageData> messages = await future;
 
     if (messages.isNotEmpty) {
@@ -94,17 +85,9 @@ class Messages extends _$Messages {
         state = AsyncData(messages);
       }
     }
-
-    _isPolling = false;
   }
 
   Future<void> pollRead(String profileId) async {
-    if (_isPollingRead) {
-      return;
-    }
-
-    _isPollingRead = true;
-
     final List<MessageData> messages = await future;
 
     if (messages.first.id != null &&
@@ -117,7 +100,5 @@ class Messages extends _$Messages {
         state = AsyncData(messages);
       }
     }
-
-    _isPollingRead = false;
   }
 }
