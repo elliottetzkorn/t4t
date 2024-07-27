@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/data/feed_data.dart';
@@ -16,25 +15,17 @@ part 'posts_authenticated_provider.g.dart';
 class PostsAuthenticated extends _$PostsAuthenticated {
   @override
   Future<List<FeedData>> build() async {
-    try {
-      final filters = ref.watch(filtersProvider);
+    final filters = ref.watch(filtersProvider);
 
-      final response = await PostsAuthenticatedRepository.fetch(
-          filters.distance,
-          filters.badges,
-          filters.minAge,
-          filters.maxAge,
-          filters.type,
-          filters.words);
+    final response = await PostsAuthenticatedRepository.fetch(
+        filters.distance,
+        filters.badges,
+        filters.minAge,
+        filters.maxAge,
+        filters.type,
+        filters.words);
 
-      return response.map<FeedData>((data) => FeedData.fromMap(data)).toList();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: SystemText(text: message, color: Colors.white),
-        backgroundColor: Theme.of(context).colorScheme.error,
-      ));
-      return [];
-    }
+    return response.map<FeedData>((data) => FeedData.fromMap(data)).toList();
   }
 
   Future<void> scroll() async {
