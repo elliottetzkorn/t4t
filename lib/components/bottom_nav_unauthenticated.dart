@@ -32,14 +32,13 @@ class BottomNavUnauthenticated extends ConsumerWidget {
               },
             ),
             SystemIconButton(
-              icon: SubPagesEnum.conversations.icon(),
-              filledIcon: SubPagesEnum.conversations.iconFilled(),
+              icon: PhosphorIcons.pen_nib_thin,
+              filledIcon: PhosphorIcons.pen_nib_fill,
               onPressed: () => {LoginSheet(context: context).show()},
             ),
             SystemIconButton(
-              size: SystemIconButtonSize.large,
-              icon: PhosphorIcons.chat_text_thin,
-              filledIcon: PhosphorIcons.chat_text_fill,
+              icon: SubPagesEnum.conversations.icon(),
+              filledIcon: SubPagesEnum.conversations.iconFilled(),
               onPressed: () => {LoginSheet(context: context).show()},
             ),
             SystemIconButton(
