@@ -58,6 +58,10 @@ class BottomNavAuthenticated extends ConsumerWidget {
                 scrollController: conversationsController,
                 pageController: pageController),
             NavBarButton(
+                page: SubPagesEnum.conversations,
+                scrollController: conversationsController,
+                pageController: pageController),
+            NavBarButton(
                 page: SubPagesEnum.notifications,
                 scrollController: notificationsController,
                 pageController: pageController),

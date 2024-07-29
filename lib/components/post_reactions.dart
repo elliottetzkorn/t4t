@@ -345,7 +345,7 @@ class _PostReactionsState extends ConsumerState<PostReactions> {
                               ? Icon(
                                   PhosphorIcons.spiral_thin,
                                   color: Theme.of(context).colorScheme.primary,
-                                  size: 30,
+                                  size: 32,
                                 )
                               : SystemText(
                                   text: likeTypes
