@@ -183,10 +183,7 @@ class SettingsCustomizationPage extends ConsumerWidget {
                                                 title:
                                                     fontScale.name.capitalize,
                                                 value: fontScale,
-                                                // i don't think this is right lol
-                                                groupValue: ref.watch(
-                                                    fontScaleProvider
-                                                        .select((it) => it)),
+                                                groupValue: ref.watch(fontScaleProvider),
                                                 onChanged: (p0) {
                                                   ref
                                                       .read(fontScaleProvider
