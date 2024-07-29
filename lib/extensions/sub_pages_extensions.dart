@@ -23,9 +23,9 @@ extension IconParsing on SubPagesEnum {
       case SubPagesEnum.posts:
         return PhosphorIcons.article_thin;
       case SubPagesEnum.conversations:
-        return PhosphorIcons.chats_thin;
+        return PhosphorIcons.chats_circle_thin;
       case SubPagesEnum.notifications:
-        return PhosphorIcons.spiral_thin;
+        return PhosphorIcons.heart_thin;
       case SubPagesEnum.profile:
         return PhosphorIcons.user_thin;
     }
@@ -36,9 +36,9 @@ extension IconParsing on SubPagesEnum {
       case SubPagesEnum.posts:
         return PhosphorIcons.article_fill;
       case SubPagesEnum.conversations:
-        return PhosphorIcons.chats_fill;
+        return PhosphorIcons.chats_circle_fill;
       case SubPagesEnum.notifications:
-        return PhosphorIcons.spiral_fill;
+        return PhosphorIcons.heart_fill;
       case SubPagesEnum.profile:
         return PhosphorIcons.user_fill;
     }
