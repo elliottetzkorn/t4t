@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/components/bottom_nav_authenticated.dart';
 import 'package:t4t/components/supporter_sheet.dart';
 import 'package:t4t/constants.dart';
@@ -42,6 +43,8 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    userId = Supabase.instance.client.auth.currentUser!.id;
 
     postsScrollController = ScrollController();
     chatsScrollController = ScrollController();
