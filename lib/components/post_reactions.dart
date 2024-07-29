@@ -342,11 +342,8 @@ class _PostReactionsState extends ConsumerState<PostReactions> {
                       width: tapTarget,
                       child: Center(
                           child: widget.like == null
-                              ? Icon(
-                                  PhosphorIcons.spiral_thin,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  size: 32,
-                                )
+                              ? Icon(PhosphorIcons.heart_thin,
+                                  color: Theme.of(context).colorScheme.primary)
                               : SystemText(
                                   text: likeTypes
                                       .firstWhere((element) =>

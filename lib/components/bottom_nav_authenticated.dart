@@ -37,9 +37,14 @@ class BottomNavAuthenticated extends ConsumerWidget {
                 page: SubPagesEnum.posts,
                 scrollController: postsController,
                 pageController: pageController),
+            NavBarButton(
+                page: SubPagesEnum.conversations,
+                scrollController: conversationsController,
+                pageController: pageController),
             SystemIconButton(
-              icon: PhosphorIcons.pen_nib_thin,
-              filledIcon: PhosphorIcons.pen_nib_fill,
+              size: SystemIconButtonSize.large,
+              icon: PhosphorIcons.chat_text_thin,
+              filledIcon: PhosphorIcons.chat_text_fill,
               focused: false,
               onPressed: () => {
                 ref.read(backgroundProvider.notifier).toggle(),
@@ -53,14 +58,6 @@ class BottomNavAuthenticated extends ConsumerWidget {
                 )
               },
             ),
-            NavBarButton(
-                page: SubPagesEnum.conversations,
-                scrollController: conversationsController,
-                pageController: pageController),
-            NavBarButton(
-                page: SubPagesEnum.conversations,
-                scrollController: conversationsController,
-                pageController: pageController),
             NavBarButton(
                 page: SubPagesEnum.notifications,
                 scrollController: notificationsController,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:t4t/design_system/system_badge.dart';
 import 'package:t4t/constants.dart';
 
-enum SystemIconButtonSize { small, regular }
+enum SystemIconButtonSize { small, regular, large }
 
 class SystemIconButton extends StatefulWidget {
   const SystemIconButton(
@@ -32,7 +33,7 @@ class SystemIconButton extends StatefulWidget {
 
 class _SystemIconButtonState extends State<SystemIconButton> {
   bool tapped = false;
-  double iconSize = 36;
+  double iconSize = 28;
 
   void tappedDown(TapDownDetails? t) {
     if (widget.enabled) {
@@ -49,7 +50,13 @@ class _SystemIconButtonState extends State<SystemIconButton> {
       });
     }
 
-    HapticFeedback.selectionClick();
+    if (widget.icon != PhosphorIcons.arrow_left_thin && widget.enabled) {
+      if (widget.size == SystemIconButtonSize.large) {
+        HapticFeedback.lightImpact();
+      } else {
+        HapticFeedback.selectionClick();
+      }
+    }
 
     if (widget.enabled) {
       widget.onPressed();
@@ -68,11 +75,19 @@ class _SystemIconButtonState extends State<SystemIconButton> {
         return tapTarget / goldenRatio;
       case SystemIconButtonSize.regular:
         return tapTarget;
+      case SystemIconButtonSize.large:
+        return tapTarget;
     }
   }
 
   double getMaxWidth() {
-    return tapTarget;
+    switch (widget.size) {
+      case SystemIconButtonSize.small:
+      case SystemIconButtonSize.regular:
+        return tapTarget;
+      case SystemIconButtonSize.large:
+        return tapTarget;
+    }
   }
 
   double getIconSize() {
@@ -81,6 +96,8 @@ class _SystemIconButtonState extends State<SystemIconButton> {
         return iconSize / goldenRatio;
       case SystemIconButtonSize.regular:
         return iconSize;
+      case SystemIconButtonSize.large:
+        return iconSize * goldenRatio;
     }
   }
 
