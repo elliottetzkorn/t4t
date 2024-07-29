@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:t4t/data/post_min_data.dart';
 import 'package:t4t/design_system/system_linkable_text.dart';
 import 'package:t4t/design_system/system_text.dart';
 import 'package:t4t/enums/text_size_enum.dart';
 import 'package:t4t/constants.dart';
+import 'package:t4t/providers/font_scale_provider.dart';
+import 'package:t4t/utils/font_utils.dart';
 
-class PostMinCell extends StatelessWidget {
+class PostMinCell extends ConsumerWidget {
   const PostMinCell({super.key, required this.post});
 
   final PostMinData post;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,7 +22,7 @@ class PostMinCell extends StatelessWidget {
           SystemText(
             underline: true,
             text: post.title,
-            size: TextSizeEnum.eighteen,
+            size: FontUtils.deriveScaledTextSize(ref.watch(fontScaleProvider), [TextSizeEnum.fifteen,TextSizeEnum.eighteen,TextSizeEnum.twentyOne]),
           ),
           const SizedBox(
             height: spacingThree,

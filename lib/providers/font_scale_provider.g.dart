@@ -6,7 +6,7 @@ part of 'font_scale_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fontScaleHash() => r'2c9eabcfa0cdf167f062cdc2807a0f2a5e4ab802';
+String _$fontScaleHash() => r'47d6af6a8156749a6af5a5349a5c38531ed05d52';
 
 /// See also [FontScale].
 @ProviderFor(FontScale)
