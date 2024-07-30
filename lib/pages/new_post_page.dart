@@ -23,8 +23,10 @@ import 'package:t4t/design_system/system_sheet.dart';
 import 'package:t4t/design_system/system_text.dart';
 import 'package:t4t/design_system/system_text_button.dart';
 import 'package:t4t/enums/text_size_enum.dart';
+import 'package:t4t/extensions/font_scale_extensions.dart';
 import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/text_size_extensions.dart';
+import 'package:t4t/providers/font_scale_provider.dart';
 import 'package:t4t/providers/notifications_provider.dart';
 import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/profile_posts_provider.dart';
@@ -298,6 +300,8 @@ class _SetupPronounsPageState extends ConsumerState<NewPostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final fontScale = ref.watch(fontScaleProvider);
+
     return SystemActionPage(
         scrollController: scrollController,
         body: loading
@@ -459,7 +463,8 @@ class _SetupPronounsPageState extends ConsumerState<NewPostPage> {
                                     ? fontSimple
                                     : fontWaxWing,
                                 color: Theme.of(context).colorScheme.primary,
-                                fontSize: TextSizeEnum.fifteen.toFontSize()),
+                                fontSize: TextSizeEnum.fifteen.toFontSize() *
+                                    fontScale.toMultiple()),
                             textEditingController: locationTextController,
                             googleAPIKey: dotenv.env['MAPS_API_KEY']!,
                             isLatLngRequired: true,

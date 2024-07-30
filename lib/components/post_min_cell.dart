@@ -5,8 +5,6 @@ import 'package:t4t/design_system/system_linkable_text.dart';
 import 'package:t4t/design_system/system_text.dart';
 import 'package:t4t/enums/text_size_enum.dart';
 import 'package:t4t/constants.dart';
-import 'package:t4t/providers/font_scale_provider.dart';
-import 'package:t4t/utils/font_utils.dart';
 
 class PostMinCell extends ConsumerWidget {
   const PostMinCell({super.key, required this.post});
@@ -20,10 +18,7 @@ class PostMinCell extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SystemText(
-            underline: true,
-            text: post.title,
-            size: FontUtils.deriveScaledTextSize(ref.watch(fontScaleProvider), [TextSizeEnum.fifteen,TextSizeEnum.eighteen,TextSizeEnum.twentyOne]),
-          ),
+              underline: true, text: post.title, size: TextSizeEnum.eighteen),
           const SizedBox(
             height: spacingThree,
           ),

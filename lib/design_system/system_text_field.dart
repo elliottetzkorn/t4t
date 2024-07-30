@@ -3,7 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/enums/text_size_enum.dart';
+import 'package:t4t/extensions/font_scale_extensions.dart';
 import 'package:t4t/extensions/text_size_extensions.dart';
+import 'package:t4t/providers/font_scale_provider.dart';
 import 'package:t4t/providers/simple_font_provider.dart';
 
 class SystemTextField extends ConsumerWidget {
@@ -63,6 +65,8 @@ class SystemTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final fontScale = ref.watch(fontScaleProvider);
+
     return TextField(
         keyboardType: keyboardType,
         enabled: enabled,
@@ -75,7 +79,8 @@ class SystemTextField extends ConsumerWidget {
             fontFamily:
                 ref.watch(simpleFontProvider) ? fontSimple : fontWaxWing,
             color: foreground(context),
-            fontSize: TextSizeEnum.fifteen.toFontSize()),
+            fontSize:
+                TextSizeEnum.fifteen.toFontSize() * fontScale.toMultiple()),
         decoration: InputDecoration(
             suffixIcon: suffixIcon == null
                 ? null
