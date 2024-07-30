@@ -5,14 +5,17 @@ class ProfilePostsRepository {
   ProfilePostsRepository._();
 
   static Future<List<Map<String, dynamic>>> fetch() async {
-    return Supabase.instance.client
-        .rpc('user_posts3', params: {'num': fetchQty, 'last_post_time': null});
+    return Supabase.instance.client.rpc('user_posts4',
+        params: {'user_id': userId, 'num': fetchQty, 'last_post_time': null});
   }
 
   static Future<List<Map<String, dynamic>>> fetchBeforeDateTime(
       DateTime time) async {
-    return Supabase.instance.client.rpc('user_posts3',
-        params: {'num': fetchQty, 'last_post_time': time.toIso8601String()});
+    return Supabase.instance.client.rpc('user_posts4', params: {
+      'user_id': userId,
+      'num': fetchQty,
+      'last_post_time': time.toIso8601String()
+    });
   }
 
   static Future<List<Map<String, dynamic>>> adminFetch(String pid) async {

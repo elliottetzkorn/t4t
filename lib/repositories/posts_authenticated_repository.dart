@@ -11,7 +11,8 @@ class PostsAuthenticatedRepository {
       int maxAge,
       int type,
       List<String> words) async {
-    return Supabase.instance.client.rpc('posts_authenticated_scroll7', params: {
+    return Supabase.instance.client.rpc('posts_authenticated_scroll8', params: {
+      'user_id': userId,
       'distance': valueToDistance[distance],
       'badge_ids': badges,
       'min_age': minAge,
@@ -31,7 +32,8 @@ class PostsAuthenticatedRepository {
       int type,
       DateTime time,
       List<String> words) async {
-    return Supabase.instance.client.rpc('posts_authenticated_scroll7', params: {
+    return Supabase.instance.client.rpc('posts_authenticated_scroll8', params: {
+      'user_id': userId,
       'distance': valueToDistance[distance],
       'badge_ids': badges,
       'min_age': minAge,
@@ -51,7 +53,8 @@ class PostsAuthenticatedRepository {
       int type,
       DateTime time,
       List<String> words) async {
-    return Supabase.instance.client.rpc('posts_authenticated_poll7', params: {
+    return Supabase.instance.client.rpc('posts_authenticated_poll8', params: {
+      'user_id': userId,
       'distance': valueToDistance[distance],
       'badge_ids': badges,
       'min_age': minAge,

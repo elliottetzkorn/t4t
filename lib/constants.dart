@@ -129,6 +129,8 @@ const int maxDistanceValue = 999999;
 
 const int postingTimeLimitMinutes = 10;
 
+late String userId;
+
 late SharedPreferences prefs;
 const String prefsLastPostTime = 'shared_prefs_post_time';
 const String prefsPremiumUpsellShowTime = 'shared_prefs_premium_time2';
