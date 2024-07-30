@@ -33,7 +33,7 @@ class SystemIconButton extends StatefulWidget {
 
 class _SystemIconButtonState extends State<SystemIconButton> {
   bool tapped = false;
-  double iconSize = 28;
+  double iconSize = 34;
 
   void tappedDown(TapDownDetails? t) {
     if (widget.enabled) {
