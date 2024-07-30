@@ -56,7 +56,7 @@ class MessagesRepository {
         .from('messages')
         .update({'read': true})
         .eq('sender_id', profileId)
-        .eq('receiver_id', Supabase.instance.client.auth.currentUser!.id);
+        .eq('receiver_id', userId);
   }
 
   static Future<void> delete(int messageId) async {
