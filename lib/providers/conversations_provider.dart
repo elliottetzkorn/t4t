@@ -10,6 +10,8 @@ part 'conversations_provider.g.dart';
 
 @riverpod
 class Conversations extends _$Conversations {
+  bool _isPolling = false;
+
   @override
   Future<List<ConversationData>> build() async {
     final response = await ConversationsRepository.fetch();
@@ -41,6 +43,10 @@ class Conversations extends _$Conversations {
   }
 
   Future<void> poll() async {
+    if (_isPolling) return;
+
+    _isPolling = true;
+
     final List<ConversationData> conversations = await future;
 
     if (conversations.isNotEmpty) {
@@ -77,6 +83,8 @@ class Conversations extends _$Conversations {
     } else {
       ref.invalidateSelf();
     }
+
+    _isPolling = false;
   }
 
   Future<void> setRead(String profileId) async {
