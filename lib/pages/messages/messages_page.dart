@@ -76,11 +76,19 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   Timer? pollTimer;
 
   final FocusNode _focusNode = FocusNode();
+  late String conversationId;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    List<String> uuids = [
+      Supabase.instance.client.auth.currentSession!.user.id,
+      widget.data.profile.id
+    ]..sort();
+    String sortedUuidString = uuids.join();
+    conversationId = const Uuid().v5(Uuid.NAMESPACE_URL, sortedUuidString);
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
@@ -209,6 +217,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
               'post_body': showPost && widget.data.post != null
                   ? widget.data.post!.body
                   : null,
+              'conversation_id': conversationId,
             })
             .select('id')
             .single();
