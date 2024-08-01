@@ -9,6 +9,8 @@ extension DoubleParsing on TextSizeEnum {
         return 15;
       case TextSizeEnum.eighteen:
         return 18;
+      case TextSizeEnum.twentyOne:
+        return 21;
       case TextSizeEnum.twentyNine:
         return 29;
     }

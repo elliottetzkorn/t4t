@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/enums/text_size_enum.dart';
+import 'package:t4t/extensions/font_scale_extensions.dart';
 import 'package:t4t/extensions/text_size_extensions.dart';
+import 'package:t4t/providers/font_scale_provider.dart';
 import 'package:t4t/providers/simple_font_provider.dart';
 
 class SystemText extends ConsumerWidget {
@@ -31,6 +33,8 @@ class SystemText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final fontScale = ref.watch(fontScaleProvider);
+
     return Text(text,
         maxLines: maxLines ?? 999,
         textAlign: align,
@@ -39,7 +43,7 @@ class SystemText extends ConsumerWidget {
             decoration: underline ? TextDecoration.underline : null,
             inherit: false,
             height: lineHeight,
-            fontSize: size.toFontSize(),
+            fontSize: size.toFontSize() * fontScale.toMultiple(),
             color: color ?? Theme.of(context).colorScheme.primary,
             fontFamily:
                 ref.watch(simpleFontProvider) ? fontSimple : fontWaxWing,

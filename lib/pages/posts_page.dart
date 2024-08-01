@@ -12,12 +12,16 @@ import 'package:t4t/design_system/system_error.dart';
 import 'package:t4t/design_system/system_loader.dart';
 import 'package:t4t/design_system/system_sheet.dart';
 import 'package:t4t/design_system/system_text_button.dart';
+import 'package:t4t/enums/text_size_enum.dart';
 import 'package:t4t/extensions/color_extensions.dart';
 import 'package:t4t/extensions/filters_data_extensions.dart';
+import 'package:t4t/extensions/font_scale_extensions.dart';
 import 'package:t4t/extensions/int_extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:t4t/extensions/text_size_extensions.dart';
 import 'package:t4t/pages/settings/filters_page.dart';
 import 'package:t4t/providers/filters/filters_provider.dart';
+import 'package:t4t/providers/font_scale_provider.dart';
 import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/posts_unauthenticated_provider.dart';
 import 'package:t4t/providers/resolved_brightness_provider.dart';
@@ -30,8 +34,8 @@ class PostsPage extends ConsumerWidget {
   final ScrollController scrollController;
   final bool authenticated;
 
-  RichText buildFiltersText(
-      BuildContext context, WidgetRef ref, FiltersData filters) {
+  RichText buildFiltersText(BuildContext context, WidgetRef ref,
+      FiltersData filters, double fontScale) {
     return RichText(
         text: TextSpan(
             style: TextStyle(
@@ -39,7 +43,7 @@ class PostsPage extends ConsumerWidget {
                     ref.watch(simpleFontProvider) ? fontSimple : fontWaxWing,
                 color: Theme.of(context).colorScheme.tertiary,
                 height: lineHeight,
-                fontSize: 15),
+                fontSize: TextSizeEnum.fifteen.toFontSize() * fontScale),
             children: <TextSpan>[
           if (filters.words.isNotEmpty)
             TextSpan(
@@ -128,6 +132,8 @@ class PostsPage extends ConsumerWidget {
   }
 
   Widget postsHeader(BuildContext context, WidgetRef ref) {
+    final fontScale = ref.watch(fontScaleProvider);
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Header(
         title: ref
@@ -136,7 +142,8 @@ class PostsPage extends ConsumerWidget {
       ),
       Padding(
           padding: const EdgeInsets.all(spacingFive),
-          child: buildFiltersText(context, ref, ref.read(filtersProvider))),
+          child: buildFiltersText(
+              context, ref, ref.read(filtersProvider), fontScale.toMultiple())),
       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
         if (!ref.read(filtersProvider).isDefault())
           SystemTextButton(
