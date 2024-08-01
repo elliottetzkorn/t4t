@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:t4t/data/message_data.dart';
 import 'package:t4t/extensions/strings_extensions.dart';
-import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/repositories/messages_repository.dart';
 
 part 'messages_provider.g.dart';
@@ -12,9 +11,8 @@ class Messages extends _$Messages {
   bool _isPolling = false;
 
   @override
-  Future<List<MessageData>> build(String profileId) async {
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-    final response = await MessagesRepository.fetch(id, profileId);
+  Future<List<MessageData>> build(String conversationId) async {
+    final response = await MessagesRepository.fetch(conversationId);
 
     return response
         .map<MessageData>((data) => MessageData.fromJson(data))
@@ -56,12 +54,11 @@ class Messages extends _$Messages {
     }
   }
 
-  Future<void> scroll(String profileId) async {
+  Future<void> scroll(String conversationId) async {
     final List<MessageData> messages = await future;
-    final id = await ref.read(profileProvider.selectAsync((data) => data.id));
 
     final response = await MessagesRepository.fetchBeforeDateTime(
-        id, profileId, messages.last.createdAt);
+        conversationId, messages.last.createdAt);
 
     messages.addAll(
         response.map<MessageData>((data) => MessageData.fromJson(data)));
@@ -69,7 +66,7 @@ class Messages extends _$Messages {
     state = AsyncData(messages);
   }
 
-  Future<void> poll(String profileId) async {
+  Future<void> poll(String conversationId) async {
     if (_isPolling) return;
 
     _isPolling = true;
@@ -77,10 +74,8 @@ class Messages extends _$Messages {
     final List<MessageData> messages = await future;
 
     if (messages.isNotEmpty) {
-      final id = await ref.read(profileProvider.selectAsync((data) => data.id));
-
       final response = await MessagesRepository.fetchAfterDateTime(
-          id, profileId, messages.first.createdAt);
+          conversationId, messages.first.createdAt);
 
       final messagesTemp =
           response.map<MessageData>((data) => MessageData.fromJson(data));

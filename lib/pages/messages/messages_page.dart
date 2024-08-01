@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
@@ -83,12 +85,9 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    List<String> uuids = [
-      Supabase.instance.client.auth.currentSession!.user.id,
-      widget.data.profile.id
-    ]..sort();
-    String sortedUuidString = uuids.join();
-    conversationId = const Uuid().v5(Uuid.NAMESPACE_URL, sortedUuidString);
+    conversationId = generateConversationId(
+        Supabase.instance.client.auth.currentSession!.user.id,
+        widget.data.profile.id);
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
@@ -107,6 +106,29 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
     }
 
     setPollTimers();
+  }
+
+  String generateConversationId(String senderId, String receiverId) {
+    // Determine the least and greatest IDs
+    final leastId = senderId.compareTo(receiverId) < 0 ? senderId : receiverId;
+    final greatestId =
+        senderId.compareTo(receiverId) >= 0 ? senderId : receiverId;
+
+    // Concatenate the IDs
+    final concatenatedIds = leastId + greatestId;
+
+    // Generate the MD5 hash
+    final md5Hash = md5.convert(utf8.encode(concatenatedIds)).toString();
+
+    // Convert the MD5 hash to a UUID
+    final conversationId = _md5ToUuid(md5Hash);
+
+    return conversationId;
+  }
+
+  String _md5ToUuid(String md5Hash) {
+    // Convert the MD5 hash to a UUID by rearranging the hash string
+    return '${md5Hash.substring(0, 8)}-${md5Hash.substring(8, 12)}-${md5Hash.substring(12, 16)}-${md5Hash.substring(16, 20)}-${md5Hash.substring(20, 32)}';
   }
 
   @override
@@ -136,12 +158,10 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   }
 
   void messageFetch() {
+    ref.read(messagesProvider(conversationId).notifier).poll(conversationId);
     ref
-        .read(messagesProvider(widget.data.profile.id).notifier)
-        .poll(widget.data.profile.id);
-    ref
-        .read(messagesProvider(widget.data.profile.id).notifier)
-        .pollRead(widget.data.profile.id);
+        .read(messagesProvider(conversationId).notifier)
+        .pollRead(conversationId);
   }
 
   @override
@@ -191,9 +211,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
       setState(() {
         _deliveringText = true;
 
-        ref
-            .read(messagesProvider(widget.data.profile.id).notifier)
-            .add(message);
+        ref.read(messagesProvider(conversationId).notifier).add(message);
 
         prefs.setString(prefsMessage + widget.data.profile.id, '');
       });
@@ -228,7 +246,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
 
         message = message.copyWith(id: value['id']);
         ref
-            .read(messagesProvider(widget.data.profile.id).notifier)
+            .read(messagesProvider(conversationId).notifier)
             .updateMessage(message);
 
         setState(() {
@@ -237,9 +255,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
       }, () {
         setState(() {
           showPost = true;
-          ref
-              .read(messagesProvider(widget.data.profile.id).notifier)
-              .remove(message);
+          ref.read(messagesProvider(conversationId).notifier).remove(message);
         });
       }, false);
 
@@ -314,7 +330,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   Widget build(BuildContext context) {
     final profile = ref.read(profileProvider).value!;
     final AsyncValue<List<MessageData>> messages =
-        ref.watch(messagesProvider(widget.data.profile.id));
+        ref.watch(messagesProvider(conversationId));
 
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: [
@@ -341,9 +357,8 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
                       if (i == messagesValue.length - 1 &&
                           messagesValue.length % fetchQty == 0) {
                         ref
-                            .read(messagesProvider(widget.data.profile.id)
-                                .notifier)
-                            .scroll(widget.data.profile.id);
+                            .read(messagesProvider(conversationId).notifier)
+                            .scroll(conversationId);
                       }
 
                       if (i == 0 &&
@@ -354,7 +369,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
                         MessagesRepository.sendRead(message.id!).then((value) {
                           ref
                               .read(conversationsProvider.notifier)
-                              .setRead(widget.data.profile.id);
+                              .setRead(conversationId);
                         });
                       }
 
@@ -406,8 +421,8 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
                     },
                   ),
                 AsyncError() => SystemError(
-                    onPressed: () => ref
-                        .invalidate(messagesProvider(widget.data.profile.id))),
+                    onPressed: () =>
+                        ref.invalidate(messagesProvider(conversationId))),
                 _ => SystemLoader(
                     color: widget.data.profile.color
                         .adjusted(ref.watch(resolvedBrightnessProvider))),

@@ -6,7 +6,7 @@ part of 'messages_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$messagesHash() => r'fa977cac1a2f6339f947a6a4adf3741e1820a167';
+String _$messagesHash() => r'b6e7ee054aea7e43f52d062d67e7726db65ffc5e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 
 abstract class _$Messages
     extends BuildlessAutoDisposeAsyncNotifier<List<MessageData>> {
-  late final String profileId;
+  late final String conversationId;
 
   FutureOr<List<MessageData>> build(
-    String profileId,
+    String conversationId,
   );
 }
 
@@ -49,10 +49,10 @@ class MessagesFamily extends Family<AsyncValue<List<MessageData>>> {
 
   /// See also [Messages].
   MessagesProvider call(
-    String profileId,
+    String conversationId,
   ) {
     return MessagesProvider(
-      profileId,
+      conversationId,
     );
   }
 
@@ -61,7 +61,7 @@ class MessagesFamily extends Family<AsyncValue<List<MessageData>>> {
     covariant MessagesProvider provider,
   ) {
     return call(
-      provider.profileId,
+      provider.conversationId,
     );
   }
 
@@ -85,9 +85,9 @@ class MessagesProvider
     extends AutoDisposeAsyncNotifierProviderImpl<Messages, List<MessageData>> {
   /// See also [Messages].
   MessagesProvider(
-    String profileId,
+    String conversationId,
   ) : this._internal(
-          () => Messages()..profileId = profileId,
+          () => Messages()..conversationId = conversationId,
           from: messagesProvider,
           name: r'messagesProvider',
           debugGetCreateSourceHash:
@@ -96,7 +96,7 @@ class MessagesProvider
                   : _$messagesHash,
           dependencies: MessagesFamily._dependencies,
           allTransitiveDependencies: MessagesFamily._allTransitiveDependencies,
-          profileId: profileId,
+          conversationId: conversationId,
         );
 
   MessagesProvider._internal(
@@ -106,17 +106,17 @@ class MessagesProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.profileId,
+    required this.conversationId,
   }) : super.internal();
 
-  final String profileId;
+  final String conversationId;
 
   @override
   FutureOr<List<MessageData>> runNotifierBuild(
     covariant Messages notifier,
   ) {
     return notifier.build(
-      profileId,
+      conversationId,
     );
   }
 
@@ -125,13 +125,13 @@ class MessagesProvider
     return ProviderOverride(
       origin: this,
       override: MessagesProvider._internal(
-        () => create()..profileId = profileId,
+        () => create()..conversationId = conversationId,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        profileId: profileId,
+        conversationId: conversationId,
       ),
     );
   }
@@ -144,21 +144,21 @@ class MessagesProvider
 
   @override
   bool operator ==(Object other) {
-    return other is MessagesProvider && other.profileId == profileId;
+    return other is MessagesProvider && other.conversationId == conversationId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, profileId.hashCode);
+    hash = _SystemHash.combine(hash, conversationId.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin MessagesRef on AutoDisposeAsyncNotifierProviderRef<List<MessageData>> {
-  /// The parameter `profileId` of this provider.
-  String get profileId;
+  /// The parameter `conversationId` of this provider.
+  String get conversationId;
 }
 
 class _MessagesProviderElement
@@ -167,7 +167,7 @@ class _MessagesProviderElement
   _MessagesProviderElement(super.provider);
 
   @override
-  String get profileId => (origin as MessagesProvider).profileId;
+  String get conversationId => (origin as MessagesProvider).conversationId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
