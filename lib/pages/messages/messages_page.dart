@@ -184,11 +184,11 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
           showPost = true;
         });
       }, false);
-
-      setState(() {
-        _deliveringText = false;
-      });
     }
+
+    setState(() {
+      _deliveringText = false;
+    });
   }
 
   bool nextPostFromSameSender(int i, List<MessageData> messages) {
@@ -335,9 +335,14 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
                                                         ? AppLocalizations.of(
                                                                 context)!
                                                             .read
-                                                        : AppLocalizations.of(
-                                                                context)!
-                                                            .delivered,
+                                                        : _deliveringText
+                                                            ? AppLocalizations
+                                                                    .of(
+                                                                        context)!
+                                                                .delivering
+                                                            : AppLocalizations
+                                                                    .of(context)!
+                                                                .delivered,
                                                     color: profile.color
                                                         .adjusted(ref.watch(
                                                             resolvedBrightnessProvider)),
@@ -388,15 +393,21 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
                         editingAction: () {},
                         autoFocus: true,
                         textInputAction: TextInputAction.send,
-                        suffixIcon: messageText == null || messageText!.isEmpty
+                        suffixIcon: messageText == null ||
+                                messageText!.isEmpty ||
+                                _deliveringText
                             ? null
                             : PhosphorIcons.arrow_circle_up_thin,
-                        onSuffixTapped: () {
-                          _sendMessage();
-                        },
-                        onSubmitted: (p0) {
-                          _sendMessage();
-                        },
+                        onSuffixTapped: _deliveringText
+                            ? null
+                            : () {
+                                _sendMessage();
+                              },
+                        onSubmitted: _deliveringText
+                            ? null
+                            : (p0) {
+                                _sendMessage();
+                              },
                         primaryColor: profile.color
                             .adjusted(ref.watch(resolvedBrightnessProvider)),
                         secondaryColor:
