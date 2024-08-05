@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/components/login_sheet.dart';
 import 'package:t4t/components/system_tap.dart';
@@ -360,6 +361,19 @@ class _PostReactionsState extends ConsumerState<PostReactions> {
                 ),
                 Row(
                   children: [
+                    SystemTextButton(
+                      light: true,
+                      text: AppLocalizations.of(context)!.share,
+                      onPressed: () {
+                        Share.shareUri(
+                          Uri.parse(
+                              'https://t4t.social/posts/${widget.post.id}'),
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      width: spacingFive,
+                    ),
                     SystemButton(
                         backgroundColor:
                             Theme.of(context).colorScheme.primaryContainer,

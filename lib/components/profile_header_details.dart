@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/data/profile_data.dart';
 import 'package:t4t/design_system/system_button.dart';
@@ -219,6 +220,16 @@ class ProfileHeaderDetails extends ConsumerWidget {
                 light: true,
                 text: AppLocalizations.of(context)!.block,
                 onPressed: () => checkIfBlock(context, profile.id, ref),
+              ),
+              SystemTextButton(
+                light: true,
+                text: AppLocalizations.of(context)!.share,
+                onPressed: () => {
+                  Share.shareUri(
+                    Uri.parse(
+                        'https://t4t.social/profiles/${profile.username}'),
+                  )
+                },
               ),
               Padding(
                   padding: const EdgeInsets.only(left: spacingFive),

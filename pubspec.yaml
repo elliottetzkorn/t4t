@@ -52,6 +52,7 @@ dependencies:
   uuid: ^4.4.0
   flutter_dotenv: ^5.0.0
   crypto: ^3.0.1
+  share_plus: ^10.0.0
 
 dev_dependencies:
   flutter_test:
