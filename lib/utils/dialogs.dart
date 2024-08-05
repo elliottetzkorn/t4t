@@ -5,7 +5,7 @@ import 'package:t4t/design_system/system_dialog.dart';
 import 'package:t4t/design_system/system_text_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:t4t/extensions/strings_extensions.dart';
-import 'package:t4t/providers/messages_provider.dart';
+import 'package:t4t/repositories/messages_repository.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Dialogs {
@@ -26,12 +26,12 @@ class Dialogs {
             if (message.senderId.isOwnId())
               SystemTextButton(
                 text: AppLocalizations.of(context)!.delete,
-                onPressed: () {
-                  ref
-                      .read(messagesProvider(profileId).notifier)
-                      .delete(message);
-                  Navigator.of(context).pop();
-                },
+                onPressed: message.id == null
+                    ? null
+                    : () {
+                        MessagesRepository.delete(message.id!);
+                        Navigator.of(context).pop();
+                      },
               ),
           ],
         );

@@ -85,7 +85,7 @@ class PostsAuthenticated extends _$PostsAuthenticated {
       }
     }
 
-    _isPolling = true;
+    _isPolling = false;
   }
 
   Future<void> add(FeedData feedItem) async {

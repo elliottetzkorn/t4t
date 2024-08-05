@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
@@ -15,7 +17,6 @@ import 'package:t4t/constants.dart';
 import 'package:t4t/data/message_data.dart';
 import 'package:t4t/data/post_min_data.dart';
 import 'package:t4t/data/profile_min_data.dart';
-import 'package:t4t/design_system/system_error.dart';
 import 'package:t4t/design_system/system_icon_button.dart';
 import 'package:t4t/design_system/system_loader.dart';
 import 'package:t4t/design_system/system_text.dart';
@@ -26,13 +27,11 @@ import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/profile_min_extensions.dart';
 import 'package:t4t/extensions/strings_extensions.dart';
 import 'package:t4t/providers/conversations_provider.dart';
-import 'package:t4t/providers/messages_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/resolved_brightness_provider.dart';
 import 'package:t4t/repositories/messages_repository.dart';
 import 'package:t4t/utils/dialogs.dart';
 import 'package:t4t/utils/network_utils.dart';
-import 'package:uuid/uuid.dart';
 
 class MessagePageData {
   const MessagePageData(
@@ -64,8 +63,7 @@ class MessagesPage extends ConsumerStatefulWidget {
   ConsumerState<MessagesPage> createState() => _MessagesConversationPageState();
 }
 
-class _MessagesConversationPageState extends ConsumerState<MessagesPage>
-    with WidgetsBindingObserver {
+class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
   TextEditingController textEditingController = TextEditingController();
 
   bool _deliveringText = false;
@@ -73,14 +71,25 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   bool showPost = true;
 
   String? messageText;
-  Timer? pollTimer;
 
   final FocusNode _focusNode = FocusNode();
+  late String conversationId;
+  late final Stream<List<MessageData>> _messagesStream;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+
+    conversationId = generateConversationId(
+        Supabase.instance.client.auth.currentSession!.user.id,
+        widget.data.profile.id);
+
+    _messagesStream = Supabase.instance.client
+        .from('messages')
+        .stream(primaryKey: ['id'])
+        .eq('conversation_id', conversationId)
+        .order('id')
+        .map((maps) => maps.map((map) => MessageData.fromJson(map)).toList());
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
@@ -97,62 +106,29 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
             .setRead(widget.data.profile.id);
       });
     }
-
-    setPollTimers();
   }
 
-  @override
-  void dispose() {
-    endPollTimers();
-    WidgetsBinding.instance.removeObserver(this);
+  String generateConversationId(String senderId, String receiverId) {
+    // Determine the least and greatest IDs
+    final leastId = senderId.compareTo(receiverId) < 0 ? senderId : receiverId;
+    final greatestId =
+        senderId.compareTo(receiverId) >= 0 ? senderId : receiverId;
 
-    super.dispose();
+    // Concatenate the IDs
+    final concatenatedIds = leastId + greatestId;
+
+    // Generate the MD5 hash
+    final md5Hash = md5.convert(utf8.encode(concatenatedIds)).toString();
+
+    // Convert the MD5 hash to a UUID
+    final conversationId = _md5ToUuid(md5Hash);
+
+    return conversationId;
   }
 
-  void endPollTimers() {
-    if (pollTimer != null) {
-      pollTimer!.cancel();
-      pollTimer = null;
-    }
-  }
-
-  void setPollTimers() {
-    if (pollTimer != null) {
-      pollTimer!.cancel();
-    }
-
-    pollTimer ??=
-        Timer.periodic(const Duration(seconds: messagesPollingTime), (Timer t) {
-      messageFetch();
-    });
-  }
-
-  void messageFetch() {
-    ref
-        .read(messagesProvider(widget.data.profile.id).notifier)
-        .poll(widget.data.profile.id);
-    ref
-        .read(messagesProvider(widget.data.profile.id).notifier)
-        .pollRead(widget.data.profile.id);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        messageFetch();
-        setPollTimers();
-        break;
-      case AppLifecycleState.inactive:
-        break;
-      case AppLifecycleState.paused:
-        endPollTimers();
-        break;
-      case AppLifecycleState.detached:
-        break;
-      case AppLifecycleState.hidden:
-        break;
-    }
+  String _md5ToUuid(String md5Hash) {
+    // Convert the MD5 hash to a UUID by rearranging the hash string
+    return '${md5Hash.substring(0, 8)}-${md5Hash.substring(8, 12)}-${md5Hash.substring(12, 16)}-${md5Hash.substring(16, 20)}-${md5Hash.substring(20, 32)}';
   }
 
   Future<void> updatePostFromPrefs() async {
@@ -166,26 +142,8 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
       messageText = null;
       textEditingController.clear();
 
-      MessageData message = MessageData(
-          tempId: const Uuid().v4(),
-          postTitle: showPost && widget.data.post != null
-              ? widget.data.post!.title
-              : null,
-          postBody: showPost && widget.data.post != null
-              ? widget.data.post!.body
-              : null,
-          text: sendText,
-          senderId: Supabase.instance.client.auth.currentSession!.user.id,
-          receiverId: widget.data.profile.id,
-          createdAt: DateTime.now().toUtc(),
-          read: false);
-
       setState(() {
         _deliveringText = true;
-
-        ref
-            .read(messagesProvider(widget.data.profile.id).notifier)
-            .add(message);
 
         prefs.setString(prefsMessage + widget.data.profile.id, '');
       });
@@ -209,6 +167,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
               'post_body': showPost && widget.data.post != null
                   ? widget.data.post!.body
                   : null,
+              'conversation_id': conversationId,
             })
             .select('id')
             .single();
@@ -217,27 +176,19 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
             .read(conversationsProvider.notifier)
             .messageSent(widget.data.profile, sendText);
 
-        message = message.copyWith(id: value['id']);
-        ref
-            .read(messagesProvider(widget.data.profile.id).notifier)
-            .updateMessage(message);
-
         setState(() {
           showPost = false;
         });
       }, () {
         setState(() {
           showPost = true;
-          ref
-              .read(messagesProvider(widget.data.profile.id).notifier)
-              .remove(message);
         });
       }, false);
-
-      setState(() {
-        _deliveringText = false;
-      });
     }
+
+    setState(() {
+      _deliveringText = false;
+    });
   }
 
   bool nextPostFromSameSender(int i, List<MessageData> messages) {
@@ -304,8 +255,6 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
   @override
   Widget build(BuildContext context) {
     final profile = ref.read(profileProvider).value!;
-    final AsyncValue<List<MessageData>> messages =
-        ref.watch(messagesProvider(widget.data.profile.id));
 
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: [
@@ -320,89 +269,94 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
                   color: widget.data.profile.color
                       .adjusted(ref.watch(resolvedBrightnessProvider))),
               Flexible(
-                  child: switch (messages) {
-                AsyncData(value: final messagesValue) => ListView.builder(
-                    reverse: true,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: spacingFive),
-                    itemCount: messagesValue.length,
-                    itemBuilder: (context, i) {
-                      final message = messagesValue[i];
+                  child: StreamBuilder<List<MessageData>>(
+                      stream: _messagesStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final messagesValue = snapshot.data!;
 
-                      if (i == messagesValue.length - 1 &&
-                          messagesValue.length % fetchQty == 0) {
-                        ref
-                            .read(messagesProvider(widget.data.profile.id)
-                                .notifier)
-                            .scroll(widget.data.profile.id);
-                      }
+                          return ListView.builder(
+                              reverse: true,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: spacingFive),
+                              itemCount: messagesValue.length,
+                              itemBuilder: (context, i) {
+                                final message = messagesValue[i];
 
-                      if (i == 0 &&
-                          message.id != null &&
-                          message.receiverId ==
-                              Supabase.instance.client.auth.currentSession!.user
-                                  .id) {
-                        MessagesRepository.sendRead(message.id!).then((value) {
-                          ref
-                              .read(conversationsProvider.notifier)
-                              .setRead(widget.data.profile.id);
-                        });
-                      }
+                                if (i == 0 &&
+                                    message.id != null &&
+                                    message.receiverId ==
+                                        Supabase.instance.client.auth
+                                            .currentSession!.user.id) {
+                                  MessagesRepository.sendRead(message.id!)
+                                      .then((value) {
+                                    ref
+                                        .read(conversationsProvider.notifier)
+                                        .setRead(conversationId);
+                                  });
+                                }
 
-                      return Padding(
-                          padding: EdgeInsets.only(
-                              top: getTopMarginForPreviousPostType(
-                                  nextPostFromSameSender(i, messagesValue))),
-                          child: Column(children: [
-                            if (i == messagesValue.length - 1 &&
-                                messagesValue.length % fetchQty == 0)
-                              SystemLoader(
-                                color: widget.data.profile.color,
-                              ),
-                            if (message.postTitle != null)
-                              MiniPost(
-                                  profile: message.receiverId.isOwnId()
-                                      ? profile.min()
-                                      : widget.data.profile,
-                                  post: PostMinData(
-                                      title: message.postTitle!,
-                                      body: message.postBody!),
-                                  fromSelf: message.receiverId != profile.id),
-                            chatCell(message, message.receiverId == profile.id),
-                            if (i == 0 && message.senderId == profile.id)
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: spacingFour),
-                                        child: SystemText(
-                                          text: message.read
-                                              ? AppLocalizations.of(context)!
-                                                  .read
-                                              : _deliveringText
-                                                  ? AppLocalizations.of(
-                                                          context)!
-                                                      .delivering
-                                                  : AppLocalizations.of(
-                                                          context)!
-                                                      .delivered,
-                                          color: profile.color.adjusted(
-                                              ref.watch(
-                                                  resolvedBrightnessProvider)),
-                                          size: TextSizeEnum.twelve,
-                                        ))
-                                  ])
-                          ]));
-                    },
-                  ),
-                AsyncError() => SystemError(
-                    onPressed: () => ref
-                        .invalidate(messagesProvider(widget.data.profile.id))),
-                _ => SystemLoader(
-                    color: widget.data.profile.color
-                        .adjusted(ref.watch(resolvedBrightnessProvider))),
-              }),
+                                return Padding(
+                                    padding: EdgeInsets.only(
+                                        top: getTopMarginForPreviousPostType(
+                                            nextPostFromSameSender(
+                                                i, messagesValue))),
+                                    child: Column(children: [
+                                      if (i == messagesValue.length - 1 &&
+                                          messagesValue.length % fetchQty == 0)
+                                        SystemLoader(
+                                          color: widget.data.profile.color,
+                                        ),
+                                      if (message.postTitle != null)
+                                        MiniPost(
+                                            profile:
+                                                message.receiverId.isOwnId()
+                                                    ? profile.min()
+                                                    : widget.data.profile,
+                                            post: PostMinData(
+                                                title: message.postTitle!,
+                                                body: message.postBody!),
+                                            fromSelf: message.receiverId !=
+                                                profile.id),
+                                      chatCell(message,
+                                          message.receiverId == profile.id),
+                                      if (i == 0 &&
+                                          message.senderId == profile.id)
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: spacingFour),
+                                                  child: SystemText(
+                                                    text: message.read
+                                                        ? AppLocalizations.of(
+                                                                context)!
+                                                            .read
+                                                        : _deliveringText
+                                                            ? AppLocalizations
+                                                                    .of(
+                                                                        context)!
+                                                                .delivering
+                                                            : AppLocalizations
+                                                                    .of(context)!
+                                                                .delivered,
+                                                    color: profile.color
+                                                        .adjusted(ref.watch(
+                                                            resolvedBrightnessProvider)),
+                                                    size: TextSizeEnum.twelve,
+                                                  ))
+                                            ])
+                                    ]));
+                              });
+                        } else {
+                          return SystemLoader(
+                            color: widget.data.profile.color,
+                          );
+                        }
+                      })),
               if (widget.data.post != null && showPost && !_deliveringText)
                 Padding(
                     padding: const EdgeInsets.only(
@@ -439,15 +393,21 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage>
                         editingAction: () {},
                         autoFocus: true,
                         textInputAction: TextInputAction.send,
-                        suffixIcon: messageText == null || messageText!.isEmpty
+                        suffixIcon: messageText == null ||
+                                messageText!.isEmpty ||
+                                _deliveringText
                             ? null
                             : PhosphorIcons.arrow_circle_up_thin,
-                        onSuffixTapped: () {
-                          _sendMessage();
-                        },
-                        onSubmitted: (p0) {
-                          _sendMessage();
-                        },
+                        onSuffixTapped: _deliveringText
+                            ? null
+                            : () {
+                                _sendMessage();
+                              },
+                        onSubmitted: _deliveringText
+                            ? null
+                            : (p0) {
+                                _sendMessage();
+                              },
                         primaryColor: profile.color
                             .adjusted(ref.watch(resolvedBrightnessProvider)),
                         secondaryColor:

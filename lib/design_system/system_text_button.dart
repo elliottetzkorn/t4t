@@ -16,7 +16,7 @@ class SystemTextButton extends StatelessWidget {
       this.light = false});
 
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final ProfileData? profile;
   final bool enabled;
   final bool underlined;
@@ -25,7 +25,7 @@ class SystemTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SystemTap(
-        onTap: () => enabled ? onPressed() : null,
+        onTap: onPressed == null ? null : () => enabled ? onPressed!() : null,
         child: Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: buttonWidthPadding, vertical: buttonHeightPadding),
