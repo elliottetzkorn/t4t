@@ -253,16 +253,6 @@ const Map<int, int> valueToDistance = {
 
 const String locationFormatting = 'MMM dd, yyyy - h:mm a';
 
-const List<String> globalCities = [
-  'San Francisco',
-  'New York',
-  'Chicago',
-  'Los Angeles',
-  'London',
-  'Paris',
-  'Berlin'
-];
-
 const String usa = 'United States';
 
 // Routes

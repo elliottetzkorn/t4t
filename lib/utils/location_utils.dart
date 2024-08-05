@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:t4t/constants.dart';
 import 'package:t4t/data/location_data.dart';
 import 'package:t4t/design_system/system_text.dart';
 
@@ -74,19 +73,23 @@ class LocationUtils {
 
   static String formatted(
       String? neighborhood, String city, String? state, String country) {
-    if (globalCities.contains(city) &&
-        neighborhood != null &&
-        neighborhood.isNotEmpty) {
-      return '${neighborhood.toLowerCase()}, ${city.toLowerCase()}';
-    } else if (country == usa && state != null) {
-      if (city.isNotEmpty) {
-        return '${city.toLowerCase()}, ${LocationUtils.stateToShortenedState(state)}';
-      } else {
-        return '${LocationUtils.stateToShortenedState(state)}, ${country.toLowerCase()}';
-      }
-    } else {
-      return '${city.toLowerCase()}, ${country.toLowerCase()}';
+    String formattedString = '';
+
+    if (neighborhood != null && neighborhood.isNotEmpty) {
+      formattedString += '$neighborhood, ';
     }
+
+    if (city.isNotEmpty) {
+      formattedString += '$city, ';
+    }
+
+    if (state != null && state.isNotEmpty) {
+      formattedString += LocationUtils.stateToShortenedState(state);
+    } else {
+      formattedString += country;
+    }
+
+    return formattedString.toLowerCase();
   }
 
   static String stateToShortenedState(String state) {
