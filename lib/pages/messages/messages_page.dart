@@ -301,7 +301,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
                           messagesValue.length % fetchQty == 0) {
                         ref
                             .read(messagesProvider(conversationId).notifier)
-                            .scroll(widget.data.profile.id);
+                            .scroll(conversationId);
                       }
 
                       return Padding(

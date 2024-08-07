@@ -24,16 +24,6 @@ class MessagesRepository {
         .order('created_at', ascending: false);
   }
 
-  static Future<List<Map<String, dynamic>>> fetchAfterDateTime(
-      String conversationId, DateTime time) async {
-    return Supabase.instance.client
-        .from('messages')
-        .select('*')
-        .eq('conversation_id', conversationId)
-        .gt('created_at', time)
-        .order('created_at', ascending: false);
-  }
-
   static Future<Map<String, dynamic>> isRead(int messageId) async {
     return Supabase.instance.client
         .from('messages')
