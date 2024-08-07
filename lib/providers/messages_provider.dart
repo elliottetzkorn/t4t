@@ -24,18 +24,17 @@ class Messages extends _$Messages {
     if (message.id == null) {
       messages.insert(0, message);
     } else {
-      final recentMessage = messages.first;
+      int i = messages.indexWhere((element) => element.id == message.id);
 
-      if (!message.senderId.isOwnId() && !message.read) {
-        MessagesRepository.sendRead(message.id!);
-        message = message.copyWith(read: true);
-        ref.read(conversationsProvider.notifier).setRead(profileId);
+      if (i == -1) {
+        messages.insert(0, message);
+      } else {
+        messages[i] = message;
       }
 
-      if (recentMessage.id == null || recentMessage.id == message.id) {
-        messages.first = message;
-      } else {
-        messages.insert(0, message);
+      if (message.senderId.isOwnId() && !message.read) {
+        MessagesRepository.sendRead(message.id!);
+        ref.read(conversationsProvider.notifier).setRead(profileId);
       }
     }
 

@@ -4,4 +4,5 @@ enum TextSizeEnum {
   eighteen,
   twentyOne,
   twentyNine,
+  fortyFour,
 }

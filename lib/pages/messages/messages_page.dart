@@ -250,7 +250,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
                 mainAxisAlignment:
                     otherUser ? MainAxisAlignment.start : MainAxisAlignment.end,
                 children: [
-                    SystemText(size: TextSizeEnum.twentyNine, text: text)
+                    SystemText(size: TextSizeEnum.fortyFour, text: text)
                   ])
             : ChatCell(
                 verticalPadding: 8,
