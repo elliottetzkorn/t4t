@@ -87,7 +87,7 @@ class Conversations extends _$Conversations {
     _isPolling = false;
   }
 
-  Future<void> setRead(String conversationId) async {
+  Future<void> setRead(String profileId) async {
     final List<ConversationData> conversations = await future;
 
     if (conversations
