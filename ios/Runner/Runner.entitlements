@@ -10,6 +10,7 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
+		<string>applinks:www.t4t.social</string>
 		<string>applinks:t4t.social</string>
 	</array>
 </dict>

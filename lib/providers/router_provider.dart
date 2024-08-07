@@ -151,7 +151,7 @@ GoRouter router(RouterRef ref) {
             },
           ),
           GoRoute(
-            path: 'posts/:id',
+            path: 'p/:id',
             builder: (BuildContext context, GoRouterState state) {
               return HomePage(postId: int.parse(state.pathParameters['id']!));
             },
