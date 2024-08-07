@@ -226,8 +226,7 @@ class ProfileHeaderDetails extends ConsumerWidget {
                 text: AppLocalizations.of(context)!.share,
                 onPressed: () => {
                   Share.shareUri(
-                    Uri.parse(
-                        'https://t4t.social/profiles/${profile.username}'),
+                    Uri.parse('https://t4t.social/@${profile.username}'),
                   )
                 },
               ),

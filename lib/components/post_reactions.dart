@@ -366,8 +366,7 @@ class _PostReactionsState extends ConsumerState<PostReactions> {
                       text: AppLocalizations.of(context)!.share,
                       onPressed: () {
                         Share.shareUri(
-                          Uri.parse(
-                              'https://t4t.social/posts/${widget.post.id}'),
+                          Uri.parse('https://t4t.social/p/${widget.post.id}'),
                         );
                       },
                     ),
