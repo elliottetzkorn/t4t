@@ -118,7 +118,6 @@ const int bioLength = 140;
 const int fetchQty = 66;
 
 const int pollingTime = 5;
-const int messagesPollingTime = 2;
 
 const int badgeLimit = 8;
 
