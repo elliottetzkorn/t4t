@@ -3,11 +3,14 @@ import 'package:app_install_date/app_install_date_imp.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/components/bottom_nav_authenticated.dart';
+import 'package:t4t/components/profile_sheet.dart';
 import 'package:t4t/components/supporter_sheet.dart';
 import 'package:t4t/constants.dart';
+import 'package:t4t/data/profile_min_data.dart';
 import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/router_extensions.dart';
 import 'package:t4t/pages/posts_page.dart';
@@ -21,19 +24,19 @@ import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/router_provider.dart';
 import 'package:t4t/providers/tab_provider.dart';
+import 'package:t4t/repositories/profiles_repository.dart';
 import 'package:t4t/utils/store_config.dart';
+import 'package:uni_links/uni_links.dart';
 
 class HomeAuthenticated extends ConsumerStatefulWidget {
-  const HomeAuthenticated({super.key, this.userName, this.postId});
-
-  final String? userName;
-  final int? postId;
+  const HomeAuthenticated({super.key});
 
   @override
-  ConsumerState<HomeAuthenticated> createState() => _HomePageState();
+  ConsumerState<HomeAuthenticated> createState() =>
+      _HomePageAuthenticatedState();
 }
 
-class _HomePageState extends ConsumerState<HomeAuthenticated>
+class _HomePageAuthenticatedState extends ConsumerState<HomeAuthenticated>
     with WidgetsBindingObserver {
   late final PageController pageController;
   late ScrollController postsScrollController;
@@ -41,6 +44,7 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
   late ScrollController notifsScrollController;
   late ScrollController profileScrollController;
   Timer? pollTimer;
+  StreamSubscription? _sub;
 
   @override
   void initState() {
@@ -56,14 +60,35 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
     pageController = PageController(initialPage: ref.read(tabProvider).index);
 
     setPollTimers();
+    _initDeepLinkListener();
   }
 
   @override
   void dispose() {
     endPollTimers();
     WidgetsBinding.instance.removeObserver(this);
-
+    _sub?.cancel();
     super.dispose();
+  }
+
+  void _initDeepLinkListener() {
+    _sub = uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        final path = uri.path;
+        if (path.startsWith('/@')) {
+          try {
+            ProfilesRepository.fetch(path.substring(2)).then((data) {
+              ProfileSheet().show(context, ProfileMinData.fromJson(data), false,
+                  true, () => context.pop(), null);
+            });
+          } catch (e) {
+            // Show deeplink failed error
+          }
+        }
+      }
+    }, onError: (err) {
+      // Handle error
+    });
   }
 
   void setPollTimers() {
@@ -98,10 +123,6 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
         ref.invalidate(profileProvider);
         getPolls(true);
         setPollTimers();
-
-        if (widget.userName != null) {
-          SupporterSheet().show(context, ref);
-        }
         break;
       case AppLifecycleState.inactive:
         break;
