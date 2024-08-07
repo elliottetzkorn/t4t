@@ -144,6 +144,18 @@ GoRouter router(RouterRef ref) {
                   },
                 ),
               ]),
+          GoRoute(
+            path: 'profiles/:id',
+            builder: (BuildContext context, GoRouterState state) {
+              return HomePage(userName: state.pathParameters['id']!);
+            },
+          ),
+          GoRoute(
+            path: 'posts/:id',
+            builder: (BuildContext context, GoRouterState state) {
+              return HomePage(postId: int.parse(state.pathParameters['id']!));
+            },
+          )
         ]),
   ]);
 }

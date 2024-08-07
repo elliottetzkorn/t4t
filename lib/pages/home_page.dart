@@ -6,7 +6,10 @@ import 'package:t4t/pages/home_unauthenticated.dart';
 import 'package:t4t/providers/authenticated_provider.dart';
 
 class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.userName, this.postId});
+
+  final String? userName;
+  final int? postId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,7 +19,7 @@ class HomePage extends ConsumerWidget {
         child: authenticated == null
             ? const SizedBox.shrink()
             : authenticated
-                ? const HomeAuthenticated()
+                ? HomeAuthenticated(userName: userName, postId: postId)
                 : const HomeUnauthenticated());
   }
 }

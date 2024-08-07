@@ -27,7 +27,6 @@ import 'package:t4t/extensions/color_extensions.dart';
 import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/profile_min_extensions.dart';
 import 'package:t4t/extensions/strings_extensions.dart';
-import 'package:t4t/providers/conversations_provider.dart';
 import 'package:t4t/providers/messages_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/resolved_brightness_provider.dart';
@@ -101,7 +100,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
         .order('id', ascending: false)
         .listen((List<Map<String, dynamic>> data) {
           ref.read(MessagesProvider(conversationId).notifier).updateMessage(
-              MessageData.fromJson(data.first), widget.data.profile.id);
+              MessageData.fromJson(data.first), widget.data.profile);
         });
   }
 
@@ -163,7 +162,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
               receiverId: widget.data.profile.id,
               createdAt: DateTime.now().toUtc(),
               read: false),
-          widget.data.profile.id);
+          widget.data.profile);
 
       HapticFeedback.lightImpact();
 
@@ -188,10 +187,6 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
             .select('id')
             .single();
       }, (value) {
-        ref
-            .read(conversationsProvider.notifier)
-            .messageSent(widget.data.profile, sendText);
-
         setState(() {
           showPost = false;
         });

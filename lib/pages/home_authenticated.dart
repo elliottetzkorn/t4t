@@ -24,7 +24,10 @@ import 'package:t4t/providers/tab_provider.dart';
 import 'package:t4t/utils/store_config.dart';
 
 class HomeAuthenticated extends ConsumerStatefulWidget {
-  const HomeAuthenticated({super.key});
+  const HomeAuthenticated({super.key, this.userName, this.postId});
+
+  final String? userName;
+  final int? postId;
 
   @override
   ConsumerState<HomeAuthenticated> createState() => _HomePageState();
@@ -95,6 +98,10 @@ class _HomePageState extends ConsumerState<HomeAuthenticated>
         ref.invalidate(profileProvider);
         getPolls(true);
         setPollTimers();
+
+        if (widget.userName != null) {
+          SupporterSheet().show(context, ref);
+        }
         break;
       case AppLifecycleState.inactive:
         break;

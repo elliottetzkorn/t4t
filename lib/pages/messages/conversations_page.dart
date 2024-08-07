@@ -125,11 +125,7 @@ class ConversationsPage extends ConsumerWidget {
                                           SystemText(
                                               maxLines: 1,
                                               size: TextSizeEnum.fifteen,
-                                              text: conversation.text == null
-                                                  ? AppLocalizations.of(
-                                                          context)!
-                                                      .messages_no_messages_yet
-                                                  : conversation.text!)
+                                              text: conversation.text)
                                         ])),
                                     Row(children: [
                                       const SizedBox(

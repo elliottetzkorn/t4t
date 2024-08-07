@@ -9,12 +9,11 @@ class ConversationData {
       required this.lastMessageCreatedAt});
 
   final ProfileMinData profile;
-  String? text;
+  String text;
   bool unread;
   DateTime lastMessageCreatedAt;
 
-  ConversationData.fromMap(
-      {required Map<dynamic, dynamic> map, required String userId})
+  ConversationData.fromMap({required Map<dynamic, dynamic> map})
       : profile = ProfileMinData(
           id: map['profile_id'],
           color: ColorParsing.fromHex(map['profile_color']),

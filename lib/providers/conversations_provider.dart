@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/data/conversation_data.dart';
 import 'package:t4t/data/profile_min_data.dart';
 import 'package:t4t/repositories/conversations_repository.dart';
@@ -17,9 +16,7 @@ class Conversations extends _$Conversations {
     final response = await ConversationsRepository.fetch();
 
     return response
-        .map<ConversationData>((data) => ConversationData.fromMap(
-            map: data,
-            userId: Supabase.instance.client.auth.currentSession!.user.id))
+        .map<ConversationData>((data) => ConversationData.fromMap(map: data))
         .toList();
   }
 
@@ -31,11 +28,8 @@ class Conversations extends _$Conversations {
           conversations.last.lastMessageCreatedAt);
 
       if (response.isNotEmpty) {
-        conversations.addAll(response.map<ConversationData>((data) =>
-            ConversationData.fromMap(
-                map: data,
-                userId:
-                    Supabase.instance.client.auth.currentSession!.user.id)));
+        conversations.addAll(response.map<ConversationData>(
+            (data) => ConversationData.fromMap(map: data)));
 
         state = AsyncData(conversations);
       }
@@ -54,10 +48,10 @@ class Conversations extends _$Conversations {
           conversations.first.lastMessageCreatedAt);
 
       if (response.isNotEmpty) {
-        final messagesTemp = response.map<ConversationData>((data) =>
-            ConversationData.fromMap(
-                map: data,
-                userId: Supabase.instance.client.auth.currentSession!.user.id));
+        final messagesTemp =
+            response.map<ConversationData>((data) => ConversationData.fromMap(
+                  map: data,
+                ));
 
         for (ConversationData tempConversation in messagesTemp) {
           if (conversations.any(
@@ -87,41 +81,23 @@ class Conversations extends _$Conversations {
     _isPolling = false;
   }
 
-  Future<void> setRead(String profileId) async {
-    final List<ConversationData> conversations = await future;
-
-    if (conversations
-        .any((conversation) => conversation.profile.id == profileId)) {
-      conversations
-          .firstWhere((conversation) => conversation.profile.id == profileId)
-          .unread = false;
-
-      state = AsyncData(conversations);
-    }
-  }
-
   Future<void> messageSent(ProfileMinData profile, String text) async {
     final List<ConversationData> conversations = await future;
 
-    if (conversations
-        .any((conversation) => conversation.profile.id == profile.id)) {
-      ConversationData conversation = conversations
-          .firstWhere((conversation) => conversation.profile.id == profile.id);
-      conversation.text = text;
-      conversation.lastMessageCreatedAt = DateTime.now().toUtc();
+    final int i =
+        conversations.indexWhere((element) => element.profile.id == profile.id);
 
-      conversations.removeWhere(
-          (element) => element.profile.id == conversation.profile.id);
-      conversations.insert(0, conversation);
-    } else {
-      conversations.insert(
-          0,
-          ConversationData(
-              profile: profile,
-              text: text,
-              unread: false,
-              lastMessageCreatedAt: DateTime.now().toUtc()));
+    if (i != -1) {
+      conversations.removeAt(i);
     }
+
+    conversations.insert(
+        0,
+        ConversationData(
+            profile: profile,
+            text: text,
+            unread: false,
+            lastMessageCreatedAt: DateTime.now().toUtc()));
 
     state = AsyncData(conversations);
   }

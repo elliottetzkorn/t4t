@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:t4t/data/message_data.dart';
+import 'package:t4t/data/profile_min_data.dart';
 import 'package:t4t/extensions/strings_extensions.dart';
 import 'package:t4t/providers/conversations_provider.dart';
 import 'package:t4t/repositories/messages_repository.dart';
@@ -18,7 +19,8 @@ class Messages extends _$Messages {
         .toList();
   }
 
-  Future<void> updateMessage(MessageData message, String profileId) async {
+  Future<void> updateMessage(
+      MessageData message, ProfileMinData profile) async {
     final List<MessageData> messages = await future;
 
     if (message.id == null) {
@@ -27,16 +29,18 @@ class Messages extends _$Messages {
       int i = messages.indexWhere((element) => element.id == message.id);
 
       if (i == -1) {
+        messages.removeWhere((element) => element.id == null);
         messages.insert(0, message);
       } else {
         messages[i] = message;
       }
 
-      if (message.senderId.isOwnId() && !message.read) {
+      if (!message.senderId.isOwnId() && !message.read) {
         MessagesRepository.sendRead(message.id!);
-        ref.read(conversationsProvider.notifier).setRead(profileId);
       }
     }
+
+    ref.read(conversationsProvider.notifier).messageSent(profile, message.text);
 
     state = AsyncData(messages);
   }
