@@ -9,7 +9,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/components/bottom_nav_authenticated.dart';
 import 'package:t4t/components/profile_sheet.dart';
 import 'package:t4t/components/supporter_sheet.dart';
+import 'package:t4t/components/view_post_sheet.dart';
 import 'package:t4t/constants.dart';
+import 'package:t4t/data/post_min_data.dart';
 import 'package:t4t/data/profile_min_data.dart';
 import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/router_extensions.dart';
@@ -24,6 +26,7 @@ import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/router_provider.dart';
 import 'package:t4t/providers/tab_provider.dart';
+import 'package:t4t/repositories/posts_repository.dart';
 import 'package:t4t/repositories/profiles_repository.dart';
 import 'package:t4t/utils/store_config.dart';
 import 'package:uni_links/uni_links.dart';
@@ -80,6 +83,14 @@ class _HomePageAuthenticatedState extends ConsumerState<HomeAuthenticated>
             ProfilesRepository.fetch(path.substring(2)).then((data) {
               ProfileSheet().show(context, ProfileMinData.fromJson(data), false,
                   true, () => context.pop(), null);
+            });
+          } catch (e) {
+            // Show deeplink failed error
+          }
+        } else if (path.startsWith('/p/')) {
+          try {
+            PostsRepository.fetch(int.parse(path.substring(3))).then((data) {
+              ViewPostSheet().show(context, PostMinData.fromMap(data));
             });
           } catch (e) {
             // Show deeplink failed error
