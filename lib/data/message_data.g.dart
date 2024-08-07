@@ -9,7 +9,6 @@ part of 'message_data.dart';
 _$MessageDataImpl _$$MessageDataImplFromJson(Map<String, dynamic> json) =>
     _$MessageDataImpl(
       id: (json['id'] as num?)?.toInt(),
-      tempId: json['temp_id'] as String?,
       text: json['text'] as String,
       senderId: json['sender_id'] as String,
       receiverId: json['receiver_id'] as String,
@@ -22,7 +21,6 @@ _$MessageDataImpl _$$MessageDataImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MessageDataImplToJson(_$MessageDataImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'temp_id': instance.tempId,
       'text': instance.text,
       'sender_id': instance.senderId,
       'receiver_id': instance.receiverId,

@@ -21,7 +21,6 @@ MessageData _$MessageDataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MessageData {
   int? get id => throw _privateConstructorUsedError;
-  String? get tempId => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   String get senderId => throw _privateConstructorUsedError;
   String get receiverId => throw _privateConstructorUsedError;
@@ -44,7 +43,6 @@ abstract class $MessageDataCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      String? tempId,
       String text,
       String senderId,
       String receiverId,
@@ -68,7 +66,6 @@ class _$MessageDataCopyWithImpl<$Res, $Val extends MessageData>
   @override
   $Res call({
     Object? id = freezed,
-    Object? tempId = freezed,
     Object? text = null,
     Object? senderId = null,
     Object? receiverId = null,
@@ -82,10 +79,6 @@ class _$MessageDataCopyWithImpl<$Res, $Val extends MessageData>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      tempId: freezed == tempId
-          ? _value.tempId
-          : tempId // ignore: cast_nullable_to_non_nullable
-              as String?,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -128,7 +121,6 @@ abstract class _$$MessageDataImplCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
-      String? tempId,
       String text,
       String senderId,
       String receiverId,
@@ -150,7 +142,6 @@ class __$$MessageDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? tempId = freezed,
     Object? text = null,
     Object? senderId = null,
     Object? receiverId = null,
@@ -164,10 +155,6 @@ class __$$MessageDataImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      tempId: freezed == tempId
-          ? _value.tempId
-          : tempId // ignore: cast_nullable_to_non_nullable
-              as String?,
       text: null == text
           ? _value.text
           : text // ignore: cast_nullable_to_non_nullable
@@ -206,7 +193,6 @@ class __$$MessageDataImplCopyWithImpl<$Res>
 class _$MessageDataImpl implements _MessageData {
   const _$MessageDataImpl(
       {this.id,
-      this.tempId,
       required this.text,
       required this.senderId,
       required this.receiverId,
@@ -220,8 +206,6 @@ class _$MessageDataImpl implements _MessageData {
 
   @override
   final int? id;
-  @override
-  final String? tempId;
   @override
   final String text;
   @override
@@ -239,7 +223,7 @@ class _$MessageDataImpl implements _MessageData {
 
   @override
   String toString() {
-    return 'MessageData(id: $id, tempId: $tempId, text: $text, senderId: $senderId, receiverId: $receiverId, createdAt: $createdAt, read: $read, postTitle: $postTitle, postBody: $postBody)';
+    return 'MessageData(id: $id, text: $text, senderId: $senderId, receiverId: $receiverId, createdAt: $createdAt, read: $read, postTitle: $postTitle, postBody: $postBody)';
   }
 
   @override
@@ -248,7 +232,6 @@ class _$MessageDataImpl implements _MessageData {
         (other.runtimeType == runtimeType &&
             other is _$MessageDataImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.tempId, tempId) || other.tempId == tempId) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.senderId, senderId) ||
                 other.senderId == senderId) &&
@@ -265,8 +248,8 @@ class _$MessageDataImpl implements _MessageData {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, tempId, text, senderId,
-      receiverId, createdAt, read, postTitle, postBody);
+  int get hashCode => Object.hash(runtimeType, id, text, senderId, receiverId,
+      createdAt, read, postTitle, postBody);
 
   @JsonKey(ignore: true)
   @override
@@ -285,7 +268,6 @@ class _$MessageDataImpl implements _MessageData {
 abstract class _MessageData implements MessageData {
   const factory _MessageData(
       {final int? id,
-      final String? tempId,
       required final String text,
       required final String senderId,
       required final String receiverId,
@@ -299,8 +281,6 @@ abstract class _MessageData implements MessageData {
 
   @override
   int? get id;
-  @override
-  String? get tempId;
   @override
   String get text;
   @override

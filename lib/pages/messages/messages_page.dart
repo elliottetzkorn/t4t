@@ -17,6 +17,7 @@ import 'package:t4t/constants.dart';
 import 'package:t4t/data/message_data.dart';
 import 'package:t4t/data/post_min_data.dart';
 import 'package:t4t/data/profile_min_data.dart';
+import 'package:t4t/design_system/system_error.dart';
 import 'package:t4t/design_system/system_icon_button.dart';
 import 'package:t4t/design_system/system_loader.dart';
 import 'package:t4t/design_system/system_text.dart';
@@ -27,9 +28,9 @@ import 'package:t4t/extensions/profile_extensions.dart';
 import 'package:t4t/extensions/profile_min_extensions.dart';
 import 'package:t4t/extensions/strings_extensions.dart';
 import 'package:t4t/providers/conversations_provider.dart';
+import 'package:t4t/providers/messages_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/resolved_brightness_provider.dart';
-import 'package:t4t/repositories/messages_repository.dart';
 import 'package:t4t/utils/dialogs.dart';
 import 'package:t4t/utils/network_utils.dart';
 
@@ -74,7 +75,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
 
   final FocusNode _focusNode = FocusNode();
   late String conversationId;
-  late final Stream<List<MessageData>> _messagesStream;
+  late final StreamSubscription _subscription;
 
   @override
   void initState() {
@@ -84,13 +85,6 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
         Supabase.instance.client.auth.currentSession!.user.id,
         widget.data.profile.id);
 
-    _messagesStream = Supabase.instance.client
-        .from('messages')
-        .stream(primaryKey: ['id'])
-        .eq('conversation_id', conversationId)
-        .order('id')
-        .map((maps) => maps.map((map) => MessageData.fromJson(map)).toList());
-
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         FocusScope.of(context).requestFocus(_focusNode);
@@ -99,13 +93,22 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
 
     updatePostFromPrefs();
 
-    if (widget.data.unread) {
-      MessagesRepository.sendReads(widget.data.profile.id).then((_) {
-        ref
-            .read(conversationsProvider.notifier)
-            .setRead(widget.data.profile.id);
-      });
-    }
+    _subscription = Supabase.instance.client
+        .from('messages')
+        .stream(primaryKey: ['id'])
+        .eq('conversation_id', conversationId)
+        .limit(1)
+        .order('id', ascending: false)
+        .listen((List<Map<String, dynamic>> data) {
+          ref.read(MessagesProvider(conversationId).notifier).updateMessage(
+              MessageData.fromJson(data.first), widget.data.profile.id);
+        });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 
   String generateConversationId(String senderId, String receiverId) {
@@ -144,9 +147,23 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
 
       setState(() {
         _deliveringText = true;
-
         prefs.setString(prefsMessage + widget.data.profile.id, '');
       });
+
+      ref.read(MessagesProvider(conversationId).notifier).updateMessage(
+          MessageData(
+              postTitle: showPost && widget.data.post != null
+                  ? widget.data.post!.title
+                  : null,
+              postBody: showPost && widget.data.post != null
+                  ? widget.data.post!.body
+                  : null,
+              text: sendText,
+              senderId: Supabase.instance.client.auth.currentSession!.user.id,
+              receiverId: widget.data.profile.id,
+              createdAt: DateTime.now().toUtc(),
+              read: false),
+          widget.data.profile.id);
 
       HapticFeedback.lightImpact();
 
@@ -167,7 +184,6 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
               'post_body': showPost && widget.data.post != null
                   ? widget.data.post!.body
                   : null,
-              'conversation_id': conversationId,
             })
             .select('id')
             .single();
@@ -182,13 +198,14 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
       }, () {
         setState(() {
           showPost = true;
+          ref.read(messagesProvider(conversationId).notifier).remove();
         });
       }, false);
-    }
 
-    setState(() {
-      _deliveringText = false;
-    });
+      setState(() {
+        _deliveringText = false;
+      });
+    }
   }
 
   bool nextPostFromSameSender(int i, List<MessageData> messages) {
@@ -255,6 +272,8 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
   @override
   Widget build(BuildContext context) {
     final profile = ref.read(profileProvider).value!;
+    final AsyncValue<List<MessageData>> messages =
+        ref.watch(messagesProvider(conversationId));
 
     return Scaffold(
       body: Stack(fit: StackFit.expand, children: [
@@ -269,94 +288,76 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
                   color: widget.data.profile.color
                       .adjusted(ref.watch(resolvedBrightnessProvider))),
               Flexible(
-                  child: StreamBuilder<List<MessageData>>(
-                      stream: _messagesStream,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final messagesValue = snapshot.data!;
+                  child: switch (messages) {
+                AsyncData(value: final messagesValue) => ListView.builder(
+                    reverse: true,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: spacingFive),
+                    itemCount: messagesValue.length,
+                    itemBuilder: (context, i) {
+                      final message = messagesValue[i];
 
-                          return ListView.builder(
-                              reverse: true,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: spacingFive),
-                              itemCount: messagesValue.length,
-                              itemBuilder: (context, i) {
-                                final message = messagesValue[i];
+                      if (i == messagesValue.length - 1 &&
+                          messagesValue.length % fetchQty == 0) {
+                        ref
+                            .read(messagesProvider(conversationId).notifier)
+                            .scroll(widget.data.profile.id);
+                      }
 
-                                if (i == 0 &&
-                                    message.id != null &&
-                                    message.receiverId ==
-                                        Supabase.instance.client.auth
-                                            .currentSession!.user.id) {
-                                  MessagesRepository.sendRead(message.id!)
-                                      .then((value) {
-                                    ref
-                                        .read(conversationsProvider.notifier)
-                                        .setRead(conversationId);
-                                  });
-                                }
-
-                                return Padding(
-                                    padding: EdgeInsets.only(
-                                        top: getTopMarginForPreviousPostType(
-                                            nextPostFromSameSender(
-                                                i, messagesValue))),
-                                    child: Column(children: [
-                                      if (i == messagesValue.length - 1 &&
-                                          messagesValue.length % fetchQty == 0)
-                                        SystemLoader(
-                                          color: widget.data.profile.color,
-                                        ),
-                                      if (message.postTitle != null)
-                                        MiniPost(
-                                            profile:
-                                                message.receiverId.isOwnId()
-                                                    ? profile.min()
-                                                    : widget.data.profile,
-                                            post: PostMinData(
-                                                title: message.postTitle!,
-                                                body: message.postBody!),
-                                            fromSelf: message.receiverId !=
-                                                profile.id),
-                                      chatCell(message,
-                                          message.receiverId == profile.id),
-                                      if (i == 0 &&
-                                          message.senderId == profile.id)
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: spacingFour),
-                                                  child: SystemText(
-                                                    text: message.read
-                                                        ? AppLocalizations.of(
-                                                                context)!
-                                                            .read
-                                                        : _deliveringText
-                                                            ? AppLocalizations
-                                                                    .of(
-                                                                        context)!
-                                                                .delivering
-                                                            : AppLocalizations
-                                                                    .of(context)!
-                                                                .delivered,
-                                                    color: profile.color
-                                                        .adjusted(ref.watch(
-                                                            resolvedBrightnessProvider)),
-                                                    size: TextSizeEnum.twelve,
-                                                  ))
-                                            ])
-                                    ]));
-                              });
-                        } else {
-                          return SystemLoader(
-                            color: widget.data.profile.color,
-                          );
-                        }
-                      })),
+                      return Padding(
+                          padding: EdgeInsets.only(
+                              top: getTopMarginForPreviousPostType(
+                                  nextPostFromSameSender(i, messagesValue))),
+                          child: Column(children: [
+                            if (i == messagesValue.length - 1 &&
+                                messagesValue.length % fetchQty == 0)
+                              SystemLoader(
+                                color: widget.data.profile.color,
+                              ),
+                            if (message.postTitle != null)
+                              MiniPost(
+                                  profile: message.receiverId.isOwnId()
+                                      ? profile.min()
+                                      : widget.data.profile,
+                                  post: PostMinData(
+                                      title: message.postTitle!,
+                                      body: message.postBody!),
+                                  fromSelf: message.receiverId != profile.id),
+                            chatCell(message, message.receiverId == profile.id),
+                            if (i == 0 && message.senderId == profile.id)
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: spacingFour),
+                                        child: SystemText(
+                                          text: message.read
+                                              ? AppLocalizations.of(context)!
+                                                  .read
+                                              : _deliveringText
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .delivering
+                                                  : AppLocalizations.of(
+                                                          context)!
+                                                      .delivered,
+                                          color: profile.color.adjusted(
+                                              ref.watch(
+                                                  resolvedBrightnessProvider)),
+                                          size: TextSizeEnum.twelve,
+                                        ))
+                                  ])
+                          ]));
+                    },
+                  ),
+                AsyncError() => SystemError(
+                    onPressed: () =>
+                        ref.invalidate(messagesProvider(conversationId))),
+                _ => SystemLoader(
+                    color: widget.data.profile.color
+                        .adjusted(ref.watch(resolvedBrightnessProvider))),
+              }),
               if (widget.data.post != null && showPost && !_deliveringText)
                 Padding(
                     padding: const EdgeInsets.only(
@@ -393,9 +394,7 @@ class _MessagesConversationPageState extends ConsumerState<MessagesPage> {
                         editingAction: () {},
                         autoFocus: true,
                         textInputAction: TextInputAction.send,
-                        suffixIcon: messageText == null ||
-                                messageText!.isEmpty ||
-                                _deliveringText
+                        suffixIcon: messageText == null || messageText!.isEmpty
                             ? null
                             : PhosphorIcons.arrow_circle_up_thin,
                         onSuffixTapped: _deliveringText

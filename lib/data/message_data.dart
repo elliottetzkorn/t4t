@@ -8,7 +8,6 @@ class MessageData with _$MessageData {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory MessageData({
     int? id,
-    String? tempId,
     required String text,
     required String senderId,
     required String receiverId,
