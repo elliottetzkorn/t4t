@@ -31,6 +31,9 @@ class Messages extends _$Messages {
       if (i == -1) {
         messages.removeWhere((element) => element.id == null);
         messages.insert(0, message);
+        ref
+            .read(conversationsProvider.notifier)
+            .messageSent(profile, message.text);
       } else {
         messages[i] = message;
       }
@@ -39,8 +42,6 @@ class Messages extends _$Messages {
         MessagesRepository.sendRead(message.id!);
       }
     }
-
-    ref.read(conversationsProvider.notifier).messageSent(profile, message.text);
 
     state = AsyncData(messages);
   }
