@@ -102,6 +102,18 @@ class Conversations extends _$Conversations {
     state = AsyncData(conversations);
   }
 
+  Future<void> messageRead(ProfileMinData profile) async {
+    final List<ConversationData> conversations = await future;
+
+    final int i =
+        conversations.indexWhere((element) => element.profile.id == profile.id);
+
+    if (i != -1) {
+      conversations[i].unread = false;
+      state = AsyncData(conversations);
+    }
+  }
+
   Future<void> removeBlockedUser(String profileId) async {
     final List<ConversationData> conversations = await future;
 

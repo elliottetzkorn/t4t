@@ -40,6 +40,7 @@ class Messages extends _$Messages {
 
       if (!message.senderId.isOwnId() && !message.read) {
         MessagesRepository.sendRead(message.id!);
+        ref.read(conversationsProvider.notifier).messageRead(profile);
       }
     }
 
