@@ -310,8 +310,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   NavigationCell(
                       title:
                           '✨${ProfilePagePagesEnum.supporter.title(context)}',
-                      subTitle:
-                          ProfilePagePagesEnum.supporter.subTitle(context),
+                      subTitle: AppLocalizations.of(context)!
+                          .profile_page_supporter_subtitle_no_auth,
                       onPressed: () => {
                             ref
                                 .read(routerProvider)
@@ -359,8 +359,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   NavigationCell(
                       title:
                           '✨${ProfilePagePagesEnum.supporter.title(context)}',
-                      subTitle:
-                          ProfilePagePagesEnum.supporter.subTitle(context),
+                      subTitle: AppLocalizations.of(context)!
+                          .profile_page_supporter_subtitle,
                       onPressed: () => {
                             ref
                                 .read(routerProvider)
