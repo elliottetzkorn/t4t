@@ -22,7 +22,7 @@ extension StringParsing on ProfilePagePagesEnum {
     }
   }
 
-  String subTitle(BuildContext context, bool supporter) {
+  String subTitle(BuildContext context) {
     switch (this) {
       case ProfilePagePagesEnum.mod:
         return AppLocalizations.of(context)!.profile_page_mod_subtitle;
@@ -31,9 +31,7 @@ extension StringParsing on ProfilePagePagesEnum {
       case ProfilePagePagesEnum.preview:
         return AppLocalizations.of(context)!.profile_page_preview_subtitle;
       case ProfilePagePagesEnum.account:
-        return supporter
-            ? AppLocalizations.of(context)!.settings_account_subtitle
-            : AppLocalizations.of(context)!.settings_account_subtitle_no_auth;
+        return AppLocalizations.of(context)!.settings_account_subtitle;
       case ProfilePagePagesEnum.documents:
         return AppLocalizations.of(context)!
             .settings_account_documents_subtitle;

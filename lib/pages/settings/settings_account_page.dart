@@ -34,9 +34,6 @@ class SettingsAccountPage extends ConsumerWidget {
       navigationCellTapped!(pageTapped);
     } else {
       switch (pageTapped) {
-        case SettingsAccountPagePagesEnum.supporter:
-          break;
-
         case SettingsAccountPagePagesEnum.logOut:
           logOut(context, ref);
           break;
@@ -95,13 +92,6 @@ class SettingsAccountPage extends ConsumerWidget {
     return SettingsBasePage(
         title: ProfilePagePagesEnum.account.title(context),
         navCells: [
-          NavigationCell(
-              title:
-                  '✨${SettingsAccountPagePagesEnum.supporter.title(context)}',
-              subTitle:
-                  SettingsAccountPagePagesEnum.supporter.subTitle(context),
-              onPressed: () =>
-                  {ref.read(routerProvider).pushNamed(routeSettingsSupporter)}),
           NavigationCell(
               title: SettingsAccountPagePagesEnum.logOut.title(context),
               subTitle: SettingsAccountPagePagesEnum.logOut.subTitle(context),

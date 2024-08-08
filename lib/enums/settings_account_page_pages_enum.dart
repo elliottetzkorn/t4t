@@ -1,1 +1,1 @@
-enum SettingsAccountPagePagesEnum { supporter, logOut, delete }
+enum SettingsAccountPagePagesEnum { logOut, delete }

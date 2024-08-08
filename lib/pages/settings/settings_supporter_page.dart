@@ -41,6 +41,18 @@ class SettingsSupporterPage extends ConsumerWidget {
                 if (!profile.supporter)
                   NavigationCell(
                       title: ref.watch(subscribingProvider)
+                          ? AppLocalizations.of(context)!.subscribing
+                          : AppLocalizations.of(context)!.subscribe,
+                      subTitle: AppLocalizations.of(context)!
+                          .subscribe_subscription_subtitle,
+                      icon: PhosphorIcons.sparkle_thin,
+                      onPressed: () => {
+                            if (!ref.read(subscribingProvider))
+                              {SupporterUtils.attemptPurchase(context, ref)}
+                          }),
+                if (!profile.supporter)
+                  NavigationCell(
+                      title: ref.watch(subscribingProvider)
                           ? AppLocalizations.of(context)!.restoring_subscription
                           : AppLocalizations.of(context)!.restore_subscription,
                       subTitle: AppLocalizations.of(context)!
