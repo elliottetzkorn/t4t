@@ -96,7 +96,8 @@ class SettingsAccountPage extends ConsumerWidget {
         title: ProfilePagePagesEnum.account.title(context),
         navCells: [
           NavigationCell(
-              title: SettingsAccountPagePagesEnum.supporter.title(context),
+              title:
+                  '✨${SettingsAccountPagePagesEnum.supporter.title(context)}',
               subTitle:
                   SettingsAccountPagePagesEnum.supporter.subTitle(context),
               onPressed: () =>

@@ -161,6 +161,19 @@ class SettingsCustomizationPage extends ConsumerWidget {
                                                 )
                                             ]))
                                   ]),
+                                SwitchCell(
+                                  title: AppLocalizations.of(context)!
+                                      .settings_accessibility_font_title,
+                                  subTitle: AppLocalizations.of(context)!
+                                      .settings_accessibility_font_subtitle,
+                                  switchValue: ref.watch(simpleFontProvider),
+                                  onPressed: () {
+                                    ref
+                                        .read(simpleFontProvider.notifier)
+                                        .toggle();
+                                  },
+                                ),
+                                const SizedBox(height: spacingFive),
                                 Column(children: [
                                   TitleSubtitle(
                                       title: AppLocalizations.of(context)!
@@ -183,7 +196,8 @@ class SettingsCustomizationPage extends ConsumerWidget {
                                                 title:
                                                     fontScale.name.capitalize,
                                                 value: fontScale,
-                                                groupValue: ref.watch(fontScaleProvider),
+                                                groupValue: ref
+                                                    .watch(fontScaleProvider),
                                                 onChanged: (p0) {
                                                   ref
                                                       .read(fontScaleProvider
@@ -193,18 +207,6 @@ class SettingsCustomizationPage extends ConsumerWidget {
                                               )
                                           ]))
                                 ]),
-                                SwitchCell(
-                                  title: AppLocalizations.of(context)!
-                                      .settings_accessibility_font_title,
-                                  subTitle: AppLocalizations.of(context)!
-                                      .settings_accessibility_font_subtitle,
-                                  switchValue: ref.watch(simpleFontProvider),
-                                  onPressed: () {
-                                    ref
-                                        .read(simpleFontProvider.notifier)
-                                        .toggle();
-                                  },
-                                ),
                                 const SizedBox(height: spacingEight),
                               ],
                             ))))
