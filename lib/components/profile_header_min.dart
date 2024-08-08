@@ -21,46 +21,49 @@ class ProfileHeaderMin extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SystemText(
-          text: '@${profile.username}',
-          color: profile.color.adjusted(ref.watch(resolvedBrightnessProvider)),
-        ),
-        if (profile.id.isEllId())
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: spacingTwo),
-              child: SystemText(
-                color: pureBlue.adjusted(ref.watch(resolvedBrightnessProvider)),
-                maxLines: 1,
-                text: '🌱${AppLocalizations.of(context)!.staff}',
-              )),
-        if (profile.supporter && !profile.id.isEllId())
-          SystemTap(
-              onTap: ref.read(profileProvider).value != null &&
-                      ref.read(profileProvider).value!.supporter
-                  ? null
-                  : () => SupporterSheet().show(context, ref),
-              child: Padding(
+    final userProfile = ref.watch(profileProvider);
+
+    return switch (userProfile) {
+      AsyncData(value: final profileValue) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SystemText(
+              text: '@${profile.username}',
+              color:
+                  profile.color.adjusted(ref.watch(resolvedBrightnessProvider)),
+            ),
+            if (profile.id.isEllId())
+              Padding(
                   padding: const EdgeInsets.symmetric(vertical: spacingTwo),
-                  child: Row(
-                    children: [
-                      const SystemText(
-                        text: '✨',
-                      ),
-                      SystemText(
-                        color: Theme.of(context).colorScheme.error,
-                        maxLines: 1,
-                        underline: ref.read(profileProvider).value != null &&
-                                ref.read(profileProvider).value!.supporter
-                            ? false
-                            : true,
-                        text: AppLocalizations.of(context)!.supporter,
-                      )
-                    ],
-                  )))
-      ],
-    );
+                  child: SystemText(
+                    color: pureBlue
+                        .adjusted(ref.watch(resolvedBrightnessProvider)),
+                    maxLines: 1,
+                    text: '🌱${AppLocalizations.of(context)!.staff}',
+                  )),
+            if (profile.supporter && !profile.id.isEllId())
+              SystemTap(
+                  onTap: profileValue.supporter
+                      ? null
+                      : () => SupporterSheet().show(context, ref),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: spacingTwo),
+                      child: Row(
+                        children: [
+                          const SystemText(
+                            text: '✨',
+                          ),
+                          SystemText(
+                            color: Theme.of(context).colorScheme.error,
+                            maxLines: 1,
+                            underline: !profileValue.supporter,
+                            text: AppLocalizations.of(context)!.supporter,
+                          )
+                        ],
+                      )))
+          ],
+        ),
+      _ => const SizedBox.shrink()
+    };
   }
 }
