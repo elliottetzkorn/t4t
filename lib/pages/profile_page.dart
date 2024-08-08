@@ -92,17 +92,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!profileValue.supporter)
-                          NavigationCell(
-                              title:
-                                  '✨${ProfilePagePagesEnum.supporter.title(context)}',
-                              subTitle: ProfilePagePagesEnum.supporter
-                                  .subTitle(context),
-                              onPressed: () => {
-                                    ref
-                                        .read(routerProvider)
-                                        .pushNamed(routeSettingsSupporter)
-                                  }),
                         Row(
                           children: [
                             Expanded(
@@ -317,6 +306,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ),
                       ],
                     )),
+                if (!profileValue.supporter)
+                  NavigationCell(
+                      title:
+                          '✨${ProfilePagePagesEnum.supporter.title(context)}',
+                      subTitle:
+                          ProfilePagePagesEnum.supporter.subTitle(context),
+                      onPressed: () => {
+                            ref
+                                .read(routerProvider)
+                                .pushNamed(routeSettingsSupporter)
+                          }),
                 if (profileValue.mod)
                   NavigationCell(
                       title: ProfilePagePagesEnum.mod.title(context),
