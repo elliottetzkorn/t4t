@@ -5,6 +5,8 @@ import 'package:t4t/enums/settings_documents_page_pages_enum.dart';
 extension StringParsing on SettingsDocumentsPagePagesEnum {
   String title(BuildContext context) {
     switch (this) {
+      case SettingsDocumentsPagePagesEnum.github:
+        return AppLocalizations.of(context)!.feedback;
       case SettingsDocumentsPagePagesEnum.licenses:
         return AppLocalizations.of(context)!.settings_account_licenses_title;
       case SettingsDocumentsPagePagesEnum.privacy:
@@ -20,6 +22,8 @@ extension StringParsing on SettingsDocumentsPagePagesEnum {
 
   String subTitle(BuildContext context) {
     switch (this) {
+      case SettingsDocumentsPagePagesEnum.github:
+        return AppLocalizations.of(context)!.socials_instagram_subtitle;
       case SettingsDocumentsPagePagesEnum.licenses:
         return AppLocalizations.of(context)!.settings_account_licenses_subtitle;
       case SettingsDocumentsPagePagesEnum.privacy:

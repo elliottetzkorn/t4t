@@ -7,6 +7,7 @@ import 'package:t4t/components/switch_cell.dart';
 import 'package:t4t/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:t4t/providers/profile_provider.dart';
+import 'package:t4t/providers/subscribing_provider.dart';
 import 'package:t4t/utils/supporter_utils.dart';
 
 class SettingsSupporterPage extends ConsumerWidget {
@@ -37,29 +38,43 @@ class SettingsSupporterPage extends ConsumerWidget {
                     child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                NavigationCell(
-                    embedded: true,
-                    title: AppLocalizations.of(context)!
-                        .settings_supporter_manage_title,
-                    subTitle: AppLocalizations.of(context)!
-                        .settings_supporter_manage_subtitle,
-                    icon: PhosphorIcons.arrow_up_right_thin,
-                    onPressed: () => SupporterUtils.goToSubscriptions()),
-                Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: spacingFive),
-                    child: SwitchCell(
-                      title: AppLocalizations.of(context)!
-                          .settings_supporter_show_title,
+                if (!profile.supporter)
+                  NavigationCell(
+                      title: ref.watch(subscribingProvider)
+                          ? AppLocalizations.of(context)!.restoring_subscription
+                          : AppLocalizations.of(context)!.restore_subscription,
                       subTitle: AppLocalizations.of(context)!
-                          .settings_supporter_show_subtitle,
-                      switchValue: profile.showSupporter,
-                      onPressed: () {
-                        ref
-                            .read(profileProvider.notifier)
-                            .updateShowSupport(!profile.showSupporter);
-                      },
-                    ))
+                          .restore_subscription_subtitle,
+                      icon: PhosphorIcons.waves_thin,
+                      onPressed: () => {
+                            if (!ref.read(subscribingProvider))
+                              {SupporterUtils.restorePurchase(context, ref)}
+                          }),
+                if (profile.supporter)
+                  NavigationCell(
+                      embedded: true,
+                      title: AppLocalizations.of(context)!
+                          .settings_supporter_manage_title,
+                      subTitle: AppLocalizations.of(context)!
+                          .settings_supporter_manage_subtitle,
+                      icon: PhosphorIcons.arrow_up_right_thin,
+                      onPressed: () => SupporterUtils.goToSubscriptions()),
+                if (profile.supporter)
+                  Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: spacingFive),
+                      child: SwitchCell(
+                        title: AppLocalizations.of(context)!
+                            .settings_supporter_show_title,
+                        subTitle: AppLocalizations.of(context)!
+                            .settings_supporter_show_subtitle,
+                        switchValue: profile.showSupporter,
+                        onPressed: () {
+                          ref
+                              .read(profileProvider.notifier)
+                              .updateShowSupport(!profile.showSupporter);
+                        },
+                      ))
               ],
             )))
           ])),

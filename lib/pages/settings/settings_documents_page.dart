@@ -9,6 +9,7 @@ import 'package:t4t/extensions/profile_page_pages_enum_extensions.dart';
 import 'package:t4t/extensions/settings_documents_page_pages_enum_extensions.dart';
 import 'package:t4t/pages/settings/settings_base_page.dart';
 import 'package:t4t/providers/router_provider.dart';
+import 'package:t4t/utils/social_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsDocumentsPage extends ConsumerStatefulWidget {
@@ -30,6 +31,9 @@ class _SettingsDocumentsPageState extends ConsumerState<SettingsDocumentsPage> {
       widget.navigationCellTapped!(pageTapped);
     } else {
       switch (pageTapped) {
+        case SettingsDocumentsPagePagesEnum.github:
+          SocialUtils.goToGithub();
+          break;
         case SettingsDocumentsPagePagesEnum.privacy:
           launchUrl(Uri.parse('https://t4t.social/privacy'),
               mode: LaunchMode.platformDefault);
@@ -56,6 +60,13 @@ class _SettingsDocumentsPageState extends ConsumerState<SettingsDocumentsPage> {
     return SettingsBasePage(
         title: ProfilePagePagesEnum.documents.title(context),
         navCells: [
+          NavigationCell(
+              embedded: true,
+              title: SettingsDocumentsPagePagesEnum.github.title(context),
+              subTitle: SettingsDocumentsPagePagesEnum.github.subTitle(context),
+              icon: PhosphorIcons.github_logo_thin,
+              onPressed: () =>
+                  handleTap(ref, SettingsDocumentsPagePagesEnum.github, false)),
           NavigationCell(
               embedded: true,
               title: SettingsDocumentsPagePagesEnum.licenses.title(context),

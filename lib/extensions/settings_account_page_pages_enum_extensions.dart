@@ -11,8 +11,8 @@ extension StringParsing on SettingsAccountPagePagesEnum {
       case SettingsAccountPagePagesEnum.delete:
         return AppLocalizations.of(context)!
             .settings_account_delete_users_title;
-      case SettingsAccountPagePagesEnum.restoreSubscription:
-        return AppLocalizations.of(context)!.restore_subscription;
+      case SettingsAccountPagePagesEnum.supporter:
+        return AppLocalizations.of(context)!.profile_page_supporter_title;
     }
   }
 
@@ -24,8 +24,8 @@ extension StringParsing on SettingsAccountPagePagesEnum {
       case SettingsAccountPagePagesEnum.delete:
         return AppLocalizations.of(context)!
             .settings_account_delete_users_subtitle;
-      case SettingsAccountPagePagesEnum.restoreSubscription:
-        return AppLocalizations.of(context)!.restore_subscription_subtitle;
+      case SettingsAccountPagePagesEnum.supporter:
+        return AppLocalizations.of(context)!.profile_page_supporter_subtitle;
     }
   }
 }

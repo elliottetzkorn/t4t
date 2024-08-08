@@ -1,1 +1,7 @@
-enum SettingsDocumentsPagePagesEnum { privacy, terms, licenses, colophon }
+enum SettingsDocumentsPagePagesEnum {
+  github,
+  privacy,
+  terms,
+  licenses,
+  colophon
+}

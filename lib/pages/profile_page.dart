@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:t4t/components/header.dart';
 import 'package:t4t/components/navigation_cell.dart';
 import 'package:t4t/components/profile_sheet.dart';
-import 'package:t4t/components/supporter_sheet.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/data/location_data.dart';
 import 'package:t4t/design_system/system_divider.dart';
@@ -32,9 +31,7 @@ import 'package:t4t/providers/posts_authenticated_provider.dart';
 import 'package:t4t/providers/profile_provider.dart';
 import 'package:t4t/providers/resolved_brightness_provider.dart';
 import 'package:t4t/providers/router_provider.dart';
-import 'package:t4t/providers/subscribing_provider.dart';
 import 'package:t4t/utils/location_utils.dart';
-import 'package:t4t/utils/social_utils.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key, required this.scrollController});
@@ -298,62 +295,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Row(
-                              children: [
-                                if (!profileValue.supporter)
-                                  SystemText(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    maxLines: 1,
-                                    text: AppLocalizations.of(context)!
-                                        .supporter_become
-                                        .toLowerCase(),
-                                  ),
-                                SystemText(
-                                  color: Theme.of(context).colorScheme.error,
-                                  maxLines: 1,
-                                  text:
-                                      '✨${AppLocalizations.of(context)!.supporter}',
-                                ),
-                                if (profileValue.supporter &&
-                                    !profileValue.showSupporter)
-                                  SystemText(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    maxLines: 1,
-                                    text:
-                                        ' ${AppLocalizations.of(context)!.hidden}',
-                                  )
-                              ],
-                            )),
-                            const SizedBox(
-                              width: spacingFive,
-                            ),
-                            SystemTextButton(
-                              text: ref.watch(subscribingProvider)
-                                  ? AppLocalizations.of(context)!
-                                      .post_sheet_room_update_posting
-                                  : profileValue.supporter
-                                      ? AppLocalizations.of(context)!.change
-                                      : AppLocalizations.of(context)!
-                                          .support_learn,
-                              onPressed: () {
-                                if (!ref.watch(subscribingProvider)) {
-                                  if (profileValue.supporter) {
-                                    ref
-                                        .read(routerProvider)
-                                        .pushNamed(routeSettingsSupporter);
-                                  } else {
-                                    SupporterSheet().show(context, ref);
-                                  }
-                                }
-                              },
-                            )
-                          ],
-                        ),
                         const SizedBox(
                           height: spacingSix,
                         ),
@@ -365,14 +306,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ),
                       ],
                     )),
-                NavigationCell(
-                    title: ProfilePagePagesEnum.preview.title(context),
-                    subTitle: ProfilePagePagesEnum.preview.subTitle(context),
-                    icon: PhosphorIcons.eye_thin,
-                    onPressed: () => {
-                          ProfileSheet().show(context, profileValue.min(),
-                              false, true, () {}, profileValue)
-                        }),
                 if (profileValue.mod)
                   NavigationCell(
                       title: ProfilePagePagesEnum.mod.title(context),
@@ -381,6 +314,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       onPressed: () => {
                             ref.read(routerProvider).pushNamed(routeSettingsMod)
                           }),
+                NavigationCell(
+                    title: ProfilePagePagesEnum.preview.title(context),
+                    subTitle: ProfilePagePagesEnum.preview.subTitle(context),
+                    icon: PhosphorIcons.eye_thin,
+                    onPressed: () => {
+                          ProfileSheet().show(context, profileValue.min(),
+                              false, true, () {}, profileValue)
+                        }),
                 NavigationCell(
                     embedded: false,
                     title: ProfilePagePagesEnum.customization.title(context),
@@ -396,12 +337,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     onPressed: () => ref
                         .read(routerProvider)
                         .pushNamed(routeSettingsNotifs)),
-                NavigationCell(
-                    embedded: true,
-                    title: ProfilePagePagesEnum.github.title(context),
-                    subTitle: ProfilePagePagesEnum.github.subTitle(context),
-                    icon: PhosphorIcons.github_logo_thin,
-                    onPressed: () => SocialUtils.goToGithub()),
                 NavigationCell(
                     embedded: false,
                     title: ProfilePagePagesEnum.account.title(context),

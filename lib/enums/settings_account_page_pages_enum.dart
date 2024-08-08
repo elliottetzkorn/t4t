@@ -1,1 +1,1 @@
-enum SettingsAccountPagePagesEnum { restoreSubscription, logOut, delete }
+enum SettingsAccountPagePagesEnum { supporter, logOut, delete }

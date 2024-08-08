@@ -113,9 +113,9 @@ class ProfileHeaderDetails extends ConsumerWidget {
   }
 
   Future<void> reportUser(BuildContext context, String profileId) async {
-    await ProfileSheetProfileRepository.reportUser(profileId).then((value) {
-      confirmReport(context);
-    });
+    final capturedContext = context; // Capture the BuildContext
+    await ProfileSheetProfileRepository.reportUser(profileId);
+    confirmReport(capturedContext); // Use the captured BuildContext
   }
 
   Future<void> blockUser(

@@ -7,12 +7,12 @@ extension StringParsing on ProfilePagePagesEnum {
     switch (this) {
       case ProfilePagePagesEnum.mod:
         return AppLocalizations.of(context)!.profile_page_mod_title;
+      case ProfilePagePagesEnum.supporter:
+        return AppLocalizations.of(context)!.profile_page_supporter_title;
       case ProfilePagePagesEnum.preview:
         return AppLocalizations.of(context)!.profile_page_preview_title;
       case ProfilePagePagesEnum.account:
         return AppLocalizations.of(context)!.settings_account_title;
-      case ProfilePagePagesEnum.github:
-        return AppLocalizations.of(context)!.feedback;
       case ProfilePagePagesEnum.documents:
         return AppLocalizations.of(context)!.settings_account_documents_title;
       case ProfilePagePagesEnum.customization:
@@ -26,12 +26,12 @@ extension StringParsing on ProfilePagePagesEnum {
     switch (this) {
       case ProfilePagePagesEnum.mod:
         return AppLocalizations.of(context)!.profile_page_mod_subtitle;
+      case ProfilePagePagesEnum.supporter:
+        return AppLocalizations.of(context)!.profile_page_supporter_subtitle;
       case ProfilePagePagesEnum.preview:
         return AppLocalizations.of(context)!.profile_page_preview_subtitle;
       case ProfilePagePagesEnum.account:
         return AppLocalizations.of(context)!.settings_account_subtitle;
-      case ProfilePagePagesEnum.github:
-        return AppLocalizations.of(context)!.socials_instagram_subtitle;
       case ProfilePagePagesEnum.documents:
         return AppLocalizations.of(context)!
             .settings_account_documents_subtitle;

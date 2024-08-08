@@ -14,8 +14,6 @@ import 'package:t4t/extensions/profile_page_pages_enum_extensions.dart';
 import 'package:t4t/extensions/settings_account_page_pages_enum_extensions.dart';
 import 'package:t4t/pages/settings/settings_base_page.dart';
 import 'package:t4t/providers/router_provider.dart';
-import 'package:t4t/providers/subscribing_provider.dart';
-import 'package:t4t/utils/supporter_utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,10 +34,7 @@ class SettingsAccountPage extends ConsumerWidget {
       navigationCellTapped!(pageTapped);
     } else {
       switch (pageTapped) {
-        case SettingsAccountPagePagesEnum.restoreSubscription:
-          if (!ref.read(subscribingProvider)) {
-            SupporterUtils.restorePurchase(context, ref);
-          }
+        case SettingsAccountPagePagesEnum.supporter:
           break;
 
         case SettingsAccountPagePagesEnum.logOut:
@@ -100,17 +95,12 @@ class SettingsAccountPage extends ConsumerWidget {
     return SettingsBasePage(
         title: ProfilePagePagesEnum.account.title(context),
         navCells: [
-          if (profile.supporter == false)
-            NavigationCell(
-                title: ref.watch(subscribingProvider)
-                    ? AppLocalizations.of(context)!.restoring_subscription
-                    : SettingsAccountPagePagesEnum.restoreSubscription
-                        .title(context),
-                subTitle: SettingsAccountPagePagesEnum.restoreSubscription
-                    .subTitle(context),
-                icon: PhosphorIcons.waves_thin,
-                onPressed: () => handleTap(context, ref,
-                    SettingsAccountPagePagesEnum.restoreSubscription, false)),
+          NavigationCell(
+              title: SettingsAccountPagePagesEnum.supporter.title(context),
+              subTitle:
+                  SettingsAccountPagePagesEnum.supporter.subTitle(context),
+              onPressed: () =>
+                  {ref.read(routerProvider).pushNamed(routeSettingsSupporter)}),
           NavigationCell(
               title: SettingsAccountPagePagesEnum.logOut.title(context),
               subTitle: SettingsAccountPagePagesEnum.logOut.subTitle(context),
