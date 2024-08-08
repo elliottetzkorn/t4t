@@ -309,14 +309,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 if (profileValue.mod)
                   NavigationCell(
                       title: ProfilePagePagesEnum.mod.title(context),
-                      subTitle: ProfilePagePagesEnum.mod.subTitle(context),
+                      subTitle: ProfilePagePagesEnum.mod
+                          .subTitle(context, profileValue.supporter),
                       icon: PhosphorIcons.scales_thin,
                       onPressed: () => {
                             ref.read(routerProvider).pushNamed(routeSettingsMod)
                           }),
                 NavigationCell(
                     title: ProfilePagePagesEnum.preview.title(context),
-                    subTitle: ProfilePagePagesEnum.preview.subTitle(context),
+                    subTitle: ProfilePagePagesEnum.preview
+                        .subTitle(context, profileValue.supporter),
                     icon: PhosphorIcons.eye_thin,
                     onPressed: () => {
                           ProfileSheet().show(context, profileValue.min(),
@@ -325,29 +327,32 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 NavigationCell(
                     embedded: false,
                     title: ProfilePagePagesEnum.customization.title(context),
-                    subTitle:
-                        ProfilePagePagesEnum.customization.subTitle(context),
+                    subTitle: ProfilePagePagesEnum.customization
+                        .subTitle(context, profileValue.supporter),
                     onPressed: () => ref
                         .read(routerProvider)
                         .pushNamed(routeSettingsAccessibility)),
                 NavigationCell(
                     embedded: false,
                     title: AppLocalizations.of(context)!.settings_notifs_title,
-                    subTitle: ProfilePagePagesEnum.reactions.subTitle(context),
+                    subTitle: ProfilePagePagesEnum.reactions
+                        .subTitle(context, profileValue.supporter),
                     onPressed: () => ref
                         .read(routerProvider)
                         .pushNamed(routeSettingsNotifs)),
                 NavigationCell(
                     embedded: false,
                     title: ProfilePagePagesEnum.account.title(context),
-                    subTitle: ProfilePagePagesEnum.account.subTitle(context),
+                    subTitle: ProfilePagePagesEnum.account
+                        .subTitle(context, profileValue.supporter),
                     onPressed: () => ref
                         .read(routerProvider)
                         .pushNamed(routeSettingsAccount, extra: profileValue)),
                 NavigationCell(
                     embedded: false,
                     title: ProfilePagePagesEnum.documents.title(context),
-                    subTitle: ProfilePagePagesEnum.documents.subTitle(context),
+                    subTitle: ProfilePagePagesEnum.documents
+                        .subTitle(context, profileValue.supporter),
                     onPressed: () => ref
                         .read(routerProvider)
                         .pushNamed(routeSettingsDocuments)),
