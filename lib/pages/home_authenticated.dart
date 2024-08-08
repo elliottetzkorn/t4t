@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:app_install_date/app_install_date_imp.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +7,6 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:t4t/components/bottom_nav_authenticated.dart';
 import 'package:t4t/components/profile_sheet.dart';
-import 'package:t4t/components/supporter_sheet.dart';
 import 'package:t4t/components/view_post_sheet.dart';
 import 'package:t4t/constants.dart';
 import 'package:t4t/data/post_min_data.dart';
@@ -158,29 +156,6 @@ class _HomePageAuthenticatedState extends ConsumerState<HomeAuthenticated>
         } else if (profile.incomplete()) {
           ref.read(routerProvider).toProfileSetup(profile, ref);
         } else {
-          if (!profile.supporter) {
-            String? lastTimeString =
-                prefs.getString(prefsPremiumUpsellShowTime);
-
-            if (lastTimeString == null) {
-              AppInstallDate().installDate.then((date) {
-                if (DateTime.now().difference(date).inDays > 7) {
-                  SupporterSheet().show(context, ref);
-                  prefs.setString(prefsPremiumUpsellShowTime,
-                      DateTime.now().toIso8601String());
-                }
-              });
-            } else {
-              DateTime lastTimeShown = DateTime.parse(lastTimeString);
-
-              if (DateTime.now().difference(lastTimeShown).inDays > 30) {
-                SupporterSheet().show(context, ref);
-                prefs.setString(prefsPremiumUpsellShowTime,
-                    DateTime.now().toIso8601String());
-              }
-            }
-          }
-
           FirebaseMessaging.instance.getToken().then((value) {
             if (value != null && profile.fcmToken != value) {
               ref.read(profileProvider.notifier).updateFCMToken(value);
