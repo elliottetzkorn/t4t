@@ -171,7 +171,8 @@ class ProfileSheetPage extends ConsumerWidget {
         Padding(
             padding: const EdgeInsets.only(
                 top: spacingFive, left: spacingFive, right: spacingFive),
-            child: ProfileHeaderMin(profile: profile)),
+            child: ProfileHeaderMin(
+                profile: profile, authenticated: authenticated)),
         Expanded(
             child: switch (profileSheetProfileLoader) {
           AsyncData(value: final profileValue) => profileValue.banned
@@ -227,7 +228,8 @@ class ProfileSheetPage extends ConsumerWidget {
         Padding(
             padding: const EdgeInsets.only(
                 top: spacingFive, left: spacingFive, right: spacingFive),
-            child: ProfileHeaderMin(profile: profile)),
+            child: ProfileHeaderMin(
+                profile: profile, authenticated: authenticated)),
         Expanded(
             child: fullProfile!.banned
                 ? Padding(
