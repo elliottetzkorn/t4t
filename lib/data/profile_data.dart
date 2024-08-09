@@ -31,6 +31,7 @@ class ProfileData with _$ProfileData {
       required bool messageNotif,
       required bool followNotif,
       required bool showAstro,
+      required bool public,
       required bool mod}) = _ProfileData;
 
   factory ProfileData.fromJson(Map<String, dynamic> json) =>

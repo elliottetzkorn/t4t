@@ -25,8 +25,12 @@ mixin _$BadgeData {
   @ColorConverter()
   Color get color => throw _privateConstructorUsedError;
 
+  /// Serializes this BadgeData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BadgeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BadgeDataCopyWith<BadgeData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$BadgeDataCopyWithImpl<$Res, $Val extends BadgeData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BadgeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$BadgeDataImplCopyWithImpl<$Res>
       _$BadgeDataImpl _value, $Res Function(_$BadgeDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BadgeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -150,11 +158,13 @@ class _$BadgeDataImpl implements _BadgeData {
             (identical(other.color, color) || other.color == color));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, text, color);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BadgeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BadgeDataImplCopyWith<_$BadgeDataImpl> get copyWith =>
@@ -184,8 +194,11 @@ abstract class _BadgeData implements BadgeData {
   @override
   @ColorConverter()
   Color get color;
+
+  /// Create a copy of BadgeData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BadgeDataImplCopyWith<_$BadgeDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

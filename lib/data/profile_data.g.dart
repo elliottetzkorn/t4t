@@ -30,6 +30,7 @@ _$ProfileDataImpl _$$ProfileDataImplFromJson(Map<String, dynamic> json) =>
       messageNotif: json['message_notif'] as bool,
       followNotif: json['follow_notif'] as bool,
       showAstro: json['show_astro'] as bool,
+      public: json['public'] as bool,
       mod: json['mod'] as bool,
     );
 
@@ -56,6 +57,7 @@ Map<String, dynamic> _$$ProfileDataImplToJson(_$ProfileDataImpl instance) =>
       'message_notif': instance.messageNotif,
       'follow_notif': instance.followNotif,
       'show_astro': instance.showAstro,
+      'public': instance.public,
       'mod': instance.mod,
     };
 

@@ -24,6 +24,7 @@ import 'package:t4t/pages/settings/settings_badges_page.dart';
 import 'package:t4t/pages/settings/settings_bio_page.dart';
 import 'package:t4t/pages/settings/settings_color_page.dart';
 import 'package:t4t/pages/settings/settings_pronouns_page.dart';
+import 'package:t4t/pages/settings/settings_public_page.dart';
 import 'package:t4t/pages/settings/settings_race_page.dart';
 import 'package:t4t/pages/settings/settings_user_name_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -92,6 +93,28 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          children: [
+                            Expanded(
+                                child: SystemText(
+                              text: profileValue.public
+                                  ? AppLocalizations.of(context)!.public
+                                  : AppLocalizations.of(context)!.protected,
+                            )),
+                            const SizedBox(
+                              width: spacingFive,
+                            ),
+                            SystemTextButton(
+                              text: AppLocalizations.of(context)!.edit,
+                              onPressed: () {
+                                SystemSheet.show(
+                                    context: context,
+                                    child: SettingsPublicPage(
+                                        profile: profileValue));
+                              },
+                            )
+                          ],
+                        ),
                         Row(
                           children: [
                             Expanded(
@@ -228,7 +251,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               text: profileValue.bio == null ||
                                       profileValue.bio!.isEmpty
                                   ? '(${AppLocalizations.of(context)!.settings_bio_title.toLowerCase()})'
-                                  : profileValue.bio!,
+                                  : '"${profileValue.bio!}"',
                               color: Theme.of(context).colorScheme.secondary,
                             )),
                             const SizedBox(

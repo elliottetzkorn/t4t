@@ -19,7 +19,9 @@ mixin _$PostTypeData {
   int get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PostTypeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $PostTypeDataCopyWith<PostTypeData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$PostTypeDataCopyWithImpl<$Res, $Val extends PostTypeData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of PostTypeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$PostTypeDataImplCopyWithImpl<$Res>
       _$PostTypeDataImpl _value, $Res Function(_$PostTypeDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PostTypeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,7 +133,9 @@ class _$PostTypeDataImpl implements _PostTypeData {
   @override
   int get hashCode => Object.hash(runtimeType, id, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PostTypeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$PostTypeDataImplCopyWith<_$PostTypeDataImpl> get copyWith =>
@@ -142,8 +150,11 @@ abstract class _PostTypeData implements PostTypeData {
   int get id;
   @override
   String get text;
+
+  /// Create a copy of PostTypeData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PostTypeDataImplCopyWith<_$PostTypeDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

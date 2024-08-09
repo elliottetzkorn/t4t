@@ -23,8 +23,12 @@ mixin _$ReportData {
   String get receiverId => throw _privateConstructorUsedError;
   List<String> get senderIds => throw _privateConstructorUsedError;
 
+  /// Serializes this ReportData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ReportData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ReportDataCopyWith<ReportData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$ReportDataCopyWithImpl<$Res, $Val extends ReportData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ReportData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,6 +92,8 @@ class __$$ReportDataImplCopyWithImpl<$Res>
       _$ReportDataImpl _value, $Res Function(_$ReportDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ReportData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,12 +150,14 @@ class _$ReportDataImpl implements _ReportData {
                 .equals(other._senderIds, _senderIds));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, receiverId, const DeepCollectionEquality().hash(_senderIds));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReportData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ReportDataImplCopyWith<_$ReportDataImpl> get copyWith =>
@@ -173,8 +183,11 @@ abstract class _ReportData implements ReportData {
   String get receiverId;
   @override
   List<String> get senderIds;
+
+  /// Create a copy of ReportData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReportDataImplCopyWith<_$ReportDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

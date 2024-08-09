@@ -183,4 +183,16 @@ class Profile extends _$Profile {
       state = AsyncData(value);
     });
   }
+
+  Future<void> updatePublic(bool public) async {
+    await Supabase.instance.client.from('profiles').update({
+      'public': public,
+    }).eq('id', Supabase.instance.client.auth.currentSession!.user.id);
+
+    await future.then((value) {
+      value = value.copyWith(public: public);
+
+      state = AsyncData(value);
+    });
+  }
 }

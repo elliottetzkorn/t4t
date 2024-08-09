@@ -19,7 +19,9 @@ mixin _$LikeTypeData {
   int get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LikeTypeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LikeTypeDataCopyWith<LikeTypeData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$LikeTypeDataCopyWithImpl<$Res, $Val extends LikeTypeData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LikeTypeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +85,8 @@ class __$$LikeTypeDataImplCopyWithImpl<$Res>
       _$LikeTypeDataImpl _value, $Res Function(_$LikeTypeDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LikeTypeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,7 +133,9 @@ class _$LikeTypeDataImpl implements _LikeTypeData {
   @override
   int get hashCode => Object.hash(runtimeType, id, text);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LikeTypeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LikeTypeDataImplCopyWith<_$LikeTypeDataImpl> get copyWith =>
@@ -142,8 +150,11 @@ abstract class _LikeTypeData implements LikeTypeData {
   int get id;
   @override
   String get text;
+
+  /// Create a copy of LikeTypeData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LikeTypeDataImplCopyWith<_$LikeTypeDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -29,8 +29,12 @@ mixin _$MessageData {
   String? get postTitle => throw _privateConstructorUsedError;
   String? get postBody => throw _privateConstructorUsedError;
 
+  /// Serializes this MessageData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MessageData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MessageDataCopyWith<MessageData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +66,8 @@ class _$MessageDataCopyWithImpl<$Res, $Val extends MessageData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MessageData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -138,6 +144,8 @@ class __$$MessageDataImplCopyWithImpl<$Res>
       _$MessageDataImpl _value, $Res Function(_$MessageDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MessageData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -246,12 +254,14 @@ class _$MessageDataImpl implements _MessageData {
                 other.postBody == postBody));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, text, senderId, receiverId,
       createdAt, read, postTitle, postBody);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MessageData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MessageDataImplCopyWith<_$MessageDataImpl> get copyWith =>
@@ -295,8 +305,11 @@ abstract class _MessageData implements MessageData {
   String? get postTitle;
   @override
   String? get postBody;
+
+  /// Create a copy of MessageData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MessageDataImplCopyWith<_$MessageDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

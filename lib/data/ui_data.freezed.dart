@@ -19,7 +19,9 @@ mixin _$UIData {
   bool get onboardingConfetti => throw _privateConstructorUsedError;
   bool get supporterConfetti => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UIData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UIDataCopyWith<UIData> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -41,6 +43,8 @@ class _$UIDataCopyWithImpl<$Res, $Val extends UIData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UIData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -78,6 +82,8 @@ class __$$UIDataImplCopyWithImpl<$Res>
       _$UIDataImpl _value, $Res Function(_$UIDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UIData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -128,7 +134,9 @@ class _$UIDataImpl implements _UIData {
   int get hashCode =>
       Object.hash(runtimeType, onboardingConfetti, supporterConfetti);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UIData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UIDataImplCopyWith<_$UIDataImpl> get copyWith =>
@@ -144,8 +152,11 @@ abstract class _UIData implements UIData {
   bool get onboardingConfetti;
   @override
   bool get supporterConfetti;
+
+  /// Create a copy of UIData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UIDataImplCopyWith<_$UIDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

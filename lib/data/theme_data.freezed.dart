@@ -20,7 +20,9 @@ mixin _$SystemThemeData {
   LightColorThemeEnum get lightTheme => throw _privateConstructorUsedError;
   ThemeMode get mode => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SystemThemeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SystemThemeDataCopyWith<SystemThemeData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +49,8 @@ class _$SystemThemeDataCopyWithImpl<$Res, $Val extends SystemThemeData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SystemThemeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +97,8 @@ class __$$SystemThemeDataImplCopyWithImpl<$Res>
       _$SystemThemeDataImpl _value, $Res Function(_$SystemThemeDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SystemThemeData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -150,7 +156,9 @@ class _$SystemThemeDataImpl implements _SystemThemeData {
   @override
   int get hashCode => Object.hash(runtimeType, darkTheme, lightTheme, mode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SystemThemeData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SystemThemeDataImplCopyWith<_$SystemThemeDataImpl> get copyWith =>
@@ -170,8 +178,11 @@ abstract class _SystemThemeData implements SystemThemeData {
   LightColorThemeEnum get lightTheme;
   @override
   ThemeMode get mode;
+
+  /// Create a copy of SystemThemeData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SystemThemeDataImplCopyWith<_$SystemThemeDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

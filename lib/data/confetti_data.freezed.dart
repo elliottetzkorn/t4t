@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ConfettiData {
   DwellingConfettiSource get source => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ConfettiData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ConfettiDataCopyWith<ConfettiData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$ConfettiDataCopyWithImpl<$Res, $Val extends ConfettiData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ConfettiData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +79,8 @@ class __$$ConfettiDataImplCopyWithImpl<$Res>
       _$ConfettiDataImpl _value, $Res Function(_$ConfettiDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ConfettiData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,7 +119,9 @@ class _$ConfettiDataImpl implements _ConfettiData {
   @override
   int get hashCode => Object.hash(runtimeType, source);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ConfettiData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ConfettiDataImplCopyWith<_$ConfettiDataImpl> get copyWith =>
@@ -126,8 +134,11 @@ abstract class _ConfettiData implements ConfettiData {
 
   @override
   DwellingConfettiSource get source;
+
+  /// Create a copy of ConfettiData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ConfettiDataImplCopyWith<_$ConfettiDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

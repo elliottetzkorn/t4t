@@ -42,10 +42,15 @@ mixin _$ProfileData {
   bool get messageNotif => throw _privateConstructorUsedError;
   bool get followNotif => throw _privateConstructorUsedError;
   bool get showAstro => throw _privateConstructorUsedError;
+  bool get public => throw _privateConstructorUsedError;
   bool get mod => throw _privateConstructorUsedError;
 
+  /// Serializes this ProfileData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ProfileData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ProfileDataCopyWith<ProfileData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -77,6 +82,7 @@ abstract class $ProfileDataCopyWith<$Res> {
       bool messageNotif,
       bool followNotif,
       bool showAstro,
+      bool public,
       bool mod});
 }
 
@@ -90,6 +96,8 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ProfileData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,6 +121,7 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
     Object? messageNotif = null,
     Object? followNotif = null,
     Object? showAstro = null,
+    Object? public = null,
     Object? mod = null,
   }) {
     return _then(_value.copyWith(
@@ -196,6 +205,10 @@ class _$ProfileDataCopyWithImpl<$Res, $Val extends ProfileData>
           ? _value.showAstro
           : showAstro // ignore: cast_nullable_to_non_nullable
               as bool,
+      public: null == public
+          ? _value.public
+          : public // ignore: cast_nullable_to_non_nullable
+              as bool,
       mod: null == mod
           ? _value.mod
           : mod // ignore: cast_nullable_to_non_nullable
@@ -233,6 +246,7 @@ abstract class _$$ProfileDataImplCopyWith<$Res>
       bool messageNotif,
       bool followNotif,
       bool showAstro,
+      bool public,
       bool mod});
 }
 
@@ -244,6 +258,8 @@ class __$$ProfileDataImplCopyWithImpl<$Res>
       _$ProfileDataImpl _value, $Res Function(_$ProfileDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ProfileData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -267,6 +283,7 @@ class __$$ProfileDataImplCopyWithImpl<$Res>
     Object? messageNotif = null,
     Object? followNotif = null,
     Object? showAstro = null,
+    Object? public = null,
     Object? mod = null,
   }) {
     return _then(_$ProfileDataImpl(
@@ -350,6 +367,10 @@ class __$$ProfileDataImplCopyWithImpl<$Res>
           ? _value.showAstro
           : showAstro // ignore: cast_nullable_to_non_nullable
               as bool,
+      public: null == public
+          ? _value.public
+          : public // ignore: cast_nullable_to_non_nullable
+              as bool,
       mod: null == mod
           ? _value.mod
           : mod // ignore: cast_nullable_to_non_nullable
@@ -383,6 +404,7 @@ class _$ProfileDataImpl implements _ProfileData {
       required this.messageNotif,
       required this.followNotif,
       required this.showAstro,
+      required this.public,
       required this.mod})
       : _badges = badges;
 
@@ -440,11 +462,13 @@ class _$ProfileDataImpl implements _ProfileData {
   @override
   final bool showAstro;
   @override
+  final bool public;
+  @override
   final bool mod;
 
   @override
   String toString() {
-    return 'ProfileData(id: $id, username: $username, supporter: $supporter, color: $color, pronouns: $pronouns, race: $race, bio: $bio, birthday: $birthday, badges: $badges, neighborhood: $neighborhood, city: $city, state: $state, country: $country, fcmToken: $fcmToken, showSupporter: $showSupporter, banned: $banned, likeNotif: $likeNotif, messageNotif: $messageNotif, followNotif: $followNotif, showAstro: $showAstro, mod: $mod)';
+    return 'ProfileData(id: $id, username: $username, supporter: $supporter, color: $color, pronouns: $pronouns, race: $race, bio: $bio, birthday: $birthday, badges: $badges, neighborhood: $neighborhood, city: $city, state: $state, country: $country, fcmToken: $fcmToken, showSupporter: $showSupporter, banned: $banned, likeNotif: $likeNotif, messageNotif: $messageNotif, followNotif: $followNotif, showAstro: $showAstro, public: $public, mod: $mod)';
   }
 
   @override
@@ -483,10 +507,11 @@ class _$ProfileDataImpl implements _ProfileData {
                 other.followNotif == followNotif) &&
             (identical(other.showAstro, showAstro) ||
                 other.showAstro == showAstro) &&
+            (identical(other.public, public) || other.public == public) &&
             (identical(other.mod, mod) || other.mod == mod));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -510,10 +535,13 @@ class _$ProfileDataImpl implements _ProfileData {
         messageNotif,
         followNotif,
         showAstro,
+        public,
         mod
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ProfileData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ProfileDataImplCopyWith<_$ProfileDataImpl> get copyWith =>
@@ -549,6 +577,7 @@ abstract class _ProfileData implements ProfileData {
       required final bool messageNotif,
       required final bool followNotif,
       required final bool showAstro,
+      required final bool public,
       required final bool mod}) = _$ProfileDataImpl;
 
   factory _ProfileData.fromJson(Map<String, dynamic> json) =
@@ -597,9 +626,14 @@ abstract class _ProfileData implements ProfileData {
   @override
   bool get showAstro;
   @override
-  bool get mod;
+  bool get public;
   @override
-  @JsonKey(ignore: true)
+  bool get mod;
+
+  /// Create a copy of ProfileData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ProfileDataImplCopyWith<_$ProfileDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

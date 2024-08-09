@@ -22,7 +22,9 @@ mixin _$LocationData {
   String? get stateName => throw _privateConstructorUsedError;
   String? get countryName => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocationData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocationDataCopyWith<LocationData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -51,6 +53,8 @@ class _$LocationDataCopyWithImpl<$Res, $Val extends LocationData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocationData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -109,6 +113,8 @@ class __$$LocationDataImplCopyWithImpl<$Res>
       _$LocationDataImpl _value, $Res Function(_$LocationDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LocationData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -190,7 +196,9 @@ class _$LocationDataImpl implements _LocationData {
   int get hashCode => Object.hash(runtimeType, position, neighborhoodName,
       cityName, stateName, countryName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocationData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocationDataImplCopyWith<_$LocationDataImpl> get copyWith =>
@@ -215,8 +223,11 @@ abstract class _LocationData implements LocationData {
   String? get stateName;
   @override
   String? get countryName;
+
+  /// Create a copy of LocationData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocationDataImplCopyWith<_$LocationDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
