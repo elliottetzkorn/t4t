@@ -23,6 +23,8 @@ extension Navigation on GoRouter {
       replaceNamed(routeSetupBio, extra: profile);
     } else if (profile.locationIncomplete()) {
       replaceNamed(routeSetupLocation, extra: profile);
+    } else if (profile.supporterIncomplete(profile.supporter)) {
+      replaceNamed(routeSetupSupporter, extra: profile);
     } else {
       ref.read(confettiProvider.notifier).showConfetti(
           const ConfettiData(source: DwellingConfettiSource.setup));

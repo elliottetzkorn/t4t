@@ -48,7 +48,10 @@ class SettingsSupporterPage extends ConsumerWidget {
                       icon: PhosphorIcons.sparkle_thin,
                       onPressed: () => {
                             if (!ref.read(subscribingProvider))
-                              {SupporterUtils.attemptPurchase(context, ref)}
+                              {
+                                SupporterUtils.attemptPurchase(
+                                    context, ref, false)
+                              }
                           }),
                 if (!profile.supporter)
                   NavigationCell(

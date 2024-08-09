@@ -151,6 +151,7 @@ const String prefsSettingsFontScale = 'shared_prefs_font_scale';
 const String prefsSetupSkipRace = 'setup_skip_race';
 const String prefsSetupSkipBio = 'setup_skip_bio';
 const String prefsSetupSkipLocation = 'setup_skip_location1';
+const String prefsSetupSkipSupporter = 'setup_skip_supporter';
 const String prefsLastReactionId = 'shared_prefs_last_reaction_id';
 
 const List<Color> transColors = [transPink, transBlue];
@@ -264,6 +265,7 @@ const String routeSetupRace = 'setup_race';
 const String routeSetupBio = 'setup_bio';
 const String routeSetupBadges = 'setup_badges';
 const String routeSetupLocation = 'setup_location';
+const String routeSetupSupporter = 'setup_supporter';
 const String routeSettings = 'settings';
 const String routeSettingsApplication = 'settings_application';
 const String routeSettingsDocuments = 'settings_documents';

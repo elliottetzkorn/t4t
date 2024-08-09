@@ -55,4 +55,8 @@ extension BooleanParsing on ProfileData {
     return (neighborhood == null || state == null) &&
         prefs.getBool(prefsSetupSkipLocation + id) != true;
   }
+
+  bool supporterIncomplete(bool supporter) {
+    return !supporter && prefs.getBool(prefsSetupSkipSupporter + id) != true;
+  }
 }

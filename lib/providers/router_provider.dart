@@ -18,6 +18,7 @@ import 'package:t4t/pages/setup/setup_bio_page.dart';
 import 'package:t4t/pages/setup/setup_location_page.dart';
 import 'package:t4t/pages/setup/setup_pronouns_page.dart';
 import 'package:t4t/pages/setup/setup_race_page.dart';
+import 'package:t4t/pages/setup/setup_supporter_page.dart';
 import 'package:t4t/pages/setup/setup_user_name_page.dart';
 
 part 'router_provider.g.dart';
@@ -86,6 +87,13 @@ GoRouter router(RouterRef ref) {
             path: routeSetupLocation,
             builder: (BuildContext context, GoRouterState state) {
               return SetupLocationPage(profile: state.extra as ProfileData);
+            },
+          ),
+          GoRoute(
+            name: routeSetupSupporter,
+            path: routeSetupSupporter,
+            builder: (BuildContext context, GoRouterState state) {
+              return SetupSupporterPage(profile: state.extra as ProfileData);
             },
           ),
           GoRoute(

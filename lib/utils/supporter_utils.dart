@@ -16,36 +16,41 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SupporterUtils {
   SupporterUtils._();
 
-  static Future<void> attemptPurchase(
-      BuildContext context, WidgetRef ref) async {
+  static Future<bool> attemptPurchase(
+      BuildContext context, WidgetRef ref, bool quiet) async {
     ref.read(subscribingProvider.notifier).setSubscribing(true);
     try {
       await Purchases.getOfferings().then((value) {
-        purchase(context, value.current!.availablePackages.first, ref);
+        return purchase(
+            context, value.current!.availablePackages.first, ref, quiet);
       });
     } on PlatformException catch (_) {
       ref.read(subscribingProvider.notifier).setSubscribing(false);
     }
+
+    return false;
   }
 
-  static Future<void> purchase(
-      BuildContext context, Package package, WidgetRef ref) async {
+  static Future<bool> purchase(
+      BuildContext context, Package package, WidgetRef ref, bool quiet) async {
     try {
       await Purchases.purchasePackage(package).then((customerInfo) {
-        updateSupporterStatus(context, customerInfo, ref);
+        return updateSupporterStatus(context, customerInfo, ref, quiet);
       });
     } catch (_) {
       ref.read(subscribingProvider.notifier).setSubscribing(false);
     }
+
+    return false;
   }
 
-  static Future<void> updateSupporterStatus(
-      BuildContext context, CustomerInfo customerInfo, WidgetRef ref) async {
+  static Future<bool> updateSupporterStatus(BuildContext context,
+      CustomerInfo customerInfo, WidgetRef ref, bool quiet) async {
     bool isSupporter = customerInfo.activeSubscriptions.isNotEmpty;
 
     ref.read(profileProvider.notifier).updateSupporter(isSupporter);
 
-    if (isSupporter) {
+    if (isSupporter && !quiet) {
       ref.read(confettiProvider.notifier).showConfetti(
           const ConfettiData(source: DwellingConfettiSource.supporter));
       ref.read(postsAuthenticatedProvider.notifier).setSupporter(true);
@@ -54,9 +59,10 @@ class SupporterUtils {
     }
 
     ref.read(subscribingProvider.notifier).setSubscribing(false);
+    return isSupporter;
   }
 
-  static Future<void> restorePurchase(
+  static Future<bool> restorePurchase(
       BuildContext context, WidgetRef ref) async {
     ref.read(subscribingProvider.notifier).setSubscribing(true);
 
@@ -72,6 +78,8 @@ class SupporterUtils {
         } else {
           SupporterUtils.noSubscription(context);
         }
+
+        return isSupporter;
       });
     } catch (_) {
       ref.read(subscribingProvider.notifier).setSubscribing(false);
@@ -79,6 +87,8 @@ class SupporterUtils {
       // ignore: use_build_context_synchronously
       SupporterUtils.noSubscription(context);
     }
+
+    return false;
   }
 
   static void goToSubscriptions() {

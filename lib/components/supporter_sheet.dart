@@ -24,7 +24,7 @@ class SupporterSheet {
                   text: AppLocalizations.of(context)!.supporter_cta,
                   onPressed: () {
                     if (!ref.read(subscribingProvider)) {
-                      SupporterUtils.attemptPurchase(context, ref);
+                      SupporterUtils.attemptPurchase(context, ref, false);
                     }
 
                     context.pop();
